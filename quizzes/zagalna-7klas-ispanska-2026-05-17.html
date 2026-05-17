@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Математична фієста — 7 клас (програма іспанської школи)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: linear-gradient(135deg, #ffd54f 0%, #ff7043 50%, #c62828 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #2c3e50;
+  }
+
+  .container {
+    background: #fffaf0;
+    border-radius: 24px;
+    padding: 32px;
+    max-width: 640px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #c62828 33%, #ffd54f 33% 66%, #c62828 66%);
+  }
+
+  h1 {
+    text-align: center;
+    color: #c62828;
+    font-size: 2em;
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 24px;
+    font-size: 1em;
+  }
+
+  .start-screen, .result-screen {
+    text-align: center;
+    padding: 16px;
+  }
+
+  .emoji-big {
+    font-size: 4em;
+    margin: 16px 0;
+    display: block;
+  }
+
+  .btn {
+    background: linear-gradient(135deg, #ff7043, #c62828);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    font-size: 1.1em;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 6px 18px rgba(198, 40, 40, 0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+    margin-top: 16px;
+  }
+
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 22px rgba(198, 40, 40, 0.5);
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .progress-bar {
+    background: #fff3e0;
+    border-radius: 12px;
+    height: 14px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-fill {
+    background: linear-gradient(90deg, #ffd54f, #ff7043);
+    height: 100%;
+    transition: width 0.5s ease;
+    border-radius: 12px;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    font-weight: bold;
+    color: #c62828;
+    font-size: 0.95em;
+  }
+
+  .question-text {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #fff3e0;
+    border-radius: 12px;
+    border-left: 5px solid #ff7043;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    background: white;
+    border: 2px solid #ffcc80;
+    padding: 14px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.05em;
+    text-align: left;
+    transition: all 0.15s;
+    font-family: inherit;
+    color: #2c3e50;
+  }
+
+  .option:hover:not(:disabled) {
+    background: #fff3e0;
+    border-color: #ff7043;
+    transform: translateX(4px);
+  }
+
+  .option:disabled {
+    cursor: not-allowed;
+  }
+
+  .option.correct {
+    background: #c8e6c9;
+    border-color: #2e7d32;
+    color: #1b5e20;
+    font-weight: bold;
+  }
+
+  .option.wrong {
+    background: #ffcdd2;
+    border-color: #c62828;
+    color: #b71c1c;
+  }
+
+  .feedback {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1em;
+    line-height: 1.5;
+    animation: slideIn 0.3s ease;
+  }
+
+  .feedback.correct {
+    background: #c8e6c9;
+    color: #1b5e20;
+    border-left: 5px solid #2e7d32;
+  }
+
+  .feedback.wrong {
+    background: #ffcdd2;
+    color: #b71c1c;
+    border-left: 5px solid #c62828;
+  }
+
+  .feedback-title {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 1.05em;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .grade-badge {
+    font-size: 5em;
+    font-weight: bold;
+    color: #c62828;
+    margin: 16px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .score-info {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: #2c3e50;
+  }
+
+  .motivation {
+    font-style: italic;
+    color: #5d4037;
+    margin: 20px 0;
+    padding: 14px;
+    background: #fff3e0;
+    border-radius: 12px;
+    font-size: 1.05em;
+  }
+
+  .hidden { display: none; }
+
+  .input-answer {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1em;
+    border: 2px solid #ffcc80;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-family: inherit;
+  }
+
+  .input-answer:focus {
+    outline: none;
+    border-color: #ff7043;
+  }
+
+  .checkbox-pair {
+    display: flex;
+    gap: 12px;
+  }
+
+  .checkbox-pair .option {
+    flex: 1;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Start screen -->
+  <div id="start-screen" class="start-screen">
+    <h1>🇪🇸 Математична Фієста!</h1>
+    <p class="subtitle">Вікторина для 7 класу · програма іспанської школи</p>
+    <span class="emoji-big">📐🎉</span>
+    <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 8px;">
+      Привіт! Тут на тебе чекають <strong>10 цікавих задач</strong> з математики
+      за програмою 1º ESO (іспанської школи, 7 клас).
+    </p>
+    <p style="color: #7f8c8d;">
+      Все буде українською — лише задачі загорнуті у атмосферу Іспанії 🌶️
+    </p>
+    <button class="btn" onclick="startQuiz()">¡Vamos! Почати!</button>
+  </div>
+
+  <!-- Quiz screen -->
+  <div id="quiz-screen" class="hidden">
+    <h1>🇪🇸 Математична Фієста</h1>
+    <div class="progress-info">
+      <span id="progress-text">Запитання 1 з 10</span>
+      <span id="score-text">⭐ 0 балів</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+    </div>
+
+    <div class="question-text" id="question-text"></div>
+    <div class="options" id="options-container"></div>
+    <div id="feedback-container"></div>
+
+    <div id="next-button-container" style="text-align: center;"></div>
+  </div>
+
+  <!-- Result screen -->
+  <div id="result-screen" class="hidden result-screen">
+    <h1 id="result-title">Результат</h1>
+    <span class="emoji-big" id="result-emoji">🎉</span>
+    <div class="score-info">Правильних відповідей: <strong id="result-correct"></strong> з 10</div>
+    <div class="score-info">Відсоток: <strong id="result-percent"></strong></div>
+    <div style="margin-top: 16px;">Твоя оцінка:</div>
+    <div class="grade-badge" id="result-grade">12</div>
+    <div class="motivation" id="result-motivation"></div>
+    <button class="btn" onclick="restartQuiz()">🔄 Пройти ще раз</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    type: 'choice',
+    text: 'Карлос у Мадриді обчислює: <strong>3 + 4 × 5 − 2</strong>. Який правильний результат? 🧮',
+    options: ['18', '21', '33', '25'],
+    correct: 1,
+    explanation: 'За порядком дій спочатку множення: 4 × 5 = 20. Потім зліва направо: 3 + 20 − 2 = <strong>21</strong>.'
+  },
+  {
+    type: 'choice',
+    text: 'Лусія купує паелью 🥘 за 1/2 кг рису та додає ще 1/3 кг. Скільки всього кілограмів рису?',
+    options: ['2/5 кг', '5/6 кг', '2/6 кг', '1/5 кг'],
+    correct: 1,
+    explanation: 'Спільний знаменник 6: 1/2 = 3/6, 1/3 = 2/6. Тоді 3/6 + 2/6 = <strong>5/6</strong>. Дроби додаються через спільний знаменник.'
+  },
+  {
+    type: 'choice',
+    text: 'У магазині в Севільї хамон коштує <strong>12,50 €</strong> за кілограм. Скільки заплатиш за 0,4 кг? 🍖',
+    options: ['4,50 €', '5,00 €', '5,50 €', '6,25 €'],
+    correct: 1,
+    explanation: '12,50 × 0,4 = <strong>5,00 €</strong>. При множенні десяткових: 1250 × 4 = 5000, переносимо кому на 3 знаки.'
+  },
+  {
+    type: 'truefalse',
+    text: 'Правда чи неправда: НСК (найменше спільне кратне) чисел <strong>6</strong> і <strong>8</strong> дорівнює <strong>24</strong>?',
+    options: ['Правда', 'Неправда'],
+    correct: 0,
+    explanation: 'Правда! 6 = 2·3, 8 = 2³. НСК беремо найбільші степені простих: 2³ · 3 = <strong>24</strong>. Перевірка: 24 ділиться і на 6, і на 8.'
+  },
+  {
+    type: 'choice',
+    text: 'Обчисли значення виразу: <strong>√81 + 2³</strong> 🔢',
+    options: ['11', '17', '27', '73'],
+    correct: 1,
+    explanation: '√81 = 9 (бо 9 × 9 = 81). 2³ = 2·2·2 = 8. Разом: 9 + 8 = <strong>17</strong>.'
+  },
+  {
+    type: 'choice',
+    text: 'У трикутнику ABC два кути дорівнюють <strong>45°</strong> і <strong>65°</strong>. Чому дорівнює третій кут? 📐',
+    options: ['60°', '70°', '80°', '90°'],
+    correct: 1,
+    explanation: 'Сума кутів будь-якого трикутника = 180°. Тоді третій кут: 180° − 45° − 65° = <strong>70°</strong>.'
+  },
+  {
+    type: 'input',
+    text: 'На пляжі Барселонети розстелили прямокутне покривало розміром <strong>2 м × 1,5 м</strong>. Яка його площа в м²? 🏖️ (введи число)',
+    correct: 3,
+    correctAlt: ['3', '3.0', '3,0'],
+    explanation: 'Площа прямокутника = довжина × ширина. S = 2 × 1,5 = <strong>3 м²</strong>.'
+  },
+  {
+    type: 'choice',
+    text: 'У магазині знижка <strong>25%</strong> на сукню фламенко вартістю <strong>80 €</strong>. Скільки коштує сукня після знижки? 💃',
+    options: ['55 €', '60 €', '65 €', '75 €'],
+    correct: 1,
+    explanation: '25% від 80 = 80 × 0,25 = 20 €. Ціна зі знижкою: 80 − 20 = <strong>60 €</strong>. (Або одразу: 80 × 0,75 = 60 €.)'
+  },
+  {
+    type: 'choice',
+    text: 'Швидкісний потяг AVE з Мадрида до Барселони у 3 вагонах перевозить <strong>234 пасажири</strong>. Скільки пасажирів у 5 таких самих вагонах? 🚄',
+    options: ['312', '350', '390', '468'],
+    correct: 2,
+    explanation: 'Пряма пропорційність. Один вагон: 234 ÷ 3 = 78 пасажирів. У 5 вагонах: 78 × 5 = <strong>390</strong>.'
+  },
+  {
+    type: 'choice',
+    text: 'Розв\'яжи рівняння: <strong>3x − 5 = 16</strong>. Чому дорівнює <em>x</em>? 🤔',
+    options: ['x = 3', 'x = 5', 'x = 7', 'x = 21'],
+    correct: 2,
+    explanation: 'Переносимо −5 у праву частину зі зміною знаку: 3x = 16 + 5 = 21. Ділимо обидві частини на 3: x = 21 ÷ 3 = <strong>7</strong>.'
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz() {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  currentQuestion = 0;
+  score = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[currentQuestion];
+  document.getElementById('question-text').innerHTML = q.text;
+  document.getElementById('progress-text').textContent =
+    `Запитання ${currentQuestion + 1} з ${questions.length}`;
+  document.getElementById('score-text').textContent = `⭐ ${score} балів`;
+  document.getElementById('progress-fill').style.width =
+    `${((currentQuestion + 1) / questions.length) * 100}%`;
+  document.getElementById('feedback-container').innerHTML = '';
+  document.getElementById('next-button-container').innerHTML = '';
+
+  const optionsContainer = document.getElementById('options-container');
+  optionsContainer.innerHTML = '';
+
+  if (q.type === 'choice') {
+    optionsContainer.className = 'options';
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      btn.textContent = opt;
+      btn.onclick = () => selectAnswer(idx);
+      optionsContainer.appendChild(btn);
+    });
+  } else if (q.type === 'truefalse') {
+    optionsContainer.className = 'options checkbox-pair';
+    q.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = (idx === 0 ? '✅ ' : '❌ ') + opt;
+      btn.onclick = () => selectAnswer(idx);
+      optionsContainer.appendChild(btn);
+    });
+  } else if (q.type === 'input') {
+    optionsContainer.className = 'options';
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'input-answer';
+    inp.placeholder = 'Введи відповідь...';
+    inp.id = 'answer-input';
+    inp.onkeydown = (e) => {
+      if (e.key === 'Enter') checkInputAnswer();
+    };
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'btn';
+    submitBtn.textContent = 'Підтвердити';
+    submitBtn.style.alignSelf = 'center';
+    submitBtn.onclick = checkInputAnswer;
+    optionsContainer.appendChild(inp);
+    optionsContainer.appendChild(submitBtn);
+    inp.focus();
+  }
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll('.option');
+  const isCorrect = idx === q.correct;
+
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === idx) btn.classList.add('wrong');
+  });
+
+  if (isCorrect) score++;
+  showFeedback(isCorrect, q.explanation);
+}
+
+function checkInputAnswer() {
+  if (answered) return;
+  const inp = document.getElementById('answer-input');
+  const userAns = inp.value.trim().replace(',', '.');
+  if (userAns === '') return;
+  answered = true;
+  const q = questions[currentQuestion];
+
+  let isCorrect = false;
+  const userNum = parseFloat(userAns);
+  if (!isNaN(userNum) && Math.abs(userNum - q.correct) < 0.001) isCorrect = true;
+  if (q.correctAlt && q.correctAlt.includes(inp.value.trim())) isCorrect = true;
+
+  inp.disabled = true;
+  const submitBtn = inp.nextElementSibling;
+  submitBtn.disabled = true;
+  inp.style.background = isCorrect ? '#c8e6c9' : '#ffcdd2';
+  inp.style.borderColor = isCorrect ? '#2e7d32' : '#c62828';
+  inp.style.color = isCorrect ? '#1b5e20' : '#b71c1c';
+  inp.style.fontWeight = 'bold';
+
+  if (isCorrect) score++;
+  showFeedback(isCorrect, q.explanation, q.correct);
+}
+
+function showFeedback(isCorrect, explanation, correctValue) {
+  const feedback = document.createElement('div');
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  let title = isCorrect
+    ? ['🎉 Bravo! Правильно!', '⭐ Молодець! Так тримати!', '✨ ¡Excelente!', '🌟 Правильно!'][Math.floor(Math.random()*4)]
+    : '💭 Не зовсім...';
+  if (!isCorrect && correctValue !== undefined) {
+    title += ` Правильна відповідь: <strong>${correctValue}</strong>`;
+  }
+  feedback.innerHTML = `<div class="feedback-title">${title}</div>${explanation}`;
+  document.getElementById('feedback-container').appendChild(feedback);
+
+  document.getElementById('score-text').textContent = `⭐ ${score} балів`;
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn';
+  nextBtn.textContent = currentQuestion + 1 < questions.length ? 'Далі →' : 'Дивитися результат 🏁';
+  nextBtn.onclick = nextQuestion;
+  document.getElementById('next-button-container').appendChild(nextBtn);
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function getGrade(percent) {
+  if (percent >= 95) return 12;
+  if (percent >= 88) return 11;
+  if (percent >= 80) return 10;
+  if (percent >= 73) return 9;
+  if (percent >= 66) return 8;
+  if (percent >= 59) return 7;
+  if (percent >= 50) return 6;
+  if (percent >= 41) return 5;
+  if (percent >= 33) return 4;
+  if (percent >= 25) return 3;
+  if (percent >= 13) return 2;
+  return 1;
+}
+
+function getMotivation(grade) {
+  if (grade === 12) return '🏆 ¡Increíble! Ти справжній математичний матадор! Бездоганний результат!';
+  if (grade >= 10) return '🌟 ¡Muy bien! Чудовий результат — ти добре знаєш матеріал. Ще трішки практики й буде ідеал!';
+  if (grade >= 8) return '👍 ¡Bien hecho! Гарний результат! У тебе міцна основа. Перевір помилки — і станеш сильнішим.';
+  if (grade >= 6) return '💪 Непогано! Базу ти знаєш. Повтори теми, де помилився — і наступного разу буде краще!';
+  if (grade >= 4) return '📚 Не засмучуйся! Кожна помилка — це урок. Подивись пояснення, попрацюй ще трохи — і прогрес гарантований!';
+  return '🌱 Не здавайся! Математика любить наполегливих. Повтори тему й спробуй ще раз — ти зможеш!';
+}
+
+function showResult() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+
+  const percent = Math.round((score / questions.length) * 100);
+  const grade = getGrade(percent);
+
+  document.getElementById('result-correct').textContent = score;
+  document.getElementById('result-percent').textContent = percent + '%';
+  document.getElementById('result-grade').textContent = grade;
+  document.getElementById('result-motivation').innerHTML = getMotivation(grade);
+
+  let emoji = '🎉';
+  if (grade === 12) emoji = '🏆';
+  else if (grade >= 10) emoji = '🌟';
+  else if (grade >= 8) emoji = '👍';
+  else if (grade >= 6) emoji = '💪';
+  else if (grade >= 4) emoji = '📚';
+  else emoji = '🌱';
+  document.getElementById('result-emoji').textContent = emoji;
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+</script>
+
+</body>
+</html>
