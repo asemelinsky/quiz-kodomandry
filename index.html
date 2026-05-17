@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вікторини з математики — Кодомандри</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #4c1d95; }
+    .subtitle { color: #6b7280; margin-bottom: 2rem; font-size: 1.1rem; }
+    .quizzes { display: grid; gap: 1rem; }
+    .quiz-card {
+      display: block;
+      padding: 1.2rem 1.5rem;
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #1f2937;
+      transition: all 0.2s;
+    }
+    .quiz-card:hover {
+      border-color: #667eea;
+      background: #f3f4f6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+    .quiz-title { font-weight: 600; font-size: 1.15rem; margin-bottom: 0.3rem; }
+    .quiz-meta { color: #6b7280; font-size: 0.9rem; }
+    .empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #9ca3af;
+      font-style: italic;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧮 Вікторини з математики</h1>
+    <p class="subtitle">Інтерактивні тести для учнів 5-12 класів. Відкривай — і пробуй свої сили!</p>
+
+    <div class="quizzes">
+      <!-- QUIZZES_START -->
+      <div class="empty">Перелік вікторин поки порожній. Перші тести з'являться скоро.</div>
+      <!-- QUIZZES_END -->
+    </div>
+
+    <footer>
+      Проєкт <strong>Кодомандри</strong> · Створено для учнів української школи
+    </footer>
+  </div>
+</body>
+</html>
