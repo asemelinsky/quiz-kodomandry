@@ -13,3 +13,4 @@ Thumbs.db
 # Local env (none expected, but defensive)
 .env
 .env.local
+.vercel
