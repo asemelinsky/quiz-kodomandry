@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Перевірка перед стартом — Урок 1: return | Перегони машинок</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #4338ca 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #1e293b;
+  }
+
+  .container {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 720px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Checkered flag accent on top */
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 14px;
+    background:
+      repeating-conic-gradient(#0f172a 0% 25%, #ffffff 0% 50%) 0 0/14px 14px;
+  }
+
+  .container > * { position: relative; }
+
+  h1 {
+    color: #1e3a8a;
+    font-size: 1.8em;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.95em;
+    margin-bottom: 20px;
+  }
+
+  .start-intro {
+    background: #f1f5f9;
+    border-left: 5px solid #4338ca;
+    padding: 18px 20px;
+    border-radius: 12px;
+    line-height: 1.6;
+    font-size: 1.05em;
+    color: #1e293b;
+    margin: 20px 0;
+  }
+
+  .start-intro .emoji {
+    font-size: 1.3em;
+  }
+
+  .btn {
+    background: linear-gradient(135deg, #f59e0b, #ea580c);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    font-size: 1.1em;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: inherit;
+    box-shadow: 0 6px 18px rgba(234, 88, 12, 0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 22px rgba(234, 88, 12, 0.5);
+  }
+
+  .btn:active { transform: translateY(0); }
+
+  .btn-primary-center {
+    display: block;
+    margin: 24px auto 0 auto;
+  }
+
+  .btn-next {
+    background: linear-gradient(135deg, #22c55e, #15803d);
+    box-shadow: 0 6px 18px rgba(21, 128, 61, 0.4);
+  }
+  .btn-next:hover {
+    box-shadow: 0 9px 22px rgba(21, 128, 61, 0.5);
+  }
+
+  .progress-info {
+    text-align: center;
+    color: #475569;
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    background: #e2e8f0;
+    border-radius: 10px;
+    height: 10px;
+    overflow: hidden;
+    margin-bottom: 22px;
+  }
+
+  .progress-fill {
+    background: linear-gradient(90deg, #4338ca, #ea580c);
+    height: 100%;
+    transition: width 0.5s ease;
+    border-radius: 10px;
+  }
+
+  .question-text {
+    font-size: 1.15em;
+    line-height: 1.55;
+    margin-bottom: 14px;
+    color: #1e293b;
+  }
+
+  pre.code-block {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 16px 18px;
+    border-radius: 10px;
+    font-family: "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+    font-size: 0.95em;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border: 1px solid #1e293b;
+  }
+
+  pre.code-block .kw { color: #c084fc; font-weight: 600; }
+  pre.code-block .str { color: #86efac; }
+  pre.code-block .num { color: #fbbf24; }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    background: white;
+    border: 2px solid #cbd5e1;
+    padding: 14px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.02em;
+    text-align: left;
+    transition: all 0.15s;
+    font-family: inherit;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+
+  .option:hover:not(:disabled) {
+    background: #eef2ff;
+    border-color: #4338ca;
+    transform: translateX(3px);
+  }
+
+  .option:disabled { cursor: not-allowed; }
+
+  .option.wrong {
+    background: #fef2f2;
+    border-color: #dc2626;
+    color: #991b1b;
+    text-decoration: line-through;
+    opacity: 0.75;
+  }
+
+  .option.correct {
+    background: #f0fdf4;
+    border-color: #16a34a;
+    color: #14532d;
+    font-weight: 700;
+  }
+
+  /* Code fragments inside option/text/hint */
+  .option code, .question-text code, .feedback code {
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: "SF Mono", "Menlo", "Consolas", monospace;
+    font-size: 0.92em;
+  }
+
+  .feedback {
+    margin-top: 16px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    font-size: 1em;
+    line-height: 1.55;
+    animation: slideIn 0.3s ease;
+  }
+
+  .feedback.hint {
+    background: #fffbeb;
+    color: #78350f;
+    border-left: 5px solid #f59e0b;
+  }
+
+  .feedback.explanation {
+    background: #f0fdf4;
+    color: #14532d;
+    border-left: 5px solid #22c55e;
+  }
+
+  .feedback-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 1.02em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .next-btn-area {
+    text-align: center;
+    margin-top: 18px;
+  }
+
+  .finish-screen {
+    text-align: center;
+    padding: 8px;
+  }
+
+  .finish-emoji {
+    font-size: 4.5em;
+    margin: 16px 0;
+    display: block;
+  }
+
+  .finish-text {
+    background: #f0fdf4;
+    border-left: 5px solid #22c55e;
+    padding: 18px 20px;
+    border-radius: 12px;
+    text-align: left;
+    line-height: 1.6;
+    font-size: 1.05em;
+    margin: 20px 0;
+    color: #14532d;
+  }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Start screen -->
+  <div id="start-screen">
+    <h1>🏁 Перевірка перед стартом</h1>
+    <p class="subtitle">Урок 1 · <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;font-family:Menlo,monospace;">return</code> · Перегони машинок</p>
+    <div class="start-intro">
+      <span class="emoji">🏁</span> Перевірка перед стартом перегонів! Це не контрольна — тут можна (і треба) зазирати в конспект. Мета — щоб <strong>ТИ</strong> зрозуміла, наскільки впевнено почуваєшся. Помилився — не страшно, підкажу, де подивитися. Поїхали!
+    </div>
+    <button class="btn btn-primary-center" onclick="startQuiz()">🚗 Поїхали!</button>
+  </div>
+
+  <!-- Quiz screen -->
+  <div id="quiz-screen" class="hidden">
+    <div class="progress-info" id="progress-text">Питання 1 з 6</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 16%"></div>
+    </div>
+
+    <div class="question-text" id="question-text"></div>
+    <pre class="code-block" id="code-block"></pre>
+    <div class="options" id="options-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-btn-area" id="next-btn-area"></div>
+  </div>
+
+  <!-- Finish screen -->
+  <div id="finish-screen" class="hidden finish-screen">
+    <h1>🏁 Фініш!</h1>
+    <span class="finish-emoji">🏎️🏁</span>
+    <div class="finish-text">
+      <strong>Фініш!</strong> 🏁 Ти пройшла всю перевірку по Уроку 1. Якщо десь довелося зазирнути в конспект — це не мінус, це саме те, що треба було зробити. Тепер ти точно знаєш, де почуваєшся впевнено, а що варто ще раз глянути. <strong>Молодець!</strong>
+    </div>
+    <button class="btn btn-primary-center" onclick="restartQuiz()">🔄 Пройти ще раз</button>
+  </div>
+
+</div>
+
+<script>
+// ============ Quiz data ============
+const questions = [
+  {
+    text: 'Машинка-калькулятор виконує цей код. Що з’явиться на екрані?',
+    code: `def speed(km, hours):
+    result = km / hours
+    return result
+
+answer = speed(100, 2)
+print(answer)`,
+    options: [
+      'А) 50.0',
+      'Б) result',
+      'В) speed(100, 2)',
+      'Г) Нічого — функція ж нічого не друкує'
+    ],
+    correct: 0,
+    explanation: 'Саме так. <code>return result</code> віддає число <strong>50.0</strong> назовні, воно записується у <code>answer</code>, а <code>print(answer)</code> його показує.',
+    hints: [
+      null,
+      '<code>return</code> віддає ЗНАЧЕННЯ змінної <code>result</code> (число), а не її назву. Підглянь <strong>Крок 1, момент 1</strong>.',
+      '<code>speed(100, 2)</code> — це виклик функції. Він не лишається текстом, а перетворюється на результат. Підглянь <strong>Крок 1</strong>.',
+      'Функція тут справді не друкує — але вона ВІДДАЄ результат через <code>return</code>, а друкує його вже <code>print()</code> зовні. Підглянь <strong>Крок 1, момент 1</strong>.'
+    ]
+  },
+  {
+    text: 'Хтось прибрав з функції рядок <code>return result</code>. Що тепер опиниться у змінній <code>answer</code>?',
+    code: `def speed(km, hours):
+    result = km / hours
+
+answer = speed(100, 2)
+print(answer)`,
+    options: [
+      'А) 50.0 — функція ж все одно порахувала',
+      'Б) None — функція нічого не повернула',
+      'В) result',
+      'Г) Програма зламається з помилкою'
+    ],
+    correct: 1,
+    explanation: 'Точно. Функція порахувала <code>result</code> усередині себе, але без <code>return</code> нічого НЕ віддала назовні. Тому <code>answer</code> отримує <strong>None</strong> — «порожньо».',
+    hints: [
+      'Функція справді порахувала — але результат лишився ЗАМКНЕНИМ усередині. Без <code>return</code> назовні нічого не виходить. Підглянь <strong>Крок 1, момент 1</strong>.',
+      null,
+      '<code>result</code> існує тільки всередині функції. Назовні воно не передається саме по собі — для цього й потрібен <code>return</code>. Підглянь <strong>Крок 1</strong>.',
+      'Помилки не буде — код виконається. Просто <code>answer</code> буде «порожнім» (<code>None</code>). Подумай: що віддає функція без <code>return</code>? Підглянь <strong>Крок 1</strong>.'
+    ]
+  },
+  {
+    text: 'Суддя перегонів порівнює дві швидкості. Що поверне функція при виклику <code>judge(7, 7)</code>?',
+    code: `def judge(speed1, speed2):
+    if speed1 > speed2:
+        return "Перша!"
+    else:
+        return "Друга!"`,
+    options: [
+      'А) "Перша!"',
+      'Б) "Друга!"',
+      'В) Обидва рядки по черзі',
+      'Г) "Нічия!"'
+    ],
+    correct: 1,
+    explanation: 'Правильно. <code>7 > 7</code> — це хибно, тому виконується гілка <code>else</code> і повертається <code>"Друга!"</code>. Варіанта <code>"Нічия!"</code> у коді просто немає.',
+    hints: [
+      'Перевір умову: чи правда, що <code>7 > 7</code>? Якщо ні — яка гілка спрацює? Підглянь <strong>Крок 2</strong>.',
+      null,
+      'Спрацьовує лише ОДИН <code>return</code> — той, до якого дійшла програма. Після нього функція одразу завершується. Підглянь <strong>Крок 2, момент 2</strong>.',
+      'Уважно: чи є в коді рядок, що повертає <code>"Нічия!"</code>? Функція може повернути лише те, що в ній написано. Підглянь <strong>Крок 2</strong>.'
+    ]
+  },
+  {
+    text: 'Ця функція мала б повертати <code>"Швидко!"</code> для великих чисел. Але вона завжди повертає <code>"Повільно!"</code>, хоч би яке число дали. Де помилка?',
+    code: `def check(speed):
+    return "Повільно!"
+    if speed > 50:
+        return "Швидко!"`,
+    options: [
+      'А) Рядок <code>if speed > 50</code> написаний неправильно',
+      'Б) <code>return "Повільно!"</code> стоїть ПЕРШИМ — після нього функція одразу завершується, і код нижче не виконується',
+      'В) Не вистачає <code>else</code>',
+      'Г) Треба <code>speed >= 50</code> замість <code>speed > 50</code>'
+    ],
+    correct: 1,
+    explanation: 'Саме так. Перший же <code>return</code> завершує функцію. Усе, що написано нижче <code>return</code>, не виконується ніколи. Перевірку <code>if</code> треба поставити ПЕРЕД <code>return "Повільно!"</code>.',
+    hints: [
+      'Сам рядок <code>if speed > 50</code> написаний коректно. Проблема не в ньому, а в тому, що програма до нього взагалі не доходить. Підглянь <strong>Крок 2, момент 3</strong>.',
+      null,
+      '<code>else</code> тут не врятує — справа в порядку рядків. Подумай: що робить <code>return</code> одразу, щойно виконається? Підглянь <strong>Крок 2, момент 3</strong>.',
+      '<code>&gt;</code> чи <code>&gt;=</code> — це дрібниця, не причина. Функція не доходить до цього рядка взагалі. Чому? Підглянь <strong>Крок 2, момент 3</strong>.'
+    ]
+  },
+  {
+    text: 'Уважно. Що з переліченого — це «рецепт», за яким можна зробити машинку, а не сама готова машинка?',
+    code: `def car(color):
+    t = Turtle()
+    t.color(color)
+    return t
+
+green_car = car("green")`,
+    options: [
+      'А) <code>green_car</code>',
+      'Б) <code>t</code>',
+      'В) <code>def car(color)</code> — сама функція',
+      'Г) <code>Turtle()</code>'
+    ],
+    correct: 2,
+    explanation: 'Точно. <code>def car(color)</code> — це РЕЦЕПТ: опис, як зробити машинку. Сама машинка з’являється тільки тоді, коли рецепт викликають: <code>car("green")</code>. А <code>green_car</code> — це вже готова машинка, яку рецепт зробив.',
+    hints: [
+      '<code>green_car</code> — це результат виклику <code>car("green")</code>, тобто вже ГОТОВА машинка, а не рецепт. Підглянь <strong>Крок 3, момент 3</strong>.',
+      '<code>t</code> — це готова черепашка всередині функції, яку потім віддає <code>return</code>. Це об’єкт, а не рецепт. Підглянь <strong>Крок 3</strong>.',
+      null,
+      '<code>Turtle()</code> справді створює об’єкт. Рецепт — це щось, що ОПИСУЄ, як робити машинку, і чекає на виклик. Що з переліку лише описує? Підглянь <strong>Крок 3, момент 3</strong>.'
+    ]
+  },
+  {
+    text: 'У програмі «Перегони» всередині функції черепашка зветься <code>car</code>, а зовні результат записали у <code>car1</code>. Скільки тут черепашок насправді?',
+    code: `def blue_car():
+    car = Turtle()
+    car.color("blue")
+    return car
+
+car1 = blue_car()`,
+    options: [
+      'А) Дві різні черепашки — <code>car</code> і <code>car1</code>',
+      'Б) Одна черепашка. <code>car</code> усередині й <code>car1</code> зовні — це два імені для однієї й тієї ж машинки, яку віддав <code>return</code>',
+      'В) Жодної, поки не викличемо <code>forward()</code>',
+      'Г) Три: <code>car</code>, <code>car1</code> і <code>Turtle()</code>'
+    ],
+    correct: 1,
+    explanation: 'Саме так. <code>Turtle()</code> створює ОДНУ черепашку. Усередині функції в неї ім’я <code>car</code>, <code>return</code> її віддає, і зовні та сама черепашка отримує ім’я <code>car1</code>. Об’єкт один — імен два.',
+    hints: [
+      '<code>Turtle()</code> викликається лише раз — отже, створюється лише одна черепашка. <code>return</code> просто передає її назовні під іншим ім’ям. Підглянь <strong>Крок 3</strong>.',
+      null,
+      'Черепашка створюється рядком <code>Turtle()</code> — одразу, ще до <code>forward()</code>. <code>forward()</code> лише рухає вже наявну. Підглянь <strong>Крок 3, момент 2</strong>.',
+      '<code>Turtle()</code> — це не окрема черепашка, а команда, що СТВОРЮЄ черепашку. Порахуй: скільки разів реально викликали <code>Turtle()</code>? Підглянь <strong>Крок 3</strong>.'
+    ]
+  }
+];
+
+// ============ State ============
+let currentQ = 0;
+let wrongAttempts = new Set();
+let answered = false;
+
+// ============ Code syntax highlighter (Python) ============
+function highlight(code) {
+  let html = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  // Protect strings via __STRPL_N__ — underscores are word chars so \b
+  // won't fire around the digit, keeping it safe from the number regex.
+  const placeholders = [];
+  html = html.replace(/(".*?"|'.*?')/g, (m) => {
+    placeholders.push(m);
+    return `__STRPL_${placeholders.length - 1}__`;
+  });
+
+  // Keywords
+  html = html.replace(
+    /\b(def|return|if|else|elif|True|False|None|for|while|in|and|or|not)\b/g,
+    '<span class="kw">$1</span>'
+  );
+
+  // Numbers
+  html = html.replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>');
+
+  // Restore strings with highlighting
+  html = html.replace(/__STRPL_(\d+)__/g, (_, i) =>
+    `<span class="str">${placeholders[parseInt(i)]}</span>`
+  );
+
+  return html;
+}
+
+// ============ Flow ============
+function startQuiz() {
+  currentQ = 0;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  showQuestion();
+}
+
+function showQuestion() {
+  wrongAttempts = new Set();
+  answered = false;
+  render();
+}
+
+function render() {
+  const q = questions[currentQ];
+  document.getElementById('progress-text').textContent =
+    `Питання ${currentQ + 1} з ${questions.length}`;
+  document.getElementById('progress-fill').style.width =
+    `${((currentQ + 1) / questions.length) * 100}%`;
+
+  document.getElementById('question-text').innerHTML = q.text;
+  document.getElementById('code-block').innerHTML = highlight(q.code);
+
+  // Render options
+  const optionsContainer = document.getElementById('options-container');
+  optionsContainer.innerHTML = '';
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = opt;
+    if (wrongAttempts.has(idx)) {
+      btn.classList.add('wrong');
+      btn.disabled = true;
+    }
+    if (answered && idx === q.correct) {
+      btn.classList.add('correct');
+      btn.disabled = true;
+    }
+    if (answered) btn.disabled = true;
+    btn.onclick = () => selectAnswer(idx);
+    optionsContainer.appendChild(btn);
+  });
+
+  // Render feedback
+  const feedbackContainer = document.getElementById('feedback-container');
+  feedbackContainer.innerHTML = '';
+
+  if (answered) {
+    const div = document.createElement('div');
+    div.className = 'feedback explanation';
+    div.innerHTML = `<div class="feedback-title">✅ Правильно!</div>${q.explanation}`;
+    feedbackContainer.appendChild(div);
+  } else if (wrongAttempts.size > 0) {
+    // Show hint for the most recent wrong attempt
+    const lastWrong = [...wrongAttempts].pop();
+    const div = document.createElement('div');
+    div.className = 'feedback hint';
+    div.innerHTML = `<div class="feedback-title">💡 Підказка</div>${q.hints[lastWrong]}`;
+    feedbackContainer.appendChild(div);
+  }
+
+  // Render next button (only when answered correctly)
+  const nextBtnArea = document.getElementById('next-btn-area');
+  nextBtnArea.innerHTML = '';
+  if (answered) {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-next';
+    btn.textContent = currentQ + 1 < questions.length ? '🏎️ Наступне питання →' : '🏁 До фінішу!';
+    btn.onclick = nextQuestion;
+    nextBtnArea.appendChild(btn);
+  }
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  if (wrongAttempts.has(idx)) return;
+  const q = questions[currentQ];
+  if (idx === q.correct) {
+    answered = true;
+  } else {
+    wrongAttempts.add(idx);
+  }
+  render();
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showFinish();
+  } else {
+    showQuestion();
+  }
+}
+
+function showFinish() {
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('finish-screen').classList.remove('hidden');
+}
+
+function restartQuiz() {
+  document.getElementById('finish-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+</script>
+
+</body>
+</html>
