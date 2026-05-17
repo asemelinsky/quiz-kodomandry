@@ -14,6 +14,24 @@
 
 ---
 
+## Setup (одноразово на кожен новий клон repo)
+
+Якщо це перший commit з твоєї сесії у цей repo — встанови local git identity:
+
+```bash
+cd /root/projects/quiz/
+git config user.name "Oleksii Semelinsky (via Claude)"
+git config user.email "claude@a.semelinsky"
+```
+
+Це per-repo config (живе у `.git/config`), а не system/global — тому правило "NEVER update git config" не порушується. Без цього кожен commit мусить мати `-c user.name="..." -c user.email="..."` flag, що зайве. Перевірити що identity вже є:
+
+```bash
+git config --get user.name  # має повернути "Oleksii Semelinsky (via Claude)"
+```
+
+---
+
 ## Workflow за 4 кроки
 
 ### Крок 1. Save файл у `quizzes/`
