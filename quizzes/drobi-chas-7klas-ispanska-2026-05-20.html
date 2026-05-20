@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дроби та час — тренажер (7 клас)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #4338ca 0%, #0ea5e9 55%, #06b6d4 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #1e293b;
+  }
+
+  .container {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #4338ca, #0ea5e9, #06b6d4);
+  }
+
+  .container > * { position: relative; }
+
+  .lang-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .lang-label { color: #64748b; font-size: 0.9em; }
+  .lang-select {
+    font-family: inherit; font-size: 0.95em; padding: 6px 10px;
+    border-radius: 8px; border: 2px solid #c7d2fe; background: white;
+    cursor: pointer; color: #1e293b;
+  }
+  .lang-select:focus { outline: none; border-color: #4338ca; }
+
+  h1 { color: #3730a3; font-size: 1.7em; text-align: center; margin-bottom: 6px; margin-top: 8px; line-height: 1.2; }
+  .subtitle { text-align: center; color: #64748b; font-size: 0.95em; margin-bottom: 18px; }
+
+  .start-intro {
+    background: #eef2ff; border-left: 5px solid #4338ca; padding: 16px 18px;
+    border-radius: 12px; line-height: 1.6; font-size: 1.02em; margin: 16px 0;
+  }
+  .start-intro ul { margin: 8px 0 0 20px; }
+  .start-intro li { margin: 3px 0; }
+
+  .emoji-big { font-size: 3.6em; margin: 12px 0; display: block; text-align: center; }
+
+  .btn {
+    background: linear-gradient(135deg, #4338ca, #6366f1);
+    color: white; border: none; padding: 14px 30px; font-size: 1.08em;
+    border-radius: 12px; cursor: pointer; font-weight: 700; font-family: inherit;
+    box-shadow: 0 6px 18px rgba(67, 56, 202, 0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 9px 22px rgba(67, 56, 202, 0.5); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .btn-center { display: block; margin: 22px auto 0 auto; }
+  .btn-next { background: linear-gradient(135deg, #16a34a, #22c55e); box-shadow: 0 6px 18px rgba(22, 163, 74, 0.4); }
+  .btn-next:hover { box-shadow: 0 9px 22px rgba(22, 163, 74, 0.5); }
+
+  .topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .section-badge {
+    background: #4338ca; color: white; font-size: 0.82em; font-weight: 700;
+    padding: 5px 12px; border-radius: 20px;
+  }
+  .timer-badge {
+    background: #eef2ff; padding: 4px 12px; border-radius: 10px; color: #3730a3;
+    font-variant-numeric: tabular-nums; font-weight: 700; font-size: 0.9em;
+  }
+  .progress-info { text-align: center; color: #475569; font-size: 0.9em; font-weight: 600; margin-bottom: 8px; }
+  .progress-bar { background: #e2e8f0; border-radius: 10px; height: 10px; overflow: hidden; margin-bottom: 20px; }
+  .progress-fill { background: linear-gradient(90deg, #4338ca, #06b6d4); height: 100%; transition: width 0.4s ease; border-radius: 10px; }
+
+  .question-text { font-size: 1.12em; line-height: 1.55; margin-bottom: 8px; color: #1e293b; }
+  .expr {
+    text-align: center; font-size: 1.7em; margin: 18px 0 22px 0; color: #1e293b;
+    font-weight: 600; line-height: 1;
+  }
+
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .option {
+    background: white; border: 2px solid #cbd5e1; padding: 16px; border-radius: 12px;
+    cursor: pointer; font-size: 1.35em; text-align: center; transition: all 0.15s;
+    font-family: inherit; color: #1e293b; min-height: 60px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .option:hover:not(:disabled) { background: #eef2ff; border-color: #4338ca; transform: translateY(-2px); }
+  .option:disabled { cursor: not-allowed; }
+  .option.wrong { background: #fef2f2; border-color: #dc2626; color: #991b1b; opacity: 0.7; }
+  .option.correct { background: #f0fdf4; border-color: #16a34a; color: #14532d; font-weight: 700; }
+
+  .feedback { margin-top: 16px; padding: 15px 18px; border-radius: 12px; font-size: 1em; line-height: 1.55; animation: slideIn 0.25s ease; }
+  .feedback.hint { background: #fffbeb; color: #78350f; border-left: 5px solid #f59e0b; }
+  .feedback.explanation { background: #f0fdf4; color: #14532d; border-left: 5px solid #22c55e; }
+  .feedback-title { font-weight: 700; margin-bottom: 5px; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .next-area { text-align: center; margin-top: 16px; }
+
+  /* Fraction rendering */
+  .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: 0.62em; line-height: 1.05; margin: 0 2px; }
+  .fnum { border-bottom: 1.6px solid currentColor; padding: 0 4px; }
+  .fden { padding: 0 4px; }
+  .mixed { display: inline-flex; align-items: center; gap: 2px; }
+
+  .result-screen { text-align: center; }
+  .grade-badge { font-size: 4.5em; font-weight: 800; color: #3730a3; margin: 12px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.08); }
+  .result-meta { display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 8px 0; }
+  .score-info { font-size: 1.12em; }
+  .motivation { font-style: italic; color: #3730a3; margin: 18px 0; padding: 14px; background: #eef2ff; border-radius: 12px; font-size: 1.04em; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 480px) {
+    .options { grid-template-columns: 1fr; }
+    .expr { font-size: 1.4em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-bar">
+    <span class="lang-label" id="lang-label">Мова:</span>
+    <select class="lang-select" id="lang-select" onchange="setLanguage(this.value)">
+      <option value="uk">🇺🇦 Українська</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+  </div>
+
+  <!-- Start -->
+  <div id="start-screen">
+    <h1 id="start-title"></h1>
+    <p class="subtitle" id="start-subtitle"></p>
+    <span class="emoji-big">🧮⏱️</span>
+    <div class="start-intro" id="start-intro"></div>
+    <button class="btn btn-center" id="start-btn" onclick="startQuiz()"></button>
+  </div>
+
+  <!-- Quiz -->
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge"></span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-text"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+    <div class="question-text" id="question-text"></div>
+    <div class="expr" id="expr"></div>
+    <div class="options" id="options-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <!-- Result -->
+  <div id="result-screen" class="hidden result-screen">
+    <h1 id="result-title"></h1>
+    <span class="emoji-big" id="result-emoji">🎉</span>
+    <div class="result-meta">
+      <div class="score-info"><span id="result-first-label"></span> <strong id="result-first"></strong> <span id="result-of-total"></span></div>
+      <div class="score-info"><span id="result-percent-label"></span> <strong id="result-percent"></strong></div>
+      <div class="score-info"><span id="result-time-label"></span> <strong id="result-time"></strong></div>
+    </div>
+    <div style="margin-top: 14px;" id="result-grade-label"></div>
+    <div class="grade-badge" id="result-grade"></div>
+    <div class="motivation" id="result-motivation"></div>
+    <button class="btn btn-center" id="result-restart-btn" onclick="restartQuiz()"></button>
+  </div>
+
+</div>
+
+<script>
+// ============ Fraction math ============
+function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = b; b = a % b; a = t; } return a || 1; }
+function reduce(n, d) { var g = gcd(n, d); return [n / g, d / g]; }
+function toImproper(w, n, d) { return [w * d + n, d]; }
+function toMixed(n, d) {
+  var r = reduce(n, d); n = r[0]; d = r[1];
+  var whole = Math.floor(n / d);
+  var num = n - whole * d;
+  return { whole: whole, num: num, den: num === 0 ? 1 : d };
+}
+function mkey(m) { return m.whole + '|' + m.num + '|' + m.den; }
+
+// ============ Fraction HTML ============
+function fracHTML(n, d) {
+  return '<span class="frac"><span class="fnum">' + n + '</span><span class="fden">' + d + '</span></span>';
+}
+function mixHTML(m) {
+  if (m.num === 0) return '<span class="mixed">' + m.whole + '</span>';
+  if (m.whole === 0) return '<span class="mixed">' + fracHTML(m.num, m.den) + '</span>';
+  return '<span class="mixed"><span>' + m.whole + '</span>' + fracHTML(m.num, m.den) + '</span>';
+}
+function opHTML(w, n, d) {
+  if (n === 0) return '<span class="mixed">' + w + '</span>';
+  if (w === 0) return '<span class="mixed">' + fracHTML(n, d) + '</span>';
+  return '<span class="mixed"><span>' + w + '</span>' + fracHTML(n, d) + '</span>';
+}
+
+// ============ Compute (validated in node) ============
+function addCompute(v) {
+  var w1=v[0],n1=v[1],d1=v[2],w2=v[3],n2=v[4],d2=v[5];
+  var I1=toImproper(w1,n1,d1), I2=toImproper(w2,n2,d2);
+  var num=I1[0]*I2[1]+I2[0]*I1[1], den=I1[1]*I2[1];
+  var correct=toMixed(num,den);
+  var fd=(d1*d2)/gcd(d1,d2);
+  var fnum=n1*(fd/d1)+n2*(fd/d2);
+  var wholeBase=w1+w2;
+  var cands=[];
+  if (fnum>=fd) cands.push({whole:wholeBase,num:fnum,den:fd});
+  var carry=Math.floor(fnum/fd), rem=fnum-carry*fd;
+  if (rem!==0 && gcd(rem,fd)>1) cands.push({whole:wholeBase+carry,num:rem,den:fd});
+  var adn=reduce(n1+n2,d1+d2); cands.push({whole:wholeBase,num:adn[0],den:adn[1]});
+  cands.push({whole:correct.whole+1,num:correct.num,den:correct.den});
+  if (correct.num>0) cands.push({whole:correct.whole,num:correct.num+1,den:correct.den});
+  cands.push({whole:Math.max(0,correct.whole-1),num:(correct.num+2)%Math.max(2,correct.den),den:correct.den});
+  return pick(correct,cands);
+}
+function multCompute(v) {
+  var w1=v[0],n1=v[1],d1=v[2],w2=v[3],n2=v[4],d2=v[5];
+  var I1=toImproper(w1,n1,d1), I2=toImproper(w2,n2,d2);
+  var num=I1[0]*I2[0], den=I1[1]*I2[1];
+  var correct=toMixed(num,den);
+  var cands=[];
+  var wf=w1*w2, fr=reduce(n1*n2,d1*d2), c2=Math.floor(fr[0]/fr[1]), r2=fr[0]-c2*fr[1];
+  cands.push({whole:wf+c2,num:r2,den:r2===0?1:fr[1]});
+  var whole=Math.floor(num/den), rem=num-whole*den;
+  if (rem!==0 && gcd(rem,den)>1) cands.push({whole:whole,num:rem,den:den});
+  var ri=reduce(num,den);
+  if (ri[0]>=ri[1] && ri[1]!==1) cands.push({whole:0,num:ri[0],den:ri[1]});
+  cands.push({whole:correct.whole+1,num:correct.num,den:correct.den});
+  if (correct.num>0) cands.push({whole:correct.whole,num:correct.num+1,den:correct.den});
+  cands.push({whole:correct.whole,num:(correct.num===0?1:correct.num),den:correct.den+1});
+  return pick(correct,cands);
+}
+function pick(correct, cands) {
+  var seen={}; seen[mkey(correct)]=1; var out=[];
+  for (var i=0;i<cands.length;i++){
+    var c=cands[i];
+    if (c.num<0||c.den<=0||c.whole<0) continue;
+    var k=mkey(c);
+    if (seen[k]) continue;
+    seen[k]=1; out.push(c);
+    if (out.length===3) break;
+  }
+  return { correct: correct, distractors: out };
+}
+function timeCompute(frac, factor) {
+  var n=frac[0], d=frac[1];
+  var correct=(n*factor)/d;
+  var other=factor===60?3600:60;
+  var pool=[factor/d, ((n-1)*factor)/d, ((n+1)*factor)/d, (n*other)/d, (n*factor)/(d+1)];
+  var seen={}; seen[correct]=1; var out=[];
+  for (var i=0;i<pool.length;i++){
+    var p=pool[i];
+    if (!Number.isInteger(p)||p<=0||seen[p]) continue;
+    seen[p]=1; out.push(p);
+    if (out.length===3) break;
+  }
+  return { correct: correct, distractors: out };
+}
+
+// ============ Explanations ============
+function addExplain(v, lang) {
+  var w1=v[0],n1=v[1],d1=v[2],w2=v[3],n2=v[4],d2=v[5];
+  var fd=(d1*d2)/gcd(d1,d2);
+  var c1=n1*(fd/d1), c2=n2*(fd/d2), fsum=c1+c2;
+  var carry=Math.floor(fsum/fd), rem=fsum-carry*fd;
+  var redFrac = rem===0 ? null : toMixed(rem, fd);
+  var I1=toImproper(w1,n1,d1), I2=toImproper(w2,n2,d2);
+  var ans=toMixed(I1[0]*I2[1]+I2[0]*I1[1], I1[1]*I2[1]);
+  var ws=w1+w2;
+  var fracStep = fracHTML(c1,fd)+' + '+fracHTML(c2,fd)+' = '+fracHTML(fsum,fd);
+  var tail;
+  if (rem===0) tail = (carry>0? ' = '+carry : '');
+  else { var rf=toMixed(rem,fd); tail = ' = '+ (carry>0? (carry+' ') : '') + (redFrac? fracHTML(rf.num,rf.den):''); }
+  var L = {
+    uk: 'Цілі: '+w1+' + '+w2+' = '+ws+'. Дробові: '+fracStep+tail+'. Скоротили й виділили цілу → разом '+mixHTML(ans)+'.',
+    en: 'Wholes: '+w1+' + '+w2+' = '+ws+'. Fractions: '+fracStep+tail+'. Simplified and carried the whole → total '+mixHTML(ans)+'.',
+    es: 'Enteros: '+w1+' + '+w2+' = '+ws+'. Fracciones: '+fracStep+tail+'. Simplificado y extraída la parte entera → total '+mixHTML(ans)+'.'
+  };
+  return L[lang];
+}
+function multExplain(v, lang) {
+  var w1=v[0],n1=v[1],d1=v[2],w2=v[3],n2=v[4],d2=v[5];
+  var I1=toImproper(w1,n1,d1), I2=toImproper(w2,n2,d2);
+  var num=I1[0]*I2[0], den=I1[1]*I2[1];
+  var ans=toMixed(num,den);
+  var step = opHTML(w1,n1,d1)+' × '+opHTML(w2,n2,d2)+' = '+fracHTML(I1[0],I1[1])+' × '+fracHTML(I2[0],I2[1])+' = '+fracHTML(num,den)+' = '+mixHTML(ans);
+  var L = {
+    uk: 'Спершу неправильні дроби, тоді множимо: '+step+'. Скоротили і виділили цілу частину.',
+    en: 'First convert to improper fractions, then multiply: '+step+'. Simplified and pulled out the whole part.',
+    es: 'Primero a fracciones impropias, luego multiplicamos: '+step+'. Simplificado y extraída la parte entera.'
+  };
+  return L[lang];
+}
+function timeExplain(frac, factor, meta, lang) {
+  var n=frac[0], d=frac[1];
+  var ans=(n*factor)/d;
+  var srcU = UNIT[meta.src], tgtU = UNIT[meta.tgt];
+  var oneLine = {
+    uk: '1 '+srcU.uk.one+' = '+factor+' '+tgtU.uk.sym+'. ',
+    en: '1 '+srcU.en.one+' = '+factor+' '+tgtU.en.sym+'. ',
+    es: '1 '+srcU.es.one+' = '+factor+' '+tgtU.es.sym+'. '
+  };
+  var fracDisp = mixHTML(toMixed(n,d));
+  var calc = fracDisp+' × '+factor+' = '+ans+' '+tgtU[lang].sym;
+  return oneLine[lang] + calc + '.';
+}
+
+// ============ Units lookup ============
+var UNIT = {
+  second: { uk:{one:'секунда', sym:'с', many:'секунд'}, en:{one:'second', sym:'s', many:'seconds'}, es:{one:'segundo', sym:'s', many:'segundos'} },
+  minute: { uk:{one:'хвилина', sym:'хв', many:'хвилин', gen:'хвилини'}, en:{one:'minute', sym:'min', many:'minutes'}, es:{one:'minuto', sym:'min', many:'minutos'} },
+  hour:   { uk:{one:'година', sym:'год', many:'годин', gen:'години'}, en:{one:'hour', sym:'h', many:'hours'}, es:{one:'hora', sym:'h', many:'horas'} }
+};
+
+// ============ i18n ============
+var i18n = {
+  uk: {
+    htmlLang:'uk', langLabel:'Мова:',
+    title:'🧮 Дроби та час', quizTitle:'🧮 Дроби та час',
+    subtitle:'Тренажер для 7 класу · 3 розділи',
+    intro:'Привіт! Тут три розділи для закріплення:<ul><li>➕ Додавання мішаних дробів</li><li>✖️ Множення мішаних дробів</li><li>⏱️ Дроби від часу</li></ul>Числа щоразу інші, а відповіді перемішуються — тож вгадати не вийде, треба рахувати. Помилився — підкажу, і спробуєш ще. Бал зараховується за відповідь <strong>з першої спроби</strong>. Не забувай <strong>скорочувати</strong> і <strong>виділяти цілу частину</strong>!',
+    startBtn:'🚀 Почати',
+    sectionBadge:'📚 Розділ {s}/3 · {name}',
+    progress:'Питання {n} з {total}',
+    hintTitle:'💡 Підказка', explTitle:'✅ Правильно!',
+    nextBtn:'Далі →', finishBtn:'🏁 Результат',
+    resultTitle:'Готово!', firstLabel:'Правильно з першої спроби:', ofTotal:'з {n}',
+    percentLabel:'Відсоток:', gradeLabel:'Оцінка:', timeLabel:'Час:', restartBtn:'🔄 Ще раз (нові числа!)',
+    sections:{ add:'Додавання дробів', mult:'Множення дробів', time:'Дроби від часу' },
+    addInstr:'Обчисли суму. Не забудь скоротити і виділити цілу частину!',
+    multInstr:'Обчисли добуток. Спочатку неправильні дроби, потім скороти й виділи цілу!',
+    timeQ:'Скільки {tgt} становить {frac} {srcGen}?',
+    hints:{
+      add:'Зведи дроби до спільного знаменника, додай. Якщо вийшло більше за одиницю — виділи цілу. І перевір, чи можна скоротити!',
+      mult:'Спершу переведи обидва числа в неправильні дроби, тоді перемнож чисельники й знаменники. Наприкінці — скороти і виділи цілу.',
+      time:'1 хвилина = 60 секунд, 1 година = 3600 секунд, 1 година = 60 хвилин. Помнож дріб на цю кількість.'
+    },
+    motiv:{ perfect:'🏆 Бездоганно! Усе з першої спроби — ти справжній майстер дробів!', great:'🌟 Чудово! Майже все одразу правильно. Ще трохи — і ідеал!', good:'👍 Добре! Міцна основа. Поглянь, де знадобились підказки — і повтори.', ok:'💪 Непогано! Підказки допомогли — тепер прорепетируй слабкі місця ще раз.', tryAgain:'📚 Є над чим попрацювати. Уважно перечитай пояснення і запусти ще раз — числа будуть нові!', dontGiveUp:'🌱 Не здавайся! Кожен повтор — нові числа й нова практика. Скорочення і ціла частина — твої головні друзі.' }
+  },
+  en: {
+    htmlLang:'en', langLabel:'Language:',
+    title:'🧮 Fractions & Time', quizTitle:'🧮 Fractions & Time',
+    subtitle:'Grade 7 trainer · 3 sections',
+    intro:'Hi! Three sections to practise:<ul><li>➕ Adding mixed numbers</li><li>✖️ Multiplying mixed numbers</li><li>⏱️ Fractions of time</li></ul>The numbers change every run and the answers are shuffled — so you can’t guess, you have to compute. Wrong answer? I’ll give a hint and you try again. A point counts only for a <strong>first-try</strong> correct answer. Always <strong>simplify</strong> and <strong>pull out the whole part</strong>!',
+    startBtn:'🚀 Start',
+    sectionBadge:'📚 Section {s}/3 · {name}',
+    progress:'Question {n} of {total}',
+    hintTitle:'💡 Hint', explTitle:'✅ Correct!',
+    nextBtn:'Next →', finishBtn:'🏁 Result',
+    resultTitle:'Done!', firstLabel:'Correct on first try:', ofTotal:'of {n}',
+    percentLabel:'Score:', gradeLabel:'Grade:', timeLabel:'Time:', restartBtn:'🔄 Again (new numbers!)',
+    sections:{ add:'Adding fractions', mult:'Multiplying fractions', time:'Fractions of time' },
+    addInstr:'Calculate the sum. Remember to simplify and pull out the whole part!',
+    multInstr:'Calculate the product. First make improper fractions, then simplify and pull out the whole part!',
+    timeQ:'How many {tgt} is {frac} of {srcGen}?',
+    hints:{
+      add:'Bring the fractions to a common denominator and add. If the result is more than one, carry the whole. And check if it can be simplified!',
+      mult:'First turn both numbers into improper fractions, then multiply numerators and denominators. At the end — simplify and pull out the whole part.',
+      time:'1 minute = 60 seconds, 1 hour = 3600 seconds, 1 hour = 60 minutes. Multiply the fraction by that amount.'
+    },
+    motiv:{ perfect:'🏆 Flawless! Everything first try — a true fraction master!', great:'🌟 Great! Almost all correct right away. A bit more and it’s perfect!', good:'👍 Good! Solid base. See where you needed hints and review those.', ok:'💪 Not bad! Hints helped — now drill the weak spots again.', tryAgain:'📚 Room to grow. Read the explanations carefully and run again — new numbers!', dontGiveUp:'🌱 Don’t give up! Each retry brings new numbers and practice. Simplifying and the whole part are your best friends.' }
+  },
+  es: {
+    htmlLang:'es', langLabel:'Idioma:',
+    title:'🧮 Fracciones y tiempo', quizTitle:'🧮 Fracciones y tiempo',
+    subtitle:'Entrenador de 1º ESO · 3 secciones',
+    intro:'¡Hola! Tres secciones para practicar:<ul><li>➕ Suma de números mixtos</li><li>✖️ Multiplicación de números mixtos</li><li>⏱️ Fracciones del tiempo</li></ul>Los números cambian cada vez y las respuestas se mezclan — no se puede adivinar, hay que calcular. ¿Fallo? Te doy una pista y lo intentas otra vez. El punto cuenta solo si aciertas <strong>al primer intento</strong>. ¡Siempre <strong>simplifica</strong> y <strong>extrae la parte entera</strong>!',
+    startBtn:'🚀 Empezar',
+    sectionBadge:'📚 Sección {s}/3 · {name}',
+    progress:'Pregunta {n} de {total}',
+    hintTitle:'💡 Pista', explTitle:'✅ ¡Correcto!',
+    nextBtn:'Siguiente →', finishBtn:'🏁 Resultado',
+    resultTitle:'¡Listo!', firstLabel:'Correctas al primer intento:', ofTotal:'de {n}',
+    percentLabel:'Porcentaje:', gradeLabel:'Nota:', timeLabel:'Tiempo:', restartBtn:'🔄 Otra vez (¡números nuevos!)',
+    sections:{ add:'Suma de fracciones', mult:'Multiplicación de fracciones', time:'Fracciones del tiempo' },
+    addInstr:'Calcula la suma. ¡Recuerda simplificar y extraer la parte entera!',
+    multInstr:'Calcula el producto. ¡Primero fracciones impropias, luego simplifica y extrae la parte entera!',
+    timeQ:'¿Cuántos {tgt} son {frac} de {srcGen}?',
+    hints:{
+      add:'Lleva las fracciones a un denominador común y suma. Si el resultado es mayor que uno, extrae la parte entera. ¡Y comprueba si se puede simplificar!',
+      mult:'Primero convierte ambos números en fracciones impropias, luego multiplica numeradores y denominadores. Al final: simplifica y extrae la parte entera.',
+      time:'1 minuto = 60 segundos, 1 hora = 3600 segundos, 1 hora = 60 minutos. Multiplica la fracción por esa cantidad.'
+    },
+    motiv:{ perfect:'🏆 ¡Impecable! Todo al primer intento — ¡un verdadero maestro de las fracciones!', great:'🌟 ¡Genial! Casi todo correcto enseguida. ¡Un poco más y es perfecto!', good:'👍 ¡Bien! Buena base. Mira dónde necesitaste pistas y repásalo.', ok:'💪 ¡No está mal! Las pistas ayudaron — ahora practica los puntos débiles otra vez.', tryAgain:'📚 Hay margen de mejora. Lee bien las explicaciones y vuelve a empezar — ¡números nuevos!', dontGiveUp:'🌱 ¡No te rindas! Cada intento trae números nuevos y práctica. Simplificar y la parte entera son tus mejores amigos.' }
+  }
+};
+
+// ============ Tasks ============
+var SECTIONS = [
+  { id:'add', tasks:[
+    {v:[[1,1,2,2,3,4],[2,1,3,3,5,6],[1,2,5,2,4,5]]},
+    {v:[[1,1,6,2,1,3],[2,1,8,1,3,8],[1,1,10,3,2,5]]},
+    {v:[[3,2,5,2,3,5],[1,1,3,2,2,3],[2,1,4,3,3,4]]},
+    {v:[[2,3,4,3,5,6],[1,2,3,2,3,4],[3,3,5,1,3,4]]},
+    {v:[[3,4,5,1,7,10],[2,5,6,1,2,3],[1,5,8,2,7,8]]},
+    {v:[[1,5,6,2,1,3],[2,7,9,1,2,3],[1,4,5,2,3,5]]}
+  ]},
+  { id:'mult', tasks:[
+    {v:[[1,1,3,1,1,2],[2,1,4,1,1,3],[2,2,3,1,1,2]]},
+    {v:[[1,4,5,1,1,4],[3,1,3,0,3,4],[1,5,8,2,2,3]]},
+    {v:[[2,1,2,2,2,5],[3,1,3,1,1,2],[1,1,3,2,1,4]]},
+    {v:[[1,1,2,1,2,3],[1,1,3,1,7,8],[1,1,5,2,1,6]]},
+    {v:[[2,2,3,1,1,2],[1,3,4,2,2,7],[3,1,3,1,1,5]]},
+    {v:[[1,5,8,2,2,3],[2,2,5,1,5,6],[3,3,5,1,1,4]]}
+  ]},
+  { id:'time', tasks:[
+    {meta:{src:'minute',tgt:'second'}, factor:60, v:[[3,4],[2,3],[5,6]]},
+    {meta:{src:'hour',tgt:'second'}, factor:3600, v:[[2,3],[3,4],[5,6]]},
+    {meta:{src:'hour',tgt:'minute'}, factor:60, v:[[5,6],[3,4],[2,3]]},
+    {meta:{src:'minute',tgt:'second'}, factor:60, v:[[2,5],[3,5],[7,12]]},
+    {meta:{src:'hour',tgt:'second'}, factor:3600, v:[[5,12],[1,4],[7,10]]},
+    {meta:{src:'minute',tgt:'second'}, factor:60, v:[[5,4],[4,3],[5,2]]}
+  ]}
+];
+
+// ============ State ============
+var currentLang='uk';
+var runtime=[];        // 18 prepared questions
+var current=0;
+var firstTryCorrect=0;
+var attemptedWrong=false; // wrong on current question already?
+var answeredCorrect=false;
+var quizStart=null, timerInt=null, finalSec=null;
+
+function t(){ return i18n[currentLang]; }
+function fmt(s,vars){ return s.replace(/\{(\w+)\}/g, function(_,k){ return vars[k]; }); }
+function fmtTime(sec){ var m=Math.floor(sec/60), s=sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function shuffle(a){ for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var tmp=a[i]; a[i]=a[j]; a[j]=tmp; } return a; }
+
+// ============ Build a run ============
+function buildRuntime() {
+  runtime=[];
+  for (var s=0; s<SECTIONS.length; s++) {
+    var sec=SECTIONS[s];
+    for (var ti=0; ti<sec.tasks.length; ti++) {
+      var task=sec.tasks[ti];
+      var vi=Math.floor(Math.random()*task.v.length);
+      var variation=task.v[vi];
+      var res, options=[];
+      if (sec.id==='time') {
+        res=timeCompute(variation, task.factor);
+        options.push({kind:'time', v:res.correct, unit:task.meta.tgt, correct:true});
+        for (var k=0;k<res.distractors.length;k++) options.push({kind:'time', v:res.distractors[k], unit:task.meta.tgt, correct:false});
+      } else {
+        res=(sec.id==='add')?addCompute(variation):multCompute(variation);
+        options.push({kind:'mix', m:res.correct, correct:true});
+        for (var k2=0;k2<res.distractors.length;k2++) options.push({kind:'mix', m:res.distractors[k2], correct:false});
+      }
+      shuffle(options);
+      var correctIdx=0;
+      for (var oi=0;oi<options.length;oi++) if (options[oi].correct) correctIdx=oi;
+      runtime.push({ sectionId:sec.id, sectionIdx:s, variation:variation, factor:task.factor, meta:task.meta, options:options, correctIdx:correctIdx });
+    }
+  }
+}
+
+// ============ Rendering ============
+function setLanguage(lang) {
+  currentLang=lang;
+  document.documentElement.lang=t().htmlLang;
+  document.getElementById('lang-select').value=lang;
+  renderStart();
+  if (!document.getElementById('quiz-screen').classList.contains('hidden')) renderQuestion(true);
+  if (!document.getElementById('result-screen').classList.contains('hidden')) renderResult();
+}
+
+function renderStart() {
+  document.getElementById('lang-label').textContent=t().langLabel;
+  document.getElementById('start-title').innerHTML=t().title;
+  document.getElementById('start-subtitle').textContent=t().subtitle;
+  document.getElementById('start-intro').innerHTML=t().intro;
+  document.getElementById('start-btn').textContent=t().startBtn;
+}
+
+function startQuiz() {
+  buildRuntime();
+  current=0; firstTryCorrect=0; finalSec=null;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now();
+  if (timerInt) clearInterval(timerInt);
+  timerInt=setInterval(updateTimer, 250);
+  updateTimer();
+  renderQuestion(false);
+}
+
+function updateTimer() {
+  if (quizStart===null) return;
+  document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000));
+}
+
+function questionExpr(rt) {
+  if (rt.sectionId==='time') {
+    var n=rt.variation[0], d=rt.variation[1];
+    return mixHTML(toMixed(n,d));
+  }
+  var v=rt.variation, sign=(rt.sectionId==='add')?' + ':' × ';
+  return opHTML(v[0],v[1],v[2]) + sign + opHTML(v[3],v[4],v[5]);
+}
+
+function questionText(rt) {
+  if (rt.sectionId==='add') return t().addInstr;
+  if (rt.sectionId==='mult') return t().multInstr;
+  // time: build sentence
+  var n=rt.variation[0], d=rt.variation[1];
+  var tgtWord=UNIT[rt.meta.tgt][currentLang].many;
+  var srcGen = currentLang==='uk' ? UNIT[rt.meta.src].uk.gen : UNIT[rt.meta.src][currentLang].one;
+  return fmt(t().timeQ, { tgt:tgtWord, frac:mixHTML(toMixed(n,d)), srcGen:srcGen });
+}
+
+function optionLabel(opt) {
+  if (opt.kind==='mix') return mixHTML(opt.m);
+  return opt.v + ' ' + UNIT[opt.unit][currentLang].sym;
+}
+
+function currentExplanation() {
+  var rt=runtime[current];
+  if (rt.sectionId==='add') return addExplain(rt.variation, currentLang);
+  if (rt.sectionId==='mult') return multExplain(rt.variation, currentLang);
+  return timeExplain(rt.variation, rt.factor, rt.meta, currentLang);
+}
+
+function renderQuestion(keepState) {
+  var rt=runtime[current];
+  if (!keepState) { attemptedWrong=false; answeredCorrect=false; rt.wrongSet={}; }
+
+  document.getElementById('section-badge').textContent=fmt(t().sectionBadge, { s:rt.sectionIdx+1, name:t().sections[rt.sectionId] });
+  document.getElementById('progress-text').textContent=fmt(t().progress, { n:current+1, total:runtime.length });
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('question-text').innerHTML=questionText(rt);
+  document.getElementById('expr').innerHTML=questionExpr(rt);
+
+  var oc=document.getElementById('options-container');
+  oc.innerHTML='';
+  for (var i=0;i<rt.options.length;i++){
+    (function(idx){
+      var btn=document.createElement('button');
+      btn.className='option';
+      btn.innerHTML=optionLabel(rt.options[idx]);
+      var isWrongLocked = rt.wrongSet && rt.wrongSet[idx];
+      if (isWrongLocked){ btn.classList.add('wrong'); btn.disabled=true; }
+      if (answeredCorrect){
+        btn.disabled=true;
+        if (idx===rt.correctIdx) btn.classList.add('correct');
+      }
+      btn.onclick=function(){ selectAnswer(idx); };
+      oc.appendChild(btn);
+    })(i);
+  }
+
+  var fb=document.getElementById('feedback-container'); fb.innerHTML='';
+  if (answeredCorrect){
+    var ex=document.createElement('div'); ex.className='feedback explanation';
+    ex.innerHTML='<div class="feedback-title">'+t().explTitle+'</div>'+currentExplanation();
+    fb.appendChild(ex);
+  } else if (attemptedWrong){
+    var h=document.createElement('div'); h.className='feedback hint';
+    h.innerHTML='<div class="feedback-title">'+t().hintTitle+'</div>'+t().hints[rt.sectionId];
+    fb.appendChild(h);
+  }
+
+  var na=document.getElementById('next-area'); na.innerHTML='';
+  if (answeredCorrect){
+    var nb=document.createElement('button');
+    nb.className='btn btn-next';
+    nb.textContent=(current+1<runtime.length)?t().nextBtn:t().finishBtn;
+    nb.onclick=nextQuestion;
+    na.appendChild(nb);
+  }
+}
+
+function selectAnswer(idx) {
+  if (answeredCorrect) return;
+  var rt=runtime[current];
+  if (rt.wrongSet && rt.wrongSet[idx]) return;
+  if (idx===rt.correctIdx){
+    answeredCorrect=true;
+    if (!attemptedWrong) firstTryCorrect++;
+  } else {
+    if (!rt.wrongSet) rt.wrongSet={};
+    rt.wrongSet[idx]=true;
+    attemptedWrong=true;
+  }
+  renderQuestion(true);
+}
+
+function nextQuestion() {
+  current++;
+  if (current<runtime.length){ renderQuestion(false); }
+  else { showResult(); }
+}
+
+function getGrade(p) {
+  if (p>=95) return 12; if (p>=88) return 11; if (p>=80) return 10; if (p>=73) return 9;
+  if (p>=66) return 8; if (p>=59) return 7; if (p>=50) return 6; if (p>=41) return 5;
+  if (p>=33) return 4; if (p>=25) return 3; if (p>=13) return 2; return 1;
+}
+function motivKey(g){ if (g===12) return 'perfect'; if (g>=10) return 'great'; if (g>=8) return 'good'; if (g>=6) return 'ok'; if (g>=4) return 'tryAgain'; return 'dontGiveUp'; }
+function gradeEmoji(g){ if (g===12) return '🏆'; if (g>=10) return '🌟'; if (g>=8) return '👍'; if (g>=6) return '💪'; if (g>=4) return '📚'; return '🌱'; }
+
+function showResult() {
+  if (timerInt){ clearInterval(timerInt); timerInt=null; }
+  finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  renderResult();
+}
+
+function renderResult() {
+  var total=runtime.length;
+  var percent=Math.round((firstTryCorrect/total)*100);
+  var grade=getGrade(percent);
+  document.getElementById('result-title').textContent=t().resultTitle;
+  document.getElementById('result-first-label').textContent=t().firstLabel;
+  document.getElementById('result-first').textContent=firstTryCorrect;
+  document.getElementById('result-of-total').textContent=fmt(t().ofTotal,{n:total});
+  document.getElementById('result-percent-label').textContent=t().percentLabel;
+  document.getElementById('result-percent').textContent=percent+'%';
+  document.getElementById('result-time-label').textContent=t().timeLabel;
+  document.getElementById('result-time').textContent=fmtTime(finalSec||0);
+  document.getElementById('result-grade-label').textContent=t().gradeLabel;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-motivation').innerHTML=t().motiv[motivKey(grade)];
+  document.getElementById('result-emoji').textContent=gradeEmoji(grade);
+  document.getElementById('result-restart-btn').textContent=t().restartBtn;
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+
+// Init
+renderStart();
+</script>
+</body>
+</html>
