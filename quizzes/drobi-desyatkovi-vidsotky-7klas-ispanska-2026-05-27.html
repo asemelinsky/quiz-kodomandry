@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дроби, десяткові, відсотки — тренажер переведення (7 клас)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f766e 0%, #0ea5e9 55%, #6366f1 100%);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 20px; color: #1e293b;
+  }
+  .container {
+    background: #fff; border-radius: 20px; padding: 30px; max-width: 700px; width: 100%;
+    box-shadow: 0 20px 55px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:8px; background: linear-gradient(90deg, #0f766e, #0ea5e9, #6366f1); }
+  .container > * { position: relative; }
+
+  .lang-bar { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-bottom:12px; }
+  .lang-label { color:#64748b; font-size:0.9em; }
+  .lang-select { font-family:inherit; font-size:0.95em; padding:6px 10px; border-radius:8px; border:2px solid #99f6e4; background:white; cursor:pointer; color:#1e293b; }
+  .lang-select:focus { outline:none; border-color:#0f766e; }
+
+  h1 { color:#0f766e; font-size:1.6em; text-align:center; margin-bottom:6px; margin-top:8px; line-height:1.2; }
+  .subtitle { text-align:center; color:#64748b; font-size:0.95em; margin-bottom:18px; }
+
+  .start-intro { background:#f0fdfa; border-left:5px solid #0f766e; padding:16px 18px; border-radius:12px; line-height:1.6; font-size:1.02em; margin:16px 0; }
+  .start-intro ul { margin:8px 0 0 20px; }
+  .start-intro li { margin:3px 0; }
+  .emoji-big { font-size:3.6em; margin:12px 0; display:block; text-align:center; }
+
+  .btn { background:linear-gradient(135deg,#0f766e,#0d9488); color:white; border:none; padding:14px 30px; font-size:1.08em; border-radius:12px; cursor:pointer; font-weight:700; font-family:inherit; box-shadow:0 6px 18px rgba(15,118,110,0.4); transition:transform 0.15s, box-shadow 0.15s; }
+  .btn:hover { transform:translateY(-2px); box-shadow:0 9px 22px rgba(15,118,110,0.5); }
+  .btn:active { transform:translateY(0); }
+  .btn:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+  .btn-center { display:block; margin:22px auto 0 auto; }
+  .btn-next { background:linear-gradient(135deg,#16a34a,#22c55e); box-shadow:0 6px 18px rgba(22,163,74,0.4); }
+  .btn-next:hover { box-shadow:0 9px 22px rgba(22,163,74,0.5); }
+
+  .topline { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:8px; }
+  .section-badge { background:#0f766e; color:white; font-size:0.82em; font-weight:700; padding:5px 12px; border-radius:20px; }
+  .timer-badge { background:#f0fdfa; padding:4px 12px; border-radius:10px; color:#0f766e; font-variant-numeric:tabular-nums; font-weight:700; font-size:0.9em; }
+  .progress-info { text-align:center; color:#475569; font-size:0.9em; font-weight:600; margin-bottom:8px; }
+  .progress-bar { background:#e2e8f0; border-radius:10px; height:10px; overflow:hidden; margin-bottom:20px; }
+  .progress-fill { background:linear-gradient(90deg,#0f766e,#6366f1); height:100%; transition:width 0.4s ease; border-radius:10px; }
+
+  .question-text { font-size:1.12em; line-height:1.55; margin-bottom:8px; color:#1e293b; }
+  .expr { text-align:center; font-size:2em; margin:18px 0 22px 0; color:#0f766e; font-weight:700; line-height:1; }
+
+  .options { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .option { background:white; border:2px solid #cbd5e1; padding:16px; border-radius:12px; cursor:pointer; font-size:1.35em; text-align:center; transition:all 0.15s; font-family:inherit; color:#1e293b; min-height:60px; display:flex; align-items:center; justify-content:center; }
+  .option:hover:not(:disabled) { background:#f0fdfa; border-color:#0f766e; transform:translateY(-2px); }
+  .option:disabled { cursor:not-allowed; }
+  .option.wrong { background:#fef2f2; border-color:#dc2626; color:#991b1b; opacity:0.7; }
+  .option.correct { background:#f0fdf4; border-color:#16a34a; color:#14532d; font-weight:700; }
+
+  .feedback { margin-top:16px; padding:15px 18px; border-radius:12px; font-size:1em; line-height:1.55; animation:slideIn 0.25s ease; }
+  .feedback.hint { background:#fffbeb; color:#78350f; border-left:5px solid #f59e0b; }
+  .feedback.explanation { background:#f0fdf4; color:#14532d; border-left:5px solid #22c55e; }
+  .feedback-title { font-weight:700; margin-bottom:5px; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px);} to{opacity:1;transform:translateY(0);} }
+  .next-area { text-align:center; margin-top:16px; }
+
+  .frac { display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:0.62em; line-height:1.05; margin:0 2px; }
+  .fnum { border-bottom:1.6px solid currentColor; padding:0 4px; }
+  .fden { padding:0 4px; }
+  .mixed { display:inline-flex; align-items:center; gap:2px; }
+
+  .result-screen { text-align:center; }
+  .grade-badge { font-size:4.5em; font-weight:800; color:#0f766e; margin:12px 0; text-shadow:2px 2px 4px rgba(0,0,0,0.08); }
+  .result-meta { display:flex; flex-direction:column; gap:6px; align-items:center; margin:8px 0; }
+  .score-info { font-size:1.12em; }
+  .motivation { font-style:italic; color:#0f766e; margin:18px 0; padding:14px; background:#f0fdfa; border-radius:12px; font-size:1.04em; }
+  .hidden { display:none; }
+  @media (max-width:480px){ .options{grid-template-columns:1fr;} .expr{font-size:1.6em;} }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-bar">
+    <span class="lang-label" id="lang-label">Мова:</span>
+    <select class="lang-select" id="lang-select" onchange="setLanguage(this.value)">
+      <option value="uk">🇺🇦 Українська</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+  </div>
+
+  <div id="start-screen">
+    <h1 id="start-title"></h1>
+    <p class="subtitle" id="start-subtitle"></p>
+    <span class="emoji-big">🔢💯</span>
+    <div class="start-intro" id="start-intro"></div>
+    <button class="btn btn-center" id="start-btn" onclick="startQuiz()"></button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge"></span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-text"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="question-text" id="question-text"></div>
+    <div class="expr" id="expr"></div>
+    <div class="options" id="options-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden result-screen">
+    <h1 id="result-title"></h1>
+    <span class="emoji-big" id="result-emoji">🎉</span>
+    <div class="result-meta">
+      <div class="score-info"><span id="result-first-label"></span> <strong id="result-first"></strong> <span id="result-of-total"></span></div>
+      <div class="score-info"><span id="result-percent-label"></span> <strong id="result-percent"></strong></div>
+      <div class="score-info"><span id="result-time-label"></span> <strong id="result-time"></strong></div>
+    </div>
+    <div style="margin-top:14px;" id="result-grade-label"></div>
+    <div class="grade-badge" id="result-grade"></div>
+    <div class="motivation" id="result-motivation"></div>
+    <button class="btn btn-center" id="result-restart-btn" onclick="restartQuiz()"></button>
+  </div>
+
+</div>
+
+<script>
+// ============ Helpers ============
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a||1;}
+function clean(x){ return Math.round(x*1e6)/1e6; }
+function plainNum(x){ return '' + clean(x); }
+function decPlaces(x){ var s=plainNum(x); var i=s.indexOf('.'); return i<0?0:(s.length-i-1); }
+function unredFromDec(x){ var k=decPlaces(x); var den=Math.pow(10,k); var num=Math.round(x*den); return [num,den]; }
+
+function sep(){ return currentLang==='en' ? '.' : ','; }
+function fmtNum(x){ return plainNum(x).replace('.', sep()); }
+function fracHTML(n,d){ return '<span class="frac"><span class="fnum">'+n+'</span><span class="fden">'+d+'</span></span>'; }
+
+// answer item: {form:'frac',p,q} | {form:'dec',x} | {form:'pct',x}
+function akey(a){ if(a.form==='frac') return 'f'+a.p+'/'+a.q; return a.form+':'+clean(a.x); }
+function renderItem(a){
+  if (a.form==='frac') return fracHTML(a.p,a.q);
+  if (a.form==='pct') return fmtNum(a.x)+'%';
+  return fmtNum(a.x);
+}
+function renderSource(dir,p,q){
+  var s=dir.charAt(0);
+  if (s==='f') return fracHTML(p,q);
+  if (s==='d') return fmtNum(p/q);
+  return fmtNum(p/q*100)+'%';
+}
+
+function pick(correct, cands){
+  var seen={}; seen[akey(correct)]=1; var out=[];
+  for (var i=0;i<cands.length;i++){
+    var c=cands[i];
+    if (c.form==='frac'){ if(c.p<=0||c.q<=0) continue; }
+    else { if(!(c.x>0)) continue; if(Math.abs(c.x)>100000) continue; if(decPlaces(clean(c.x))>4) continue; }
+    var k=akey(c);
+    if (seen[k]) continue;
+    seen[k]=1; out.push(c);
+    if (out.length===3) break;
+  }
+  return { correct: correct, distractors: out };
+}
+
+// ============ Generators (validated in node) ============
+function f2d(p,q){ var correct={form:'dec',x:p/q}; return pick(correct,[
+  {form:'dec',x:parseFloat('0.'+p+''+q)}, {form:'dec',x:clean(p/q*10)}, {form:'dec',x:clean(p/q/10)}, {form:'dec',x:clean((p+1)/q)} ]); }
+function d2f(p,q){ var correct={form:'frac',p:p,q:q}; var un=unredFromDec(p/q); return pick(correct,[
+  {form:'frac',p:un[0],q:un[1]}, {form:'frac',p:p+1,q:q}, {form:'frac',p:q,q:p}, {form:'frac',p:p,q:q+1} ]); }
+function f2p(p,q){ var correct={form:'pct',x:p/q*100}; return pick(correct,[
+  {form:'pct',x:clean(p/q)}, {form:'pct',x:clean(p/q*10)}, {form:'pct',x:parseFloat(''+p+''+q)}, {form:'pct',x:clean(p/q*100+10)} ]); }
+function p2f(p,q){ var pct=p/q*100; var correct={form:'frac',p:p,q:q}; return pick(correct,[
+  {form:'frac',p:Math.round(pct),q:100}, {form:'frac',p:Math.round(pct/10),q:10}, {form:'frac',p:p+1,q:q}, {form:'frac',p:q,q:p} ]); }
+function d2p(p,q){ var correct={form:'pct',x:p/q*100}; return pick(correct,[
+  {form:'pct',x:clean(p/q)}, {form:'pct',x:clean(p/q*10)}, {form:'pct',x:clean(p/q*1000)}, {form:'pct',x:clean(p/q*100+5)} ]); }
+function p2d(p,q){ var correct={form:'dec',x:p/q}; return pick(correct,[
+  {form:'dec',x:clean(p/q*100)}, {form:'dec',x:clean(p/q*10)}, {form:'dec',x:clean(p/q/10)}, {form:'dec',x:clean(p/q*100+1)} ]); }
+var GEN={f2d:f2d,d2f:d2f,f2p:f2p,p2f:p2f,d2p:d2p,p2d:p2d};
+
+// ============ Explanations ============
+function explain(dir,p,q,lang){
+  var dec=clean(p/q), pct=clean(p/q*100);
+  if (dir==='f2d'){
+    var L={uk:fracHTML(p,q)+' = '+p+' ÷ '+q+' = <strong>'+fmtNum(dec)+'</strong>. Ділимо чисельник на знаменник.',
+      en:fracHTML(p,q)+' = '+p+' ÷ '+q+' = <strong>'+fmtNum(dec)+'</strong>. Divide the numerator by the denominator.',
+      es:fracHTML(p,q)+' = '+p+' ÷ '+q+' = <strong>'+fmtNum(dec)+'</strong>. Divide el numerador entre el denominador.'}; return L[lang];
+  }
+  if (dir==='d2f'){
+    var un=unredFromDec(dec), g=gcd(un[0],un[1]);
+    var L2={uk:fmtNum(dec)+' = '+fracHTML(un[0],un[1])+' = <strong>'+fracHTML(p,q)+'</strong> (скоротили на '+g+'). Завжди скорочуй!',
+      en:fmtNum(dec)+' = '+fracHTML(un[0],un[1])+' = <strong>'+fracHTML(p,q)+'</strong> (divided by '+g+'). Always simplify!',
+      es:fmtNum(dec)+' = '+fracHTML(un[0],un[1])+' = <strong>'+fracHTML(p,q)+'</strong> (dividido entre '+g+'). ¡Simplifica siempre!'}; return L2[lang];
+  }
+  if (dir==='f2p'){
+    var L3={uk:fracHTML(p,q)+' = '+fmtNum(dec)+' → × 100 = <strong>'+fmtNum(pct)+'%</strong>. Відсоток — це частка, помножена на 100.',
+      en:fracHTML(p,q)+' = '+fmtNum(dec)+' → × 100 = <strong>'+fmtNum(pct)+'%</strong>. A percent is the value times 100.',
+      es:fracHTML(p,q)+' = '+fmtNum(dec)+' → × 100 = <strong>'+fmtNum(pct)+'%</strong>. Un porcentaje es el valor por 100.'}; return L3[lang];
+  }
+  if (dir==='p2f'){
+    var pn=Math.round(pct), g2=gcd(pn,100);
+    var L4={uk:fmtNum(pct)+'% = '+fracHTML(pn,100)+' = <strong>'+fracHTML(p,q)+'</strong> (скоротили на '+g2+'). Відсоток — це /100.',
+      en:fmtNum(pct)+'% = '+fracHTML(pn,100)+' = <strong>'+fracHTML(p,q)+'</strong> (divided by '+g2+'). Percent means /100.',
+      es:fmtNum(pct)+'% = '+fracHTML(pn,100)+' = <strong>'+fracHTML(p,q)+'</strong> (dividido entre '+g2+'). Porcentaje significa /100.'}; return L4[lang];
+  }
+  if (dir==='d2p'){
+    var L5={uk:fmtNum(dec)+' × 100 = <strong>'+fmtNum(pct)+'%</strong>. Кома зсувається на 2 знаки вправо.',
+      en:fmtNum(dec)+' × 100 = <strong>'+fmtNum(pct)+'%</strong>. Move the decimal point 2 places right.',
+      es:fmtNum(dec)+' × 100 = <strong>'+fmtNum(pct)+'%</strong>. Mueve la coma 2 lugares a la derecha.'}; return L5[lang];
+  }
+  var L6={uk:fmtNum(pct)+'% ÷ 100 = <strong>'+fmtNum(dec)+'</strong>. Кома зсувається на 2 знаки вліво.',
+    en:fmtNum(pct)+'% ÷ 100 = <strong>'+fmtNum(dec)+'</strong>. Move the decimal point 2 places left.',
+    es:fmtNum(pct)+'% ÷ 100 = <strong>'+fmtNum(dec)+'</strong>. Mueve la coma 2 lugares a la izquierda.'}; return L6[lang];
+}
+
+// ============ i18n ============
+var i18n = {
+  uk: {
+    htmlLang:'uk', langLabel:'Мова:',
+    title:'🔢 Дроби · десяткові · відсотки', quizTitle:'🔢 Дроби · десяткові · відсотки',
+    subtitle:'Тренажер переведення · 7 клас · 3 розділи',
+    intro:'Привіт! Тренуємо переведення між трьома формами одного числа:<ul><li>① Дроби ↔ десяткові</li><li>② Дроби ↔ відсотки</li><li>③ Десяткові ↔ відсотки</li></ul>Кожен розділ — в обидва боки. Числа щоразу інші, відповіді перемішуються — вгадати не вийде. Помилився — підкажу метод, спробуєш ще. Бал — за відповідь <strong>з першої спроби</strong>. Стеж за <strong>комою</strong> і не забувай <strong>скорочувати дроби</strong>!',
+    startBtn:'🚀 Почати', sectionBadge:'📚 Розділ {s}/3 · {name}', progress:'Питання {n} з {total}',
+    hintTitle:'💡 Підказка', explTitle:'✅ Правильно!',
+    nextBtn:'Далі →', finishBtn:'🏁 Результат',
+    resultTitle:'Готово!', firstLabel:'Правильно з першої спроби:', ofTotal:'з {n}',
+    percentLabel:'Відсоток:', gradeLabel:'Оцінка:', timeLabel:'Час:', restartBtn:'🔄 Ще раз (нові числа!)',
+    sections:{ fd:'Дроби ↔ десяткові', fp:'Дроби ↔ відсотки', dp:'Десяткові ↔ відсотки' },
+    instr:{ f2d:'Запиши дріб десятковим дробом.', d2f:'Переведи десятковий у звичайний (скорочений) дріб.', f2p:'Скільки відсотків становить цей дріб?', p2f:'Переведи у звичайний (скорочений) дріб.', d2p:'Запиши десятковий у відсотках.', p2d:'Запиши у вигляді десяткового дробу.' },
+    hints:{
+      f2d:'Поділи чисельник на знаменник (або зведи до 10/100). Наприклад ¾ = 3 ÷ 4 = 0,75. Стеж, де стоїть кома!',
+      d2f:'Запиши як дріб зі знаменником 10 чи 100, а потім обов’язково СКОРОТИ. Напр. 0,4 = 4/10 = ⅖.',
+      f2p:'Відсоток — це частка, помножена на 100. Спершу десятковий, тоді × 100. ¾ = 0,75 → 75%. Не забудь × 100!',
+      p2f:'Відсоток означає «поділити на 100». Запиши зі знаменником 100, потім СКОРОТИ. 40% = 40/100 = ⅖.',
+      d2p:'Щоб перевести в відсотки — помнож на 100 (кома на 2 знаки вправо). 0,75 → 75%.',
+      p2d:'Щоб прибрати %, поділи на 100 (кома на 2 знаки вліво). 75% → 0,75.'
+    },
+    motiv:{ perfect:'🏆 Бездоганно! Усі переведення з першої спроби — ти вільно жонглюєш формами чисел!', great:'🌟 Чудово! Майже все одразу правильно. Ще трохи — й ідеал!', good:'👍 Добре! Міцна основа. Подивись, де знадобились підказки — і повтори.', ok:'💪 Непогано! Підказки допомогли — прорепетируй слабкі переведення ще раз.', tryAgain:'📚 Є над чим попрацювати. Кома й скорочення — головні пастки. Перечитай пояснення й запусти ще раз!', dontGiveUp:'🌱 Не здавайся! Кожен повтор — нові числа. Зосередься на одному містку за раз (дріб→десятковий тощо).' }
+  },
+  en: {
+    htmlLang:'en', langLabel:'Language:',
+    title:'🔢 Fractions · decimals · percents', quizTitle:'🔢 Fractions · decimals · percents',
+    subtitle:'Conversion trainer · grade 7 · 3 sections',
+    intro:'Hi! We practise converting between three forms of the same number:<ul><li>① Fractions ↔ decimals</li><li>② Fractions ↔ percentages</li><li>③ Decimals ↔ percentages</li></ul>Each section goes both ways. Numbers change every run and answers are shuffled — no guessing. Wrong? I’ll remind you of the method and you try again. A point counts only for a <strong>first-try</strong> correct answer. Watch the <strong>decimal point</strong> and remember to <strong>simplify fractions</strong>!',
+    startBtn:'🚀 Start', sectionBadge:'📚 Section {s}/3 · {name}', progress:'Question {n} of {total}',
+    hintTitle:'💡 Hint', explTitle:'✅ Correct!',
+    nextBtn:'Next →', finishBtn:'🏁 Result',
+    resultTitle:'Done!', firstLabel:'Correct on first try:', ofTotal:'of {n}',
+    percentLabel:'Score:', gradeLabel:'Grade:', timeLabel:'Time:', restartBtn:'🔄 Again (new numbers!)',
+    sections:{ fd:'Fractions ↔ decimals', fp:'Fractions ↔ percentages', dp:'Decimals ↔ percentages' },
+    instr:{ f2d:'Write the fraction as a decimal.', d2f:'Convert the decimal to a (reduced) fraction.', f2p:'What percent is this fraction?', p2f:'Convert to a (reduced) fraction.', d2p:'Write the decimal as a percent.', p2d:'Write as a decimal.' },
+    hints:{
+      f2d:'Divide the numerator by the denominator (or rewrite over 10/100). E.g. ¾ = 3 ÷ 4 = 0.75. Mind the decimal point!',
+      d2f:'Write it over 10 or 100, then always SIMPLIFY. E.g. 0.4 = 4/10 = 2/5.',
+      f2p:'A percent is the value times 100. First the decimal, then × 100. ¾ = 0.75 → 75%. Don’t forget × 100!',
+      p2f:'Percent means “divide by 100”. Write over 100, then SIMPLIFY. 40% = 40/100 = 2/5.',
+      d2p:'To get a percent, multiply by 100 (move the point 2 places right). 0.75 → 75%.',
+      p2d:'To remove %, divide by 100 (move the point 2 places left). 75% → 0.75.'
+    },
+    motiv:{ perfect:'🏆 Flawless! Every conversion first try — you juggle number forms with ease!', great:'🌟 Great! Almost all right away. A bit more and it’s perfect!', good:'👍 Good! Solid base. See where you needed hints and review those.', ok:'💪 Not bad! Hints helped — drill the weak conversions again.', tryAgain:'📚 Room to grow. The decimal point and simplifying are the traps. Read the explanations and run again!', dontGiveUp:'🌱 Don’t give up! Each retry brings new numbers. Focus on one bridge at a time (fraction→decimal, etc.).' }
+  },
+  es: {
+    htmlLang:'es', langLabel:'Idioma:',
+    title:'🔢 Fracciones · decimales · porcentajes', quizTitle:'🔢 Fracciones · decimales · porcentajes',
+    subtitle:'Entrenador de conversión · 1º ESO · 3 secciones',
+    intro:'¡Hola! Practicamos convertir entre tres formas del mismo número:<ul><li>① Fracciones ↔ decimales</li><li>② Fracciones ↔ porcentajes</li><li>③ Decimales ↔ porcentajes</li></ul>Cada sección va en ambos sentidos. Los números cambian cada vez y las respuestas se mezclan — no se adivina. ¿Fallo? Te recuerdo el método y lo intentas otra vez. El punto cuenta solo si aciertas <strong>al primer intento</strong>. ¡Cuida la <strong>coma</strong> y recuerda <strong>simplificar las fracciones</strong>!',
+    startBtn:'🚀 Empezar', sectionBadge:'📚 Sección {s}/3 · {name}', progress:'Pregunta {n} de {total}',
+    hintTitle:'💡 Pista', explTitle:'✅ ¡Correcto!',
+    nextBtn:'Siguiente →', finishBtn:'🏁 Resultado',
+    resultTitle:'¡Listo!', firstLabel:'Correctas al primer intento:', ofTotal:'de {n}',
+    percentLabel:'Porcentaje:', gradeLabel:'Nota:', timeLabel:'Tiempo:', restartBtn:'🔄 Otra vez (¡números nuevos!)',
+    sections:{ fd:'Fracciones ↔ decimales', fp:'Fracciones ↔ porcentajes', dp:'Decimales ↔ porcentajes' },
+    instr:{ f2d:'Escribe la fracción como decimal.', d2f:'Convierte el decimal en fracción (simplificada).', f2p:'¿Qué porcentaje es esta fracción?', p2f:'Convierte en fracción (simplificada).', d2p:'Escribe el decimal como porcentaje.', p2d:'Escribe como decimal.' },
+    hints:{
+      f2d:'Divide el numerador entre el denominador (o reescribe sobre 10/100). Ej. ¾ = 3 ÷ 4 = 0,75. ¡Cuida la coma!',
+      d2f:'Escríbelo sobre 10 o 100 y luego SIMPLIFICA siempre. Ej. 0,4 = 4/10 = 2/5.',
+      f2p:'Un porcentaje es el valor por 100. Primero el decimal, luego × 100. ¾ = 0,75 → 75%. ¡No olvides × 100!',
+      p2f:'Porcentaje significa «dividir entre 100». Escribe sobre 100 y SIMPLIFICA. 40% = 40/100 = 2/5.',
+      d2p:'Para obtener el porcentaje, multiplica por 100 (mueve la coma 2 lugares a la derecha). 0,75 → 75%.',
+      p2d:'Para quitar el %, divide entre 100 (mueve la coma 2 lugares a la izquierda). 75% → 0,75.'
+    },
+    motiv:{ perfect:'🏆 ¡Impecable! Cada conversión al primer intento — ¡dominas las formas del número!', great:'🌟 ¡Genial! Casi todo enseguida. ¡Un poco más y es perfecto!', good:'👍 ¡Bien! Buena base. Mira dónde necesitaste pistas y repásalo.', ok:'💪 ¡No está mal! Las pistas ayudaron — practica las conversiones débiles otra vez.', tryAgain:'📚 Hay margen. La coma y simplificar son las trampas. Lee las explicaciones y vuelve a empezar.', dontGiveUp:'🌱 ¡No te rindas! Cada intento trae números nuevos. Céntrate en un puente a la vez (fracción→decimal, etc.).' }
+  }
+};
+
+// ============ Tasks ============
+var SECTIONS = [
+  { id:'fd', tasks:[
+    {dir:'f2d', v:[[3,4],[1,4],[1,2]]}, {dir:'f2d', v:[[2,5],[3,5],[4,5]]}, {dir:'f2d', v:[[1,8],[3,8],[5,8]]},
+    {dir:'d2f', v:[[2,5],[3,5],[1,5]]}, {dir:'d2f', v:[[3,4],[1,4],[1,2]]}, {dir:'d2f', v:[[3,20],[7,20],[9,20]]}
+  ]},
+  { id:'fp', tasks:[
+    {dir:'f2p', v:[[3,4],[1,4],[1,2]]}, {dir:'f2p', v:[[2,5],[3,5],[4,5]]}, {dir:'f2p', v:[[1,8],[3,8],[1,20]]},
+    {dir:'p2f', v:[[2,5],[3,5],[1,5]]}, {dir:'p2f', v:[[3,4],[1,4],[3,10]]}, {dir:'p2f', v:[[3,20],[7,20],[9,20]]}
+  ]},
+  { id:'dp', tasks:[
+    {dir:'d2p', v:[[3,4],[2,5],[3,5]]}, {dir:'d2p', v:[[1,8],[1,20],[2,25]]}, {dir:'d2p', v:[[5,4],[5,2],[6,5]]},
+    {dir:'p2d', v:[[3,4],[2,5],[3,5]]}, {dir:'p2d', v:[[1,8],[1,20],[2,25]]}, {dir:'p2d', v:[[5,4],[7,5],[9,5]]}
+  ]}
+];
+
+// ============ State ============
+var currentLang='uk', runtime=[], current=0, firstTryCorrect=0, attemptedWrong=false, answeredCorrect=false;
+var quizStart=null, timerInt=null, finalSec=null;
+function t(){ return i18n[currentLang]; }
+function fmt(s,vars){ return s.replace(/\{(\w+)\}/g, function(_,k){ return vars[k]; }); }
+function fmtTime(sec){ var m=Math.floor(sec/60), s=sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var tmp=a[i]; a[i]=a[j]; a[j]=tmp; } return a; }
+
+function buildRuntime(){
+  runtime=[];
+  for (var s=0;s<SECTIONS.length;s++){
+    var sec=SECTIONS[s];
+    for (var ti=0;ti<sec.tasks.length;ti++){
+      var task=sec.tasks[ti];
+      var vi=Math.floor(Math.random()*task.v.length);
+      var variation=task.v[vi];
+      var res=GEN[task.dir](variation[0], variation[1]);
+      var options=[{item:res.correct, correct:true}];
+      for (var k=0;k<res.distractors.length;k++) options.push({item:res.distractors[k], correct:false});
+      shuffle(options);
+      var correctIdx=0; for (var oi=0;oi<options.length;oi++) if(options[oi].correct) correctIdx=oi;
+      runtime.push({ sectionId:sec.id, sectionIdx:s, dir:task.dir, variation:variation, options:options, correctIdx:correctIdx });
+    }
+  }
+}
+
+function setLanguage(lang){
+  currentLang=lang; document.documentElement.lang=t().htmlLang; document.getElementById('lang-select').value=lang;
+  renderStart();
+  if (!document.getElementById('quiz-screen').classList.contains('hidden')) renderQuestion(true);
+  if (!document.getElementById('result-screen').classList.contains('hidden')) renderResult();
+}
+function renderStart(){
+  document.getElementById('lang-label').textContent=t().langLabel;
+  document.getElementById('start-title').innerHTML=t().title;
+  document.getElementById('start-subtitle').textContent=t().subtitle;
+  document.getElementById('start-intro').innerHTML=t().intro;
+  document.getElementById('start-btn').textContent=t().startBtn;
+}
+function startQuiz(){
+  buildRuntime(); current=0; firstTryCorrect=0; finalSec=null;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now(); if (timerInt) clearInterval(timerInt); timerInt=setInterval(updateTimer,250); updateTimer();
+  renderQuestion(false);
+}
+function updateTimer(){ if(quizStart===null) return; document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000)); }
+
+function renderQuestion(keepState){
+  var rt=runtime[current];
+  if (!keepState){ attemptedWrong=false; answeredCorrect=false; rt.wrongSet={}; }
+  document.getElementById('section-badge').textContent=fmt(t().sectionBadge,{s:rt.sectionIdx+1,name:t().sections[rt.sectionId]});
+  document.getElementById('progress-text').textContent=fmt(t().progress,{n:current+1,total:runtime.length});
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('question-text').innerHTML=t().instr[rt.dir];
+  document.getElementById('expr').innerHTML=renderSource(rt.dir, rt.variation[0], rt.variation[1]);
+
+  var oc=document.getElementById('options-container'); oc.innerHTML='';
+  for (var i=0;i<rt.options.length;i++){
+    (function(idx){
+      var btn=document.createElement('button'); btn.className='option'; btn.innerHTML=renderItem(rt.options[idx].item);
+      if (rt.wrongSet && rt.wrongSet[idx]){ btn.classList.add('wrong'); btn.disabled=true; }
+      if (answeredCorrect){ btn.disabled=true; if (idx===rt.correctIdx) btn.classList.add('correct'); }
+      btn.onclick=function(){ selectAnswer(idx); };
+      oc.appendChild(btn);
+    })(i);
+  }
+
+  var fb=document.getElementById('feedback-container'); fb.innerHTML='';
+  if (answeredCorrect){
+    var ex=document.createElement('div'); ex.className='feedback explanation';
+    ex.innerHTML='<div class="feedback-title">'+t().explTitle+'</div>'+explain(rt.dir, rt.variation[0], rt.variation[1], currentLang);
+    fb.appendChild(ex);
+  } else if (attemptedWrong){
+    var h=document.createElement('div'); h.className='feedback hint';
+    h.innerHTML='<div class="feedback-title">'+t().hintTitle+'</div>'+t().hints[rt.dir];
+    fb.appendChild(h);
+  }
+
+  var na=document.getElementById('next-area'); na.innerHTML='';
+  if (answeredCorrect){
+    var nb=document.createElement('button'); nb.className='btn btn-next';
+    nb.textContent=(current+1<runtime.length)?t().nextBtn:t().finishBtn; nb.onclick=nextQuestion; na.appendChild(nb);
+  }
+}
+
+function selectAnswer(idx){
+  if (answeredCorrect) return;
+  var rt=runtime[current];
+  if (rt.wrongSet && rt.wrongSet[idx]) return;
+  if (idx===rt.correctIdx){ answeredCorrect=true; if (!attemptedWrong) firstTryCorrect++; }
+  else { if (!rt.wrongSet) rt.wrongSet={}; rt.wrongSet[idx]=true; attemptedWrong=true; }
+  renderQuestion(true);
+}
+function nextQuestion(){ current++; if (current<runtime.length) renderQuestion(false); else showResult(); }
+
+function getGrade(p){ if(p>=95)return 12; if(p>=88)return 11; if(p>=80)return 10; if(p>=73)return 9; if(p>=66)return 8; if(p>=59)return 7; if(p>=50)return 6; if(p>=41)return 5; if(p>=33)return 4; if(p>=25)return 3; if(p>=13)return 2; return 1; }
+function motivKey(g){ if(g===12)return 'perfect'; if(g>=10)return 'great'; if(g>=8)return 'good'; if(g>=6)return 'ok'; if(g>=4)return 'tryAgain'; return 'dontGiveUp'; }
+function gradeEmoji(g){ if(g===12)return '🏆'; if(g>=10)return '🌟'; if(g>=8)return '👍'; if(g>=6)return '💪'; if(g>=4)return '📚'; return '🌱'; }
+
+function showResult(){
+  if (timerInt){ clearInterval(timerInt); timerInt=null; }
+  finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  renderResult();
+}
+function renderResult(){
+  var total=runtime.length, percent=Math.round((firstTryCorrect/total)*100), grade=getGrade(percent);
+  document.getElementById('result-title').textContent=t().resultTitle;
+  document.getElementById('result-first-label').textContent=t().firstLabel;
+  document.getElementById('result-first').textContent=firstTryCorrect;
+  document.getElementById('result-of-total').textContent=fmt(t().ofTotal,{n:total});
+  document.getElementById('result-percent-label').textContent=t().percentLabel;
+  document.getElementById('result-percent').textContent=percent+'%';
+  document.getElementById('result-time-label').textContent=t().timeLabel;
+  document.getElementById('result-time').textContent=fmtTime(finalSec||0);
+  document.getElementById('result-grade-label').textContent=t().gradeLabel;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-motivation').innerHTML=t().motiv[motivKey(grade)];
+  document.getElementById('result-emoji').textContent=gradeEmoji(grade);
+  document.getElementById('result-restart-btn').textContent=t().restartBtn;
+}
+function restartQuiz(){ document.getElementById('result-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden'); }
+
+renderStart();
+</script>
+</body>
+</html>
