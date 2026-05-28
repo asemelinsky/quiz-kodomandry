@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Онбординг · AI-помощник для дипломной</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #312e81 0%, #4f46e5 55%, #0ea5e9 100%);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 20px; color: #1e293b;
+  }
+  .card {
+    background: #fff; border-radius: 22px; padding: 34px 36px 26px; max-width: 680px; width: 100%;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.35); position: relative; overflow: hidden;
+    display: flex; flex-direction: column; min-height: 540px;
+  }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:7px; background: linear-gradient(90deg, #4f46e5, #0ea5e9, #22c55e); }
+
+  /* Progress */
+  .progress-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .dots { display:flex; gap:7px; }
+  .dot { width:10px; height:10px; border-radius:50%; background:#e2e8f0; cursor:pointer; transition:all .2s; }
+  .dot.past { background:#a5b4fc; }
+  .dot.active { background:#4f46e5; transform:scale(1.35); }
+  .counter { font-size:.85em; color:#64748b; font-weight:600; font-variant-numeric:tabular-nums; }
+  .bar { background:#eef2ff; height:7px; border-radius:6px; overflow:hidden; margin-bottom:24px; }
+  .bar-fill { background:linear-gradient(90deg,#4f46e5,#0ea5e9); height:100%; border-radius:6px; transition:width .4s ease; }
+
+  /* Slide */
+  .slide { flex:1; animation: fade .35s ease; }
+  @keyframes fade { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  .slide-icon { font-size:3.4em; display:block; margin-bottom:10px; }
+  .slide h1 { font-size:1.7em; color:#3730a3; margin-bottom:16px; line-height:1.2; }
+  .slide p { font-size:1.06em; line-height:1.6; margin-bottom:12px; color:#334155; }
+  .slide ul { list-style:none; margin:6px 0 4px; }
+  .slide li { font-size:1.04em; line-height:1.5; padding:9px 0 9px 2px; border-bottom:1px solid #f1f5f9; color:#334155; }
+  .slide li:last-child { border-bottom:none; }
+  .muted { color:#94a3b8; font-size:.95em; }
+  code { background:#eef2ff; color:#3730a3; padding:1px 7px; border-radius:6px; font-family:"SF Mono","Menlo","Consolas",monospace; font-size:.9em; }
+  b { color:#1e293b; }
+
+  /* Checklist (slide 7) */
+  .checklist { display:flex; flex-direction:column; gap:9px; margin:14px 0; }
+  .check-item {
+    display:flex; align-items:center; gap:12px; padding:12px 15px; border:2px solid #e2e8f0; border-radius:12px;
+    cursor:pointer; transition:all .15s; user-select:none; font-size:1.03em;
+  }
+  .check-item:hover { border-color:#a5b4fc; background:#fafaff; }
+  .check-item.checked { border-color:#22c55e; background:#f0fdf4; }
+  .check-box { width:24px; height:24px; border-radius:7px; border:2px solid #cbd5e1; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.9em; color:#fff; transition:all .15s; }
+  .check-item.checked .check-box { background:#22c55e; border-color:#22c55e; }
+  .check-done { margin-top:10px; padding:12px 15px; border-radius:12px; background:#f0fdf4; color:#15803d; font-weight:700; text-align:center; display:none; animation: fade .3s ease; }
+  .check-done.show { display:block; }
+
+  /* Nav */
+  .nav { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:20px; padding-top:18px; border-top:1px solid #f1f5f9; }
+  .btn {
+    border:none; padding:13px 26px; font-size:1.04em; border-radius:12px; cursor:pointer; font-weight:700; font-family:inherit; transition:transform .15s, box-shadow .15s, opacity .15s;
+  }
+  .btn-primary { background:linear-gradient(135deg,#4f46e5,#6366f1); color:#fff; box-shadow:0 6px 18px rgba(79,70,229,.4); }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 9px 22px rgba(79,70,229,.5); }
+  .btn-ghost { background:transparent; color:#64748b; border:2px solid #e2e8f0; }
+  .btn-ghost:hover { border-color:#cbd5e1; color:#475569; }
+  .btn:disabled { opacity:.35; cursor:not-allowed; transform:none; box-shadow:none; }
+  .btn-finish { background:linear-gradient(135deg,#16a34a,#22c55e); box-shadow:0 6px 18px rgba(22,163,74,.4); }
+  .btn-finish:hover { box-shadow:0 9px 22px rgba(22,163,74,.5); }
+
+  /* Final CTA (slide 9) */
+  .cta { display:block; text-align:center; text-decoration:none; background:linear-gradient(135deg,#16a34a,#22c55e); color:#fff; font-size:1.25em; font-weight:800; padding:20px 24px; border-radius:16px; margin:24px 0 12px; box-shadow:0 10px 26px rgba(22,163,74,.4); transition:transform .15s, box-shadow .15s; }
+  .cta:hover { transform:translateY(-3px); box-shadow:0 14px 32px rgba(22,163,74,.55); }
+  .cta-sub { text-align:center; color:#64748b; font-size:.98em; margin-top:2px; }
+
+  .hint-kbd { text-align:center; font-size:.8em; color:#cbd5e1; margin-top:12px; }
+
+  /* Confetti */
+  .confetti { position:fixed; top:-40px; font-size:1.5em; animation: fall linear forwards; z-index:50; pointer-events:none; }
+  @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity:.2; } }
+
+  @media (max-width:480px){ .card{ padding:26px 22px 20px; min-height:520px; } .slide h1{ font-size:1.45em; } .btn{ padding:12px 18px; } }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="progress-top">
+    <div class="dots" id="dots"></div>
+    <div class="counter" id="counter"></div>
+  </div>
+  <div class="bar"><div class="bar-fill" id="bar-fill"></div></div>
+
+  <div class="slide" id="slide">
+    <span class="slide-icon" id="s-icon"></span>
+    <h1 id="s-title"></h1>
+    <div id="s-body"></div>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn-ghost" id="btn-prev" onclick="prev()">← Назад</button>
+    <button class="btn btn-primary" id="btn-next" onclick="next()">Далее →</button>
+  </div>
+  <div class="hint-kbd">← → стрелки для навигации</div>
+</div>
+
+<script>
+var slides = [
+  {
+    icon: "👋",
+    title: "Привет, Тимур!",
+    body: "<p>Я — твой персональный <b>AI-помощник</b> для дипломной работы.</p>"
+      + "<p>Думай обо мне как о <b>со-авторе и редакторе</b>, а не как о «ghostwriter». Я помогаю писать, править, считать и наводить порядок — но финальное слово за тобой: ты всё критически оцениваешь, и <b>авторство остаётся твоим</b>.</p>"
+      + "<p>Давай познакомимся — это пара минут. 🚀</p>"
+  },
+  {
+    icon: "📖",
+    title: "Что я уже знаю о работе",
+    body: "<p>Мы уже на одной странице. Вот что у меня есть:</p>"
+      + "<ul>"
+      + "<li>🎯 <b>Тема:</b> Multivariate time series analysis with an application on EEG <span class='muted'>(датасеты: сон, медитация монахов, eyes open/closed)</span></li>"
+      + "<li>📐 <b>Формат:</b> <code>LaTeX</code></li>"
+      + "<li>✍️ <b>Стиль:</b> научный английский — минимум воды, понятно даже неспециалисту</li>"
+      + "<li>🗂️ <b>Структура:</b> 5 разделов — intro / theory / pipelines / analysis / appendix</li>"
+      + "<li>✅ <b>Скелет</b> <code>.tex</code> уже готов</li>"
+      + "</ul>"
+  },
+  {
+    icon: "📎",
+    title: "Как передавать файлы",
+    body: "<ul>"
+      + "<li>💬 <b>Сейчас:</b> прямо в чат — текст или файл</li>"
+      + "<li>⚡ <b>Скоро</b> (когда настроим SSH + GitHub): перетаскивание по SFTP + Telegram-бот → файлы сами попадают в <code>inbox/</code></li>"
+      + "<li>📄 <b>PDF-источники</b> я распознаю через OCR (<code>tesseract</code>) и конвертирую (<code>pandoc</code>)</li>"
+      + "</ul>"
+  },
+  {
+    icon: "🛠️",
+    title: "Что я умею технически",
+    body: "<ul>"
+      + "<li>📐 Писать и править <code>LaTeX</code>, компилировать в PDF</li>"
+      + "<li>🔄 Конвертировать <code>md ↔ docx ↔ pdf</code> (pandoc)</li>"
+      + "<li>🔍 OCR сканов и фотографий</li>"
+      + "<li>🐍 Анализ данных и кода на Python</li>"
+      + "</ul>"
+  },
+  {
+    icon: "✅",
+    title: "Таски — наш общий backlog",
+    body: "<ul>"
+      + "<li>💡 Появилась идея → говоришь <i>«давай таск X»</i> → я завожу файл в <code>tasks/</code></li>"
+      + "<li>📋 Спрашиваешь <i>«какие таски остались?»</i> → даю актуальный список</li>"
+      + "<li>🛡️ Таски <b>не теряются</b> даже когда мы чистим контекст</li>"
+      + "</ul>"
+  },
+  {
+    icon: "🧠",
+    title: "Как я не забываю большой объём",
+    body: "<ul>"
+      + "<li>🗃️ Важное храню <b>в файлах</b> (<code>notes/</code>, черновики, <code>tasks/</code>), а не только в памяти чата</li>"
+      + "<li>🧹 Когда контекста становится слишком много — делаем аккуратную чистку <b>со снимком</b>. Ничего не пропадает.</li>"
+      + "</ul>"
+      + "<p class='muted'>Так что не бойся длинных обсуждений — память не «протекает».</p>"
+  },
+  {
+    icon: "📝",
+    title: "Что мне нужно от тебя",
+    body: "<p>Маленький чек-лист — подготовь это, и я настрою <b>твою собственную среду</b> (отдельный защищённый доступ + GitHub-репозиторий):</p>"
+      + "<div class='checklist' id='checklist'>"
+      + "<div class='check-item' data-i='0'><span class='check-box'>✓</span><span>📅 Дедлайн диплома</span></div>"
+      + "<div class='check-item' data-i='1'><span class='check-box'>✓</span><span>🐙 GitHub username</span></div>"
+      + "<div class='check-item' data-i='2'><span class='check-box'>✓</span><span>🔑 SSH public key</span></div>"
+      + "<div class='check-item' data-i='3'><span class='check-box'>✓</span><span>✈️ Telegram username</span></div>"
+      + "<div class='check-item' data-i='4'><span class='check-box'>✓</span><span>💻 Твоя OS + хочешь ли VS Code Remote</span></div>"
+      + "</div>"
+      + "<div class='check-done' id='check-done'>🎯 Отлично, всё под рукой — ты готов!</div>"
+      + "<p class='muted'>Отвечать прямо тут не нужно — это просто чтобы ты знал, что подготовить. Спрошу в рабочей сессии.</p>"
+  },
+  {
+    icon: "🚀",
+    title: "Готово — давай начнём!",
+    body: "<p>Знакомство закончено. 🎉</p>"
+      + "<p>Заходи в рабочую сессию (ссылку дам отдельно), напиши <b>«привет»</b> — и стартуем.</p>"
+      + "<p>Начать можем с чего угодно:</p>"
+      + "<ul>"
+      + "<li>🗂️ со структуры раздела</li>"
+      + "<li>📄 с обработки первых источников</li>"
+      + "<li>✍️ с черновика introduction</li>"
+      + "</ul>"
+      + "<p>Что выберёшь — то и делаем. До встречи в сессии!</p>"
+  },
+  {
+    icon: "🤖",
+    title: "Твой AI-помощник ждёт",
+    body: "<p>Всё готово — пора начинать! 🎉</p>"
+      + "<p>Нажми на кнопку ниже, чтобы открыть нашу рабочую сессию:</p>"
+      + "<a class='cta' href='https://claude.ai/code/session_015DwAMZKTRbkPkM4eXetQDN' target='_blank' rel='noopener'>Відкрити мого AI-помічника →</a>"
+      + "<p class='cta-sub'>Заходь, напиши «привіт» — починаємо роботу над дипломом</p>"
+  }
+];
+
+var current = 0;
+var checkState = [false, false, false, false, false];
+
+function buildDots() {
+  var d = document.getElementById('dots');
+  d.innerHTML = '';
+  for (var i = 0; i < slides.length; i++) {
+    (function(idx){
+      var el = document.createElement('div');
+      el.className = 'dot';
+      el.onclick = function(){ goto(idx); };
+      d.appendChild(el);
+    })(i);
+  }
+}
+
+function render() {
+  var s = slides[current];
+  document.getElementById('s-icon').textContent = s.icon;
+  document.getElementById('s-title').textContent = s.title;
+  document.getElementById('s-body').innerHTML = s.body;
+
+  // restart slide animation
+  var slide = document.getElementById('slide');
+  slide.style.animation = 'none'; void slide.offsetWidth; slide.style.animation = '';
+
+  // dots + bar + counter
+  var dots = document.getElementById('dots').children;
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].className = 'dot' + (i === current ? ' active' : (i < current ? ' past' : ''));
+  }
+  document.getElementById('counter').textContent = 'Шаг ' + (current + 1) + ' / ' + slides.length;
+  document.getElementById('bar-fill').style.width = (((current + 1) / slides.length) * 100) + '%';
+
+  // buttons
+  document.getElementById('btn-prev').disabled = (current === 0);
+  var nextBtn = document.getElementById('btn-next');
+  if (current === slides.length - 1) {
+    nextBtn.textContent = 'Поехали! 🚀';
+    nextBtn.className = 'btn btn-finish';
+  } else {
+    nextBtn.textContent = 'Далее →';
+    nextBtn.className = 'btn btn-primary';
+  }
+
+  // checklist wiring (slide index 6)
+  if (current === 6) wireChecklist();
+}
+
+function wireChecklist() {
+  var items = document.querySelectorAll('#checklist .check-item');
+  items.forEach(function(it){
+    var i = parseInt(it.getAttribute('data-i'), 10);
+    if (checkState[i]) it.classList.add('checked');
+    it.onclick = function(){
+      checkState[i] = !checkState[i];
+      it.classList.toggle('checked', checkState[i]);
+      var allDone = checkState.every(function(x){ return x; });
+      document.getElementById('check-done').classList.toggle('show', allDone);
+    };
+  });
+  var allDone = checkState.every(function(x){ return x; });
+  document.getElementById('check-done').classList.toggle('show', allDone);
+}
+
+function next() {
+  if (current < slides.length - 1) { current++; render(); }
+  else { celebrate(); }
+}
+function prev() { if (current > 0) { current--; render(); } }
+function goto(i) { current = i; render(); }
+
+function celebrate() {
+  var emojis = ['🎉','✨','🚀','📚','🎓','⭐'];
+  for (var i = 0; i < 28; i++) {
+    (function(){
+      var e = document.createElement('div');
+      e.className = 'confetti';
+      e.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      e.style.left = (Math.random() * 100) + 'vw';
+      e.style.animationDuration = (2 + Math.random() * 2) + 's';
+      e.style.animationDelay = (Math.random() * 0.5) + 's';
+      document.body.appendChild(e);
+      setTimeout(function(){ e.remove(); }, 4500);
+    })();
+  }
+}
+
+document.addEventListener('keydown', function(e){
+  if (e.key === 'ArrowRight') next();
+  else if (e.key === 'ArrowLeft') prev();
+});
+
+buildDots();
+render();
+</script>
+</body>
+</html>
