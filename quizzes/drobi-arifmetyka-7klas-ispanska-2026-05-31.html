@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Арифметика дробів — тренажер дій (7 клас)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f766e 0%, #0ea5e9 55%, #6366f1 100%);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 20px; color: #1e293b;
+  }
+  .container {
+    background: #fff; border-radius: 20px; padding: 30px; max-width: 700px; width: 100%;
+    box-shadow: 0 20px 55px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:8px; background: linear-gradient(90deg, #0f766e, #0ea5e9, #6366f1); }
+  .container > * { position: relative; }
+
+  .lang-bar { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-bottom:12px; }
+  .lang-label { color:#64748b; font-size:0.9em; }
+  .lang-select { font-family:inherit; font-size:0.95em; padding:6px 10px; border-radius:8px; border:2px solid #99f6e4; background:white; cursor:pointer; color:#1e293b; }
+  .lang-select:focus { outline:none; border-color:#0f766e; }
+
+  h1 { color:#0f766e; font-size:1.6em; text-align:center; margin-bottom:6px; margin-top:8px; line-height:1.2; }
+  .subtitle { text-align:center; color:#64748b; font-size:0.95em; margin-bottom:18px; }
+
+  .start-intro { background:#f0fdfa; border-left:5px solid #0f766e; padding:16px 18px; border-radius:12px; line-height:1.6; font-size:1.02em; margin:16px 0; }
+  .start-intro ul { margin:8px 0 0 20px; }
+  .start-intro li { margin:3px 0; }
+  .emoji-big { font-size:3.6em; margin:12px 0; display:block; text-align:center; }
+
+  .btn { background:linear-gradient(135deg,#0f766e,#0d9488); color:white; border:none; padding:14px 30px; font-size:1.08em; border-radius:12px; cursor:pointer; font-weight:700; font-family:inherit; box-shadow:0 6px 18px rgba(15,118,110,0.4); transition:transform 0.15s, box-shadow 0.15s; }
+  .btn:hover { transform:translateY(-2px); box-shadow:0 9px 22px rgba(15,118,110,0.5); }
+  .btn:active { transform:translateY(0); }
+  .btn:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+  .btn-center { display:block; margin:22px auto 0 auto; }
+  .btn-next { background:linear-gradient(135deg,#16a34a,#22c55e); box-shadow:0 6px 18px rgba(22,163,74,0.4); }
+  .btn-next:hover { box-shadow:0 9px 22px rgba(22,163,74,0.5); }
+
+  .topline { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:8px; }
+  .section-badge { background:#0f766e; color:white; font-size:0.82em; font-weight:700; padding:5px 12px; border-radius:20px; }
+  .timer-badge { background:#f0fdfa; padding:4px 12px; border-radius:10px; color:#0f766e; font-variant-numeric:tabular-nums; font-weight:700; font-size:0.9em; }
+  .progress-info { text-align:center; color:#475569; font-size:0.9em; font-weight:600; margin-bottom:8px; }
+  .progress-bar { background:#e2e8f0; border-radius:10px; height:10px; overflow:hidden; margin-bottom:20px; }
+  .progress-fill { background:linear-gradient(90deg,#0f766e,#6366f1); height:100%; transition:width 0.4s ease; border-radius:10px; }
+
+  .question-text { font-size:1.12em; line-height:1.55; margin-bottom:8px; color:#1e293b; }
+  .expr { text-align:center; font-size:2em; margin:18px 0 22px 0; color:#0f766e; font-weight:700; line-height:1; }
+
+  .options { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .option { background:white; border:2px solid #cbd5e1; padding:16px; border-radius:12px; cursor:pointer; font-size:1.35em; text-align:center; transition:all 0.15s; font-family:inherit; color:#1e293b; min-height:60px; display:flex; align-items:center; justify-content:center; }
+  .option:hover:not(:disabled) { background:#f0fdfa; border-color:#0f766e; transform:translateY(-2px); }
+  .option:disabled { cursor:not-allowed; }
+  .option.wrong { background:#fef2f2; border-color:#dc2626; color:#991b1b; opacity:0.7; }
+  .option.correct { background:#f0fdf4; border-color:#16a34a; color:#14532d; font-weight:700; }
+
+  .feedback { margin-top:16px; padding:15px 18px; border-radius:12px; font-size:1em; line-height:1.55; animation:slideIn 0.25s ease; }
+  .feedback.hint { background:#fffbeb; color:#78350f; border-left:5px solid #f59e0b; }
+  .feedback.explanation { background:#f0fdf4; color:#14532d; border-left:5px solid #22c55e; }
+  .feedback-title { font-weight:700; margin-bottom:5px; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px);} to{opacity:1;transform:translateY(0);} }
+  .next-area { text-align:center; margin-top:16px; }
+
+  .frac { display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:0.62em; line-height:1.05; margin:0 2px; }
+  .fnum { border-bottom:1.6px solid currentColor; padding:0 4px; }
+  .fden { padding:0 4px; }
+  .mixed { display:inline-flex; align-items:center; gap:2px; }
+
+  .result-screen { text-align:center; }
+  .grade-badge { font-size:4.5em; font-weight:800; color:#0f766e; margin:12px 0; text-shadow:2px 2px 4px rgba(0,0,0,0.08); }
+  .result-meta { display:flex; flex-direction:column; gap:6px; align-items:center; margin:8px 0; }
+  .score-info { font-size:1.12em; }
+  .motivation { font-style:italic; color:#0f766e; margin:18px 0; padding:14px; background:#f0fdfa; border-radius:12px; font-size:1.04em; }
+  .hidden { display:none; }
+  @media (max-width:480px){ .options{grid-template-columns:1fr;} .expr{font-size:1.6em;} }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-bar">
+    <span class="lang-label" id="lang-label">Мова:</span>
+    <select class="lang-select" id="lang-select" onchange="setLanguage(this.value)">
+      <option value="uk">🇺🇦 Українська</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+  </div>
+
+  <div id="start-screen">
+    <h1 id="start-title"></h1>
+    <p class="subtitle" id="start-subtitle"></p>
+    <span class="emoji-big">🔢💯</span>
+    <div class="start-intro" id="start-intro"></div>
+    <button class="btn btn-center" id="start-btn" onclick="startQuiz()"></button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge"></span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-text"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="question-text" id="question-text"></div>
+    <div class="expr" id="expr"></div>
+    <div class="options" id="options-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden result-screen">
+    <h1 id="result-title"></h1>
+    <span class="emoji-big" id="result-emoji">🎉</span>
+    <div class="result-meta">
+      <div class="score-info"><span id="result-first-label"></span> <strong id="result-first"></strong> <span id="result-of-total"></span></div>
+      <div class="score-info"><span id="result-percent-label"></span> <strong id="result-percent"></strong></div>
+      <div class="score-info"><span id="result-time-label"></span> <strong id="result-time"></strong></div>
+    </div>
+    <div style="margin-top:14px;" id="result-grade-label"></div>
+    <div class="grade-badge" id="result-grade"></div>
+    <div class="motivation" id="result-motivation"></div>
+    <button class="btn btn-center" id="result-restart-btn" onclick="restartQuiz()"></button>
+  </div>
+
+</div>
+
+<script>
+// ============ Helpers ============
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a||1;}
+function plainNum(x){ var s=(Math.round(x*10000)/10000).toString(); return s; }
+function sep(){ return currentLang==='en' ? '.' : ','; }
+function fmtNum(x){ return plainNum(x).replace('.', sep()); }
+function fracHTML(p,q){ return '<span class="frac"><span class="fnum">'+p+'</span><span class="fden">'+q+'</span></span>'; }
+function fmtOperand(w,p,q){ if(p===0) return ''+w; if(w===0) return fracHTML(p,q); return '<span class="mixed">'+w+fracHTML(p,q)+'</span>'; }
+function canon(num,den){
+  if(den===0) return null;
+  if(den<0){num=-num; den=-den;}
+  if(num===0) return {form:'int',x:0};
+  var g=gcd(Math.abs(num),den); num=num/g; den=den/g;
+  if(den===1) return {form:'int',x:num};
+  var sign=num<0?-1:1, absN=Math.abs(num);
+  if(absN>=den){
+    var w=Math.floor(absN/den), r=absN-w*den;
+    if(r===0) return {form:'int',x:sign*w};
+    return {form:'mixed',w:sign*w,p:r,q:den};
+  }
+  return {form:'frac',p:num,q:den};
+}
+function fracRaw(num,den){ if(den===0||num===0) return null; if(den<0){num=-num;den=-den;} return {form:'frac',p:num,q:den}; }
+function akey(a){ if(!a)return 'null'; if(a.form==='int')return 'i:'+a.x; if(a.form==='frac')return 'f:'+a.p+'/'+a.q; if(a.form==='mixed')return 'm:'+a.w+','+a.p+'/'+a.q; return ''; }
+function renderItem(a){
+  if(!a) return '?';
+  if(a.form==='int') return ''+a.x;
+  if(a.form==='frac'){ if(a.p<0) return '−'+fracHTML(-a.p,a.q); return fracHTML(a.p,a.q); }
+  if(a.form==='mixed'){ var prefix=a.w<0?'−'+Math.abs(a.w):''+a.w; return '<span class="mixed">'+prefix+fracHTML(a.p,a.q)+'</span>'; }
+  return '?';
+}
+function renderSource(dir, variation){
+  var aw=variation[0],ap=variation[1],aq=variation[2],bw=variation[3],bp=variation[4],bq=variation[5];
+  var A=fmtOperand(aw,ap,aq), B=fmtOperand(bw,bp,bq);
+  var symMap={add:'+',sub:'−',mul:'×',div:'÷'};
+  return A+' '+symMap[dir]+' '+B+' = ?';
+}
+function pickDistr(correct,cands){
+  var seen={}; if(correct) seen[akey(correct)]=1; var out=[];
+  for(var i=0;i<cands.length;i++){
+    var c=cands[i];
+    if(!c) continue;
+    if(c.form==='frac' && (c.p===0 || c.q===0 || c.q<0)) continue;
+    if(c.form==='mixed' && (c.p<0 || c.q<=0)) continue;
+    var k=akey(c);
+    if(seen[k]) continue;
+    seen[k]=1; out.push(c);
+    if(out.length===3) break;
+  }
+  // pad with safe variants if needed
+  var pad=0;
+  while(out.length<3){
+    var fake;
+    if(correct && correct.form==='frac') fake={form:'frac',p:correct.p+1+pad,q:correct.q};
+    else if(correct && correct.form==='mixed') fake={form:'mixed',w:correct.w+1+pad,p:correct.p,q:correct.q};
+    else fake={form:'int',x:(correct?correct.x:0)+1+pad};
+    if(!seen[akey(fake)]){ seen[akey(fake)]=1; out.push(fake); }
+    pad++;
+    if(pad>20) break;
+  }
+  return {correct:correct, distractors:out};
+}
+
+// ============ Generators ============
+function gAdd(aw,ap,aq,bw,bp,bq){
+  var A=aw*aq+ap, B=bw*bq+bp;
+  var num=A*bq+B*aq, den=aq*bq;
+  var correct=canon(num,den);
+  var d1=canon(A+B, aq+bq);            // wrong: added denoms
+  var d2=fracRaw(num,den);              // unreduced raw
+  var d3=null;
+  if(correct && correct.form==='mixed') d3={form:'frac',p:num/gcd(num,den), q:den/gcd(num,den)}; // not extracted whole
+  var d4=canon(num+den,den);            // numerical slip
+  return pickDistr(correct,[d1,d2,d3,d4]);
+}
+function gSub(aw,ap,aq,bw,bp,bq){
+  var A=aw*aq+ap, B=bw*bq+bp;
+  var num=A*bq-B*aq, den=aq*bq;
+  var correct=canon(num,den);
+  var d1=canon(A-B, Math.max(aq-bq,1)); // wrong: subtracted denoms
+  var d2=fracRaw(num,den);
+  var d3=null;
+  if(correct && correct.form==='mixed') d3={form:'frac',p:num/gcd(Math.abs(num),den), q:den/gcd(Math.abs(num),den)};
+  var d4=canon(num+1,den);
+  return pickDistr(correct,[d1,d2,d3,d4]);
+}
+function gMul(aw,ap,aq,bw,bp,bq){
+  var A=aw*aq+ap, B=bw*bq+bp;
+  var num=A*B, den=aq*bq;
+  var correct=canon(num,den);
+  var d1=canon(A*bq+B*aq, aq*bq);  // did add instead of mul
+  var d2=fracRaw(num,den);
+  var d3=null;
+  if(correct && correct.form==='mixed'){ var g3=gcd(num,den); d3={form:'frac',p:num/g3, q:den/g3}; } // not extracted
+  var d4=canon(A*aq, B*bq);  // swapped cross
+  return pickDistr(correct,[d2,d1,d3,d4]);
+}
+function gDiv(aw,ap,aq,bw,bp,bq){
+  var A=aw*aq+ap, B=bw*bq+bp;
+  var num=A*bq, den=aq*B;
+  var correct=canon(num,den);
+  var d1=canon(A*B, aq*bq);  // forgot to flip → did multiply
+  var d2=fracRaw(num,den);
+  var d3=canon(aq*B, A*bq);  // flipped wrong side (reciprocal of answer)
+  var d4=null;
+  if(correct && correct.form==='mixed'){ var g4=gcd(num,den); d4={form:'frac',p:num/g4, q:den/g4}; }
+  return pickDistr(correct,[d1,d2,d3,d4]);
+}
+var GEN={add:gAdd, sub:gSub, mul:gMul, div:gDiv};
+
+// ============ Explanations ============
+function explain(dir, variation, lang){
+  var aw=variation[0],ap=variation[1],aq=variation[2],bw=variation[3],bp=variation[4],bq=variation[5];
+  var A=aw*aq+ap, B=bw*bq+bp;
+  var aDisp=fmtOperand(aw,ap,aq), bDisp=fmtOperand(bw,bp,bq);
+  var num,den,opSym;
+  if(dir==='add'){num=A*bq+B*aq; den=aq*bq; opSym='+';}
+  else if(dir==='sub'){num=A*bq-B*aq; den=aq*bq; opSym='−';}
+  else if(dir==='mul'){num=A*B; den=aq*bq; opSym='×';}
+  else {num=A*bq; den=aq*B; opSym='÷';}
+  var res=canon(num,den), resStr=renderItem(res);
+  var rawStr='<span class="frac"><span class="fnum">'+num+'</span><span class="fden">'+den+'</span></span>';
+  var L={uk:{},en:{},es:{}};
+  if(dir==='add'){
+    L.uk='Зведи до спільного знаменника <b>'+aq*bq+'</b>, додай чисельники: '+rawStr+' = <strong>'+resStr+'</strong>. <em>Не забудь скоротити та виділити цілу.</em>';
+    L.en='Common denominator <b>'+aq*bq+'</b>, add numerators: '+rawStr+' = <strong>'+resStr+'</strong>. <em>Reduce and extract the whole.</em>';
+    L.es='Denominador común <b>'+aq*bq+'</b>, suma los numeradores: '+rawStr+' = <strong>'+resStr+'</strong>. <em>Simplifica y extrae el entero.</em>';
+  } else if(dir==='sub'){
+    L.uk='Спільний знаменник <b>'+aq*bq+'</b>, відніми чисельники: '+rawStr+' = <strong>'+resStr+'</strong>. <em>Скороти результат.</em>';
+    L.en='Common denominator <b>'+aq*bq+'</b>, subtract numerators: '+rawStr+' = <strong>'+resStr+'</strong>. <em>Reduce the result.</em>';
+    L.es='Denominador común <b>'+aq*bq+'</b>, resta los numeradores: '+rawStr+' = <strong>'+resStr+'</strong>. <em>Simplifica.</em>';
+  } else if(dir==='mul'){
+    L.uk='Чисельник × чисельник, знаменник × знаменник: '+A+'×'+B+' над '+aq+'×'+bq+' = '+rawStr+' = <strong>'+resStr+'</strong>. <em>Скороти та виділи цілу.</em>';
+    L.en='Multiply numerators and denominators: '+A+'×'+B+' over '+aq+'×'+bq+' = '+rawStr+' = <strong>'+resStr+'</strong>. <em>Reduce and extract whole.</em>';
+    L.es='Numerador × numerador, denominador × denominador: '+A+'×'+B+' sobre '+aq+'×'+bq+' = '+rawStr+' = <strong>'+resStr+'</strong>. <em>Simplifica.</em>';
+  } else {
+    L.uk='Переверни <b>другий</b> дріб і множ: '+aDisp+' × '+fracHTML(bq,B)+' = '+rawStr+' = <strong>'+resStr+'</strong>. <em>Перший НЕ перевертаємо. Скороти.</em>';
+    L.en='Flip the <b>second</b> fraction and multiply: '+aDisp+' × '+fracHTML(bq,B)+' = '+rawStr+' = <strong>'+resStr+'</strong>. <em>First stays. Reduce.</em>';
+    L.es='Invierte el <b>segundo</b> y multiplica: '+aDisp+' × '+fracHTML(bq,B)+' = '+rawStr+' = <strong>'+resStr+'</strong>. <em>El primero queda. Simplifica.</em>';
+  }
+  return L[lang];
+}
+
+// ============ i18n ============
+var i18n = {
+  uk: {
+    htmlLang:'uk', langLabel:'Мова:',
+    title:'➕ Арифметика дробів', quizTitle:'➕ Арифметика дробів',
+    subtitle:'Дії з дробами з різними знаменниками · 7 клас · 3 розділи · 30 завдань',
+    intro:'Привіт! Сьогодні відточуємо <strong>чотири дії</strong> з дробами:<ul><li>① ➕ ➖ Додавання та віднімання дробів з різними знаменниками</li><li>② ✖️ Множення дробів (включно з мішаними)</li><li>③ ➗ Ділення дробів (перевертай ДРУГИЙ і множ)</li></ul>Кожне завдання — 10 повторень на автоматизм. Числа щоразу нові, відповіді перемішуються. Помилився — підкажу метод, спробуєш ще. Бал — за відповідь <strong>з першої спроби</strong>. Завжди <strong>скорочуй</strong> результат і <strong>виділяй цілу частину</strong>!',
+    startBtn:'🚀 Почати', sectionBadge:'📚 Розділ {s}/3 · {name}', progress:'Питання {n} з {total}',
+    hintTitle:'💡 Підказка', explTitle:'✅ Правильно!',
+    nextBtn:'Далі →', finishBtn:'🏁 Результат',
+    resultTitle:'Готово!', firstLabel:'Правильно з першої спроби:', ofTotal:'з {n}',
+    percentLabel:'Відсоток:', gradeLabel:'Оцінка:', timeLabel:'Час:', restartBtn:'🔄 Ще раз (нові числа!)',
+    sections:{ add:'± Додавання та віднімання', mul:'× Множення', div:'÷ Ділення' },
+    instr:{ add:'Обчисли суму дробів. Не забудь скоротити!', sub:'Обчисли різницю дробів. Скороти.', mul:'Перемнож дроби. Скороти і виділи цілу.', div:'Поділи дроби (переверни ДРУГИЙ і множ).' },
+    hints:{
+      add:'Знайди спільний знаменник (перемнож знаменники), додай чисельники приведені до нього. Завжди СКОРОЧУЙ і ВИДІЛЯЙ ЦІЛУ якщо чисельник ≥ знаменника.',
+      sub:'Спільний знаменник, потім чисельники відніми. Завжди СКОРОЧУЙ результат.',
+      mul:'Чисельник × чисельник, знаменник × знаменник. Мішані спершу переведи в неправильні дроби. СКОРОТИ і ВИДІЛИ цілу.',
+      div:'Переверни ДРУГИЙ дріб і помнож. Перший НЕ перевертаємо. Мішані → неправильні. СКОРОТИ.'
+    },
+    motiv:{ perfect:'🏆 Бездоганно! Усі 30 з першої спроби — арифметика дробів у тебе на автоматі!', great:'🌟 Чудово! Майже все одразу. Ще трошки практики — й ідеал.', good:'👍 Добре! Міцна основа. Подивись де знадобились підказки і повтори ці типи.', ok:'💪 Непогано! Підказки спрацювали — прорепетируй слабкі дії ще раз.', tryAgain:'📚 Є над чим попрацювати. Спільний знаменник, скорочення і виділення цілої — три кити. Перечитай пояснення й запусти ще раз!', dontGiveUp:'🌱 Не здавайся! Кожен повтор — нові числа. Зосередься на одній дії за раз (спочатку +/−, потім ×, потім ÷).' }
+  },
+  en: {
+    htmlLang:'en', langLabel:'Language:',
+    title:'➕ Fraction arithmetic', quizTitle:'➕ Fraction arithmetic',
+    subtitle:'Operations on fractions with different denominators · grade 7 · 3 sections · 30 tasks',
+    intro:'Hi! Today we drill <strong>four operations</strong> on fractions:<ul><li>① ➕ ➖ Add and subtract fractions with different denominators</li><li>② ✖️ Multiply fractions (incl. mixed)</li><li>③ ➗ Divide fractions (flip the SECOND, multiply)</li></ul>Each task — 10 reps for automaticity. Numbers change every run; answers are shuffled. Wrong? I will remind you of the method and you try again. A point counts only for <strong>first-try</strong> correct. Always <strong>simplify</strong> and <strong>extract the whole part</strong>!',
+    startBtn:'🚀 Start', sectionBadge:'📚 Section {s}/3 · {name}', progress:'Question {n} of {total}',
+    hintTitle:'💡 Hint', explTitle:'✅ Correct!',
+    nextBtn:'Next →', finishBtn:'🏁 Result',
+    resultTitle:'Done!', firstLabel:'Correct on first try:', ofTotal:'of {n}',
+    percentLabel:'Score:', gradeLabel:'Grade:', timeLabel:'Time:', restartBtn:'🔄 Again (new numbers!)',
+    sections:{ add:'± Add & subtract', mul:'× Multiply', div:'÷ Divide' },
+    instr:{ add:'Find the sum. Simplify!', sub:'Find the difference. Simplify.', mul:'Multiply. Simplify and extract the whole.', div:'Divide (flip the SECOND fraction).' },
+    hints:{
+      add:'Common denominator (product of denominators works), add adjusted numerators. Always REDUCE and EXTRACT THE WHOLE if numerator ≥ denominator.',
+      sub:'Common denominator, then subtract numerators. Always REDUCE.',
+      mul:'Numerator × numerator, denominator × denominator. Convert mixed to improper first. REDUCE and EXTRACT WHOLE.',
+      div:'Flip the SECOND fraction and multiply. First one stays. Mixed → improper. REDUCE.'
+    },
+    motiv:{ perfect:'🏆 Flawless! All 30 first try — fraction arithmetic on autopilot!', great:'🌟 Great! Almost all right away. A bit more practice and it is perfect.', good:'👍 Good! Solid base. See where hints were needed and revisit.', ok:'💪 Not bad! Hints helped — drill weak operations again.', tryAgain:'📚 Room to grow. Common denominator, simplification, and extracting the whole are the three pillars. Read the explanations and try again!', dontGiveUp:'🌱 Do not give up! Each retry brings new numbers. Focus one operation at a time (+/−, then ×, then ÷).' }
+  },
+  es: {
+    htmlLang:'es', langLabel:'Idioma:',
+    title:'➕ Aritmética de fracciones', quizTitle:'➕ Aritmética de fracciones',
+    subtitle:'Operaciones con fracciones de distinto denominador · 1º ESO · 3 secciones · 30 ejercicios',
+    intro:'¡Hola! Hoy entrenamos las <strong>cuatro operaciones</strong> con fracciones:<ul><li>① ➕ ➖ Suma y resta con distinto denominador</li><li>② ✖️ Multiplicación (incluidas mixtas)</li><li>③ ➗ División (invierte la SEGUNDA y multiplica)</li></ul>Cada ejercicio — 10 repeticiones para automatizar. Los números cambian cada vez y las respuestas se mezclan. ¿Fallo? Te recuerdo el método y vuelves a intentar. El punto cuenta solo si aciertas <strong>al primer intento</strong>. ¡Siempre <strong>simplifica</strong> y <strong>extrae el entero</strong>!',
+    startBtn:'🚀 Empezar', sectionBadge:'📚 Sección {s}/3 · {name}', progress:'Pregunta {n} de {total}',
+    hintTitle:'💡 Pista', explTitle:'✅ ¡Correcto!',
+    nextBtn:'Siguiente →', finishBtn:'🏁 Resultado',
+    resultTitle:'¡Listo!', firstLabel:'Correctas al primer intento:', ofTotal:'de {n}',
+    percentLabel:'Porcentaje:', gradeLabel:'Nota:', timeLabel:'Tiempo:', restartBtn:'🔄 Otra vez (¡números nuevos!)',
+    sections:{ add:'± Suma y resta', mul:'× Multiplicación', div:'÷ División' },
+    instr:{ add:'Calcula la suma. ¡Simplifica!', sub:'Calcula la diferencia. Simplifica.', mul:'Multiplica. Simplifica y extrae el entero.', div:'Divide (invierte la SEGUNDA fracción).' },
+    hints:{
+      add:'Denominador común (producto de denominadores sirve), suma los numeradores ajustados. SIMPLIFICA y EXTRAE EL ENTERO si numerador ≥ denominador.',
+      sub:'Denominador común, luego resta numeradores. SIMPLIFICA siempre.',
+      mul:'Numerador × numerador, denominador × denominador. Pasa las mixtas a impropias antes. SIMPLIFICA y EXTRAE EL ENTERO.',
+      div:'Invierte la SEGUNDA fracción y multiplica. La primera queda. Mixtas → impropias. SIMPLIFICA.'
+    },
+    motiv:{ perfect:'🏆 ¡Impecable! Los 30 al primer intento — ¡aritmética de fracciones automática!', great:'🌟 ¡Genial! Casi todo enseguida. Un poco más y es perfecto.', good:'👍 ¡Bien! Buena base. Mira dónde pediste pista y repasa.', ok:'💪 ¡No está mal! Las pistas ayudaron — repite las operaciones débiles.', tryAgain:'📚 Hay margen. Denominador común, simplificar y extraer el entero — los tres pilares. Lee las explicaciones y vuelve a empezar.', dontGiveUp:'🌱 ¡No te rindas! Cada intento trae números nuevos. Céntrate en una operación cada vez (+/−, luego ×, luego ÷).' }
+  }
+};
+
+// ============ Tasks ============
+var SECTIONS = [
+  { id:'add', tasks:[
+    {dir:'add', v:[[0,1,2,0,1,3],[0,1,4,0,1,3],[0,2,3,0,1,4]]},
+    {dir:'add', v:[[0,3,4,0,2,5],[0,2,3,0,3,5],[0,5,6,0,2,9]]},
+    {dir:'add', v:[[0,3,4,0,5,6],[0,2,3,0,3,4],[0,5,6,0,7,8]]},
+    {dir:'add', v:[[1,1,2,0,2,3],[1,1,3,0,3,4],[2,1,4,0,2,3]]},
+    {dir:'add', v:[[1,1,2,1,1,3],[1,1,4,1,2,3],[2,1,3,1,1,4]]},
+    {dir:'sub', v:[[0,3,4,0,1,2],[0,5,6,0,1,3],[0,7,8,0,1,4]]},
+    {dir:'sub', v:[[0,5,6,0,1,2],[0,7,8,0,1,4],[0,3,4,0,1,3]]},
+    {dir:'sub', v:[[1,0,1,0,2,3],[1,0,1,0,3,5],[1,0,1,0,5,8]]},
+    {dir:'sub', v:[[1,1,2,0,1,3],[2,1,3,0,1,4],[1,2,3,0,1,2]]},
+    {dir:'sub', v:[[2,1,4,1,1,2],[3,1,3,1,1,2],[2,1,2,1,1,3]]}
+  ]},
+  { id:'mul', tasks:[
+    {dir:'mul', v:[[0,1,2,0,1,4],[0,1,3,0,1,5],[0,1,4,0,1,5]]},
+    {dir:'mul', v:[[0,2,3,0,3,4],[0,3,4,0,2,5],[0,4,5,0,5,6]]},
+    {dir:'mul', v:[[1,1,2,0,2,3],[2,1,3,0,3,4],[1,2,3,0,3,4]]},
+    {dir:'mul', v:[[0,2,3,1,1,2],[0,3,4,1,1,3],[0,1,2,1,1,4]]},
+    {dir:'mul', v:[[1,1,2,1,1,3],[1,2,3,1,1,4],[2,1,3,1,1,2]]},
+    {dir:'mul', v:[[0,3,5,0,2,7],[0,5,6,0,3,8],[0,7,8,0,2,9]]},
+    {dir:'mul', v:[[0,3,8,0,4,9],[0,5,6,0,9,10],[0,4,7,0,7,12]]},
+    {dir:'mul', v:[[0,2,3,0,2,3],[0,3,4,0,3,4],[0,1,2,0,1,2]]},
+    {dir:'mul', v:[[1,1,2,0,1,4],[2,1,3,0,1,5],[3,1,4,0,1,2]]},
+    {dir:'mul', v:[[2,1,2,1,2,3],[1,3,4,2,1,3],[2,2,3,1,1,4]]}
+  ]},
+  { id:'div', tasks:[
+    {dir:'div', v:[[0,1,2,0,1,3],[0,1,3,0,1,4],[0,1,4,0,1,5]]},
+    {dir:'div', v:[[0,1,2,0,3,4],[0,1,3,0,1,2],[0,2,5,0,3,4]]},
+    {dir:'div', v:[[0,3,4,0,1,2],[0,5,6,0,1,3],[0,4,5,0,1,4]]},
+    {dir:'div', v:[[0,3,4,1,1,2],[0,2,3,1,1,3],[0,5,6,1,1,4]]},
+    {dir:'div', v:[[1,1,2,0,1,2],[2,1,3,0,2,3],[1,2,3,0,1,4]]},
+    {dir:'div', v:[[1,1,2,1,1,3],[2,1,3,1,1,4],[1,2,3,1,1,2]]},
+    {dir:'div', v:[[0,3,5,0,2,5],[0,4,7,0,3,7],[0,5,9,0,4,9]]},
+    {dir:'div', v:[[0,7,8,0,3,4],[0,5,6,0,7,12],[0,3,8,0,1,4]]},
+    {dir:'div', v:[[2,1,2,0,1,4],[3,1,3,0,1,2],[1,1,4,0,1,5]]},
+    {dir:'div', v:[[2,2,3,1,1,2],[3,1,4,2,1,3],[2,3,5,1,2,3]]}
+  ]}
+];
+
+// ============ State ============
+var currentLang='uk', runtime=[], current=0, firstTryCorrect=0, attemptedWrong=false, answeredCorrect=false;
+var quizStart=null, timerInt=null, finalSec=null;
+function t(){ return i18n[currentLang]; }
+function fmt(s,vars){ return s.replace(/\{(\w+)\}/g, function(_,k){ return vars[k]; }); }
+function fmtTime(sec){ var m=Math.floor(sec/60), s=sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var tmp=a[i]; a[i]=a[j]; a[j]=tmp; } return a; }
+
+function buildRuntime(){
+  runtime=[];
+  for (var s=0;s<SECTIONS.length;s++){
+    var sec=SECTIONS[s];
+    for (var ti=0;ti<sec.tasks.length;ti++){
+      var task=sec.tasks[ti];
+      var vi=Math.floor(Math.random()*task.v.length);
+      var variation=task.v[vi];
+      var res=GEN[task.dir].apply(null, variation);
+      var options=[{item:res.correct, correct:true}];
+      for (var k=0;k<res.distractors.length;k++) options.push({item:res.distractors[k], correct:false});
+      shuffle(options);
+      var correctIdx=0; for (var oi=0;oi<options.length;oi++) if(options[oi].correct) correctIdx=oi;
+      runtime.push({ sectionId:sec.id, sectionIdx:s, dir:task.dir, variation:variation, options:options, correctIdx:correctIdx });
+    }
+  }
+}
+
+function setLanguage(lang){
+  currentLang=lang; document.documentElement.lang=t().htmlLang; document.getElementById('lang-select').value=lang;
+  renderStart();
+  if (!document.getElementById('quiz-screen').classList.contains('hidden')) renderQuestion(true);
+  if (!document.getElementById('result-screen').classList.contains('hidden')) renderResult();
+}
+function renderStart(){
+  document.getElementById('lang-label').textContent=t().langLabel;
+  document.getElementById('start-title').innerHTML=t().title;
+  document.getElementById('start-subtitle').textContent=t().subtitle;
+  document.getElementById('start-intro').innerHTML=t().intro;
+  document.getElementById('start-btn').textContent=t().startBtn;
+}
+function startQuiz(){
+  buildRuntime(); current=0; firstTryCorrect=0; finalSec=null;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now(); if (timerInt) clearInterval(timerInt); timerInt=setInterval(updateTimer,250); updateTimer();
+  renderQuestion(false);
+}
+function updateTimer(){ if(quizStart===null) return; document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000)); }
+
+function renderQuestion(keepState){
+  var rt=runtime[current];
+  if (!keepState){ attemptedWrong=false; answeredCorrect=false; rt.wrongSet={}; }
+  document.getElementById('section-badge').textContent=fmt(t().sectionBadge,{s:rt.sectionIdx+1,name:t().sections[rt.sectionId]});
+  document.getElementById('progress-text').textContent=fmt(t().progress,{n:current+1,total:runtime.length});
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('question-text').innerHTML=t().instr[rt.dir];
+  document.getElementById('expr').innerHTML=renderSource(rt.dir, rt.variation);
+
+  var oc=document.getElementById('options-container'); oc.innerHTML='';
+  for (var i=0;i<rt.options.length;i++){
+    (function(idx){
+      var btn=document.createElement('button'); btn.className='option'; btn.innerHTML=renderItem(rt.options[idx].item);
+      if (rt.wrongSet && rt.wrongSet[idx]){ btn.classList.add('wrong'); btn.disabled=true; }
+      if (answeredCorrect){ btn.disabled=true; if (idx===rt.correctIdx) btn.classList.add('correct'); }
+      btn.onclick=function(){ selectAnswer(idx); };
+      oc.appendChild(btn);
+    })(i);
+  }
+
+  var fb=document.getElementById('feedback-container'); fb.innerHTML='';
+  if (answeredCorrect){
+    var ex=document.createElement('div'); ex.className='feedback explanation';
+    ex.innerHTML='<div class="feedback-title">'+t().explTitle+'</div>'+explain(rt.dir, rt.variation, currentLang);
+    fb.appendChild(ex);
+  } else if (attemptedWrong){
+    var h=document.createElement('div'); h.className='feedback hint';
+    h.innerHTML='<div class="feedback-title">'+t().hintTitle+'</div>'+t().hints[rt.dir];
+    fb.appendChild(h);
+  }
+
+  var na=document.getElementById('next-area'); na.innerHTML='';
+  if (answeredCorrect){
+    var nb=document.createElement('button'); nb.className='btn btn-next';
+    nb.textContent=(current+1<runtime.length)?t().nextBtn:t().finishBtn; nb.onclick=nextQuestion; na.appendChild(nb);
+  }
+}
+
+function selectAnswer(idx){
+  if (answeredCorrect) return;
+  var rt=runtime[current];
+  if (rt.wrongSet && rt.wrongSet[idx]) return;
+  if (idx===rt.correctIdx){ answeredCorrect=true; if (!attemptedWrong) firstTryCorrect++; }
+  else { if (!rt.wrongSet) rt.wrongSet={}; rt.wrongSet[idx]=true; attemptedWrong=true; }
+  renderQuestion(true);
+}
+function nextQuestion(){ current++; if (current<runtime.length) renderQuestion(false); else showResult(); }
+
+function getGrade(p){ if(p>=95)return 12; if(p>=88)return 11; if(p>=80)return 10; if(p>=73)return 9; if(p>=66)return 8; if(p>=59)return 7; if(p>=50)return 6; if(p>=41)return 5; if(p>=33)return 4; if(p>=25)return 3; if(p>=13)return 2; return 1; }
+function motivKey(g){ if(g===12)return 'perfect'; if(g>=10)return 'great'; if(g>=8)return 'good'; if(g>=6)return 'ok'; if(g>=4)return 'tryAgain'; return 'dontGiveUp'; }
+function gradeEmoji(g){ if(g===12)return '🏆'; if(g>=10)return '🌟'; if(g>=8)return '👍'; if(g>=6)return '💪'; if(g>=4)return '📚'; return '🌱'; }
+
+function showResult(){
+  if (timerInt){ clearInterval(timerInt); timerInt=null; }
+  finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  renderResult();
+}
+function renderResult(){
+  var total=runtime.length, percent=Math.round((firstTryCorrect/total)*100), grade=getGrade(percent);
+  document.getElementById('result-title').textContent=t().resultTitle;
+  document.getElementById('result-first-label').textContent=t().firstLabel;
+  document.getElementById('result-first').textContent=firstTryCorrect;
+  document.getElementById('result-of-total').textContent=fmt(t().ofTotal,{n:total});
+  document.getElementById('result-percent-label').textContent=t().percentLabel;
+  document.getElementById('result-percent').textContent=percent+'%';
+  document.getElementById('result-time-label').textContent=t().timeLabel;
+  document.getElementById('result-time').textContent=fmtTime(finalSec||0);
+  document.getElementById('result-grade-label').textContent=t().gradeLabel;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-motivation').innerHTML=t().motiv[motivKey(grade)];
+  document.getElementById('result-emoji').textContent=gradeEmoji(grade);
+  document.getElementById('result-restart-btn').textContent=t().restartBtn;
+}
+function restartQuiz(){ document.getElementById('result-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden'); }
+
+renderStart();
+</script>
+</body>
+</html>
