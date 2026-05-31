@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Day 1 · Linear Algebra — English vocabulary for math interviews</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 60%, #06b6d4 100%);
+    min-height: 100vh; padding: 14px;
+    color: #0f172a; -webkit-tap-highlight-color: transparent;
+  }
+  .container {
+    background: #fff; border-radius: 18px; padding: 22px 18px 18px;
+    max-width: 680px; margin: 0 auto; box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+    position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4); }
+
+  h1 { color: #1e3a8a; font-size: 1.45em; line-height: 1.2; margin: 6px 0 4px; }
+  .subtitle { color: #64748b; font-size: 0.92em; margin-bottom: 14px; }
+  .intro { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 14px; border-radius: 10px; font-size: 0.96em; line-height: 1.5; margin: 12px 0; }
+  .intro ul { margin: 6px 0 0 18px; }
+  .intro li { margin: 3px 0; }
+
+  .btn {
+    border: none; padding: 13px 22px; font-size: 1em; font-weight: 700;
+    border-radius: 11px; cursor: pointer; font-family: inherit;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #fff;
+    box-shadow: 0 5px 15px rgba(30,58,138,0.35); transition: transform .12s, box-shadow .12s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-block { display: block; width: 100%; margin-top: 12px; }
+  .btn-next { background: linear-gradient(135deg, #059669, #10b981); box-shadow: 0 5px 15px rgba(5,150,105,0.35); }
+  .btn-audio { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 12px rgba(124,58,237,0.3); padding: 11px 18px; font-size: 0.95em; }
+  .btn-ghost { background: transparent; color: #64748b; border: 2px solid #e2e8f0; box-shadow: none; padding: 11px 16px; }
+
+  .top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .section-badge { background: #1e3a8a; color: #fff; font-size: 0.78em; font-weight: 700; padding: 4px 10px; border-radius: 14px; }
+  .timer-badge { background: #eff6ff; color: #1e3a8a; font-weight: 700; font-size: 0.85em; padding: 4px 10px; border-radius: 10px; font-variant-numeric: tabular-nums; }
+  .progress-info { color: #475569; font-size: 0.85em; font-weight: 600; text-align: center; margin: 6px 0; }
+  .progress-bar { background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden; margin-bottom: 14px; }
+  .progress-fill { background: linear-gradient(90deg, #1e3a8a, #06b6d4); height: 100%; transition: width .35s ease; }
+
+  .task-type { display: inline-block; background: #f1f5f9; color: #475569; font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 6px; margin-bottom: 8px; text-transform: uppercase; }
+  .prompt { font-size: 1.06em; line-height: 1.5; margin-bottom: 12px; color: #0f172a; }
+  .prompt b, .prompt strong { color: #1e3a8a; }
+  .prompt em.blank { display: inline-block; min-width: 60px; border-bottom: 2px solid #94a3b8; height: 1.3em; margin: 0 2px; }
+  .cloze-sentence { font-size: 1.1em; line-height: 1.6; background: #f8fafc; padding: 12px 14px; border-radius: 10px; margin: 8px 0 14px; }
+
+  .options { display: grid; gap: 9px; }
+  .option {
+    background: #fff; border: 2px solid #e2e8f0; padding: 13px 14px; border-radius: 11px;
+    cursor: pointer; font-size: 0.98em; font-family: inherit; color: #0f172a;
+    text-align: left; transition: all .12s; -webkit-appearance: none; appearance: none;
+    line-height: 1.4;
+  }
+  .option:active { transform: translateY(1px); }
+  .option:disabled { cursor: not-allowed; }
+  .option.wrong { background: #fef2f2; border-color: #dc2626; color: #7f1d1d; opacity: 0.75; }
+  .option.correct { background: #f0fdf4; border-color: #16a34a; color: #14532d; font-weight: 700; }
+
+  .freetext-area textarea {
+    width: 100%; min-height: 100px; border: 2px solid #cbd5e1; border-radius: 11px;
+    padding: 11px 12px; font-family: inherit; font-size: 0.97em; line-height: 1.5;
+    color: #0f172a; resize: vertical; -webkit-appearance: none;
+  }
+  .freetext-area textarea:focus { outline: none; border-color: #3b82f6; }
+  .freetext-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .freetext-actions .btn { flex: 1; min-width: 130px; }
+
+  .keywords { margin-top: 10px; }
+  .kw { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 0.85em; font-weight: 600; margin: 3px 3px 3px 0; }
+  .kw.hit { background: #f0fdf4; color: #14532d; border: 1px solid #bbf7d0; }
+  .kw.miss { background: #fef2f2; color: #7f1d1d; border: 1px solid #fecaca; }
+  .your-answer { background: #f8fafc; padding: 10px 12px; border-radius: 9px; font-style: italic; color: #475569; margin: 8px 0; font-size: 0.93em; line-height: 1.45; }
+  .model-answer { background: #f0fdfa; padding: 10px 12px; border-radius: 9px; font-size: 0.95em; line-height: 1.5; margin: 8px 0; border-left: 3px solid #14b8a6; }
+
+  .feedback { margin-top: 12px; padding: 12px 14px; border-radius: 11px; font-size: 0.96em; line-height: 1.5; animation: slideIn .22s ease; }
+  .feedback.hint { background: #fffbeb; color: #78350f; border-left: 4px solid #f59e0b; }
+  .feedback.explanation { background: #f0fdf4; color: #14532d; border-left: 4px solid #22c55e; }
+  .feedback-title { font-weight: 700; margin-bottom: 4px; font-size: 0.94em; }
+  .ru-hint { display: block; margin-top: 6px; color: #92400e; font-size: 0.9em; }
+  .ru-hint::before { content: '🇷🇺 '; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .next-area { margin-top: 14px; }
+
+  .audio-prompt { background: linear-gradient(135deg, #f5f3ff, #ede9fe); border: 2px dashed #a78bfa; padding: 14px; border-radius: 12px; text-align: center; margin: 8px 0 14px; }
+  .audio-prompt .label { font-size: 0.85em; color: #6d28d9; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px; }
+
+  .result-screen { text-align: center; padding: 6px 4px; }
+  .result-emoji { font-size: 3.6em; margin: 8px 0; }
+  .result-score { font-size: 3em; font-weight: 800; color: #1e3a8a; margin: 4px 0; }
+  .result-meta { display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 10px 0; color: #475569; }
+  .result-breakdown { background: #f8fafc; padding: 12px 14px; border-radius: 11px; margin: 14px 0; text-align: left; font-size: 0.93em; line-height: 1.6; }
+  .result-breakdown h3 { color: #1e3a8a; font-size: 0.92em; margin-bottom: 6px; font-weight: 700; }
+  .breakdown-row { display: flex; justify-content: space-between; padding: 3px 0; }
+  .motivation { background: #eff6ff; padding: 12px 14px; border-radius: 11px; color: #1e3a8a; font-style: italic; margin: 12px 0; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 480px) {
+    .container { padding: 18px 14px 14px; border-radius: 14px; }
+    h1 { font-size: 1.28em; }
+    .prompt { font-size: 1em; }
+    .option { padding: 12px; font-size: 0.95em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== START SCREEN ===== -->
+  <div id="start-screen">
+    <h1>📐 Day 1 · Linear Algebra</h1>
+    <div class="subtitle">English vocabulary booster — math interview prep · B2/C1</div>
+    <div class="intro">
+      Welcome! Today we drill <b>linear algebra</b> vocabulary in English — the foundation for data theory, ML, and most master-level math.
+      <ul>
+        <li>📋 <b>20 tasks</b>, six formats: definitions · cloze · collocations · audio · free-writing · synonyms</li>
+        <li>🎧 <b>Audio tasks</b> use your phone/tablet's voice (tap 🔊 to listen)</li>
+        <li>💡 Wrong answer → you get a <b>hint in Russian</b> and try again. A point counts only if you got it <b>first try</b>.</li>
+        <li>✍️ For free-writing tasks — type a short definition in English; I'll check which key phrases you used.</li>
+        <li>⏱️ Take your time. Target: ~30-45 min.</li>
+      </ul>
+    </div>
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Start</button>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div id="quiz-screen" class="hidden">
+    <div class="top-row">
+      <span class="section-badge" id="section-badge">—</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-info">Question 1 of 20</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div id="task-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1 id="result-title">Done!</h1>
+      <div class="result-score"><span id="result-percent">0</span>%</div>
+      <div class="result-meta">
+        <div>First-try correct: <b id="result-correct">0</b> of <b id="result-total">20</b></div>
+        <div>Time: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="result-breakdown">
+        <h3>By task type</h3>
+        <div id="result-breakdown-list"></div>
+      </div>
+      <div class="motivation" id="result-motivation"></div>
+      <button class="btn btn-block" onclick="restartQuiz()">🔄 Try again (new order)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ TASKS ============
+var TASKS = [
+  // ----- Section 1: Definition match (5) -----
+  {
+    type: 'mc', section: 'Definitions',
+    prompt: 'Which is the correct definition of <b>eigenvalue</b>?',
+    options: [
+      'A scalar λ such that Av = λv for some non-zero vector v',
+      'A vector that gets stretched but not rotated by a matrix',
+      'A coordinate of a vector in the standard basis',
+      'The largest diagonal entry of a triangular matrix'
+    ],
+    correct: 0,
+    hint: 'Eigenvalue — это <b>число (скаляр)</b>, на которое умножается собственный <b>вектор</b> при действии матрицы. Вариант про "vector that gets stretched" — это eigen<b>vector</b>, не eigen<b>value</b>.',
+    explain: '<b>Eigenvalue</b> is the scalar; <b>eigenvector</b> is the vector. The equation Av = λv ties them together: λ is the eigenvalue, v is the eigenvector.'
+  },
+  {
+    type: 'mc', section: 'Definitions',
+    prompt: 'The <b>span</b> of a set of vectors is:',
+    options: [
+      'The set of all linear combinations of those vectors',
+      'The number of vectors in the set',
+      'The vector of maximum length in the set',
+      'The angle between any two of the vectors'
+    ],
+    correct: 0,
+    hint: 'Span — это <b>линейная оболочка</b>: множество всех векторов, которые можно получить как c₁v₁ + c₂v₂ + ... — то есть все <b>линейные комбинации</b>.',
+    explain: 'span(v₁,...,vₙ) = { c₁v₁ + ... + cₙvₙ : cᵢ ∈ ℝ }. It is always a subspace.'
+  },
+  {
+    type: 'mc', section: 'Definitions',
+    prompt: 'A <b>basis</b> of a vector space V is:',
+    options: [
+      'A linearly independent set of vectors that spans V',
+      'The set of all vectors in V',
+      'The zero vector of V',
+      'The standard unit vectors e₁, e₂, ..., eₙ'
+    ],
+    correct: 0,
+    hint: 'Basis — это <b>базис</b>: два условия одновременно — (1) линейная независимость, (2) span = V. Стандартный базис {e₁,e₂,...} — это <i>один</i> из базисов, но не определение.',
+    explain: 'Two requirements: <b>linearly independent</b> AND <b>spanning</b>. The size of any basis is the <b>dimension</b> of V.'
+  },
+  {
+    type: 'mc', section: 'Definitions',
+    prompt: 'Two vectors are <b>orthogonal</b> if:',
+    options: [
+      'Their inner product (dot product) is zero',
+      'They point in the same direction',
+      'They have unit length',
+      'They lie on the same line through the origin'
+    ],
+    correct: 0,
+    hint: 'Orthogonal — <b>ортогональные</b> = перпендикулярные. Формальный критерий: ⟨u, v⟩ = 0.',
+    explain: 'Orthogonal ↔ ⟨u, v⟩ = 0. If they are also unit-length, they are <b>orthonormal</b>.'
+  },
+  {
+    type: 'mc', section: 'Definitions',
+    prompt: 'The <b>rank</b> of a matrix A is:',
+    options: [
+      'The dimension of its column space (= dimension of its row space)',
+      'The number of rows',
+      'The largest absolute value of its eigenvalues',
+      'The determinant'
+    ],
+    correct: 0,
+    hint: 'Rank — <b>ранг</b>: размерность столбцового (или строчного — они совпадают) пространства. Не путать с количеством строк (это просто dimension of domain).',
+    explain: 'rank(A) = dim(col A) = dim(row A). It tells you "how many independent directions" the matrix can produce.'
+  },
+
+  // ----- Section 2: Cloze fill (4) -----
+  {
+    type: 'mc', section: 'Cloze (fill the blank)',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'If a matrix A is invertible, then A is also called <em class="blank"></em>.',
+    options: ['non-singular', 'non-unique', 'non-square', 'non-zero'],
+    correct: 0,
+    hint: '<b>Singular</b> matrix — вырожденная (det = 0, необратимая). Значит обратимая = <b>non-singular</b>.',
+    explain: 'Invertible ⇔ non-singular ⇔ det(A) ≠ 0 ⇔ rank(A) = n (for n×n matrix).'
+  },
+  {
+    type: 'mc', section: 'Cloze (fill the blank)',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'The columns of a matrix form a basis if and only if they are linearly <em class="blank"></em>.',
+    options: ['independent', 'dependent', 'orthogonal', 'unit'],
+    correct: 0,
+    hint: 'Linearly <b>independent</b> — линейно независимые. Если бы были <i>dependent</i>, базиса бы не получилось (одна колонка лишняя).',
+    explain: 'For square A: columns form a basis ⇔ linearly independent ⇔ A invertible ⇔ det ≠ 0.'
+  },
+  {
+    type: 'mc', section: 'Cloze (fill the blank)',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'A square matrix can be <em class="blank"></em> if it has n linearly independent eigenvectors.',
+    options: ['diagonalized', 'inverted', 'transposed', 'normalized'],
+    correct: 0,
+    hint: 'Диагонализация (diagonalize) — представить A = PDP⁻¹, где D — диагональная. Требует именно n линейно независимых собственных <b>векторов</b>.',
+    explain: 'A is diagonalizable ⇔ ∃ basis of eigenvectors ⇔ A = PDP⁻¹ with D diagonal of eigenvalues.'
+  },
+  {
+    type: 'mc', section: 'Cloze (fill the blank)',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'The <em class="blank"></em> of a matrix A is the set of vectors x such that Ax = 0.',
+    options: ['kernel (null space)', 'image (range)', 'spectrum', 'span'],
+    correct: 0,
+    hint: 'То, что даёт <i>ноль</i> — это <b>ядро</b> (kernel) или <b>нулевое пространство</b> (null space). Image / range — наоборот, это все возможные Ax.',
+    explain: 'ker(A) = {x : Ax = 0}. Also called "null space" — synonyms in linear algebra.'
+  },
+
+  // ----- Section 3: Collocations (4) -----
+  {
+    type: 'mc', section: 'Collocations',
+    promptHTML: 'Which verb is natural here?',
+    sentence: 'We need to <em class="blank"></em> the system of equations.',
+    options: ['solve', 'make', 'build', 'decide'],
+    correct: 0,
+    hint: 'Стандартная коллокация в математике — "<b>solve</b> an equation / a system". Не "decide" (это для проблем-выборов) и не "make" (это калька).',
+    explain: '"To solve a system / equation / problem" — the standard verb in math English. "To address / tackle a problem" is also natural for harder problems.'
+  },
+  {
+    type: 'mc', section: 'Collocations',
+    promptHTML: 'Pick the natural adjective:',
+    sentence: 'The matrix is <em class="blank"></em> since its determinant is zero.',
+    options: ['singular', 'strange', 'odd', 'unique'],
+    correct: 0,
+    hint: '"Singular" matrix — <b>вырожденная</b> (det = 0). "Strange/odd" — нематематические слова. "Unique" — это про единственность чего-то.',
+    explain: 'singular matrix ⇔ det = 0 ⇔ non-invertible. Opposite: non-singular = invertible.'
+  },
+  {
+    type: 'mc', section: 'Collocations',
+    promptHTML: 'Pick the natural verb in math English:',
+    sentence: 'Let us <em class="blank"></em> the eigenvalues of A.',
+    options: ['compute', 'count', 'make', 'produce'],
+    correct: 0,
+    hint: '"<b>Compute</b>" — вычислить (стандартное academic English). "Calculate" тоже подходит. "Count" — это «посчитать сколько штук», не значение.',
+    explain: 'Standard verbs in this context: <b>compute / calculate / find / determine</b> the eigenvalues. Avoid "count" (only for cardinality) or "make" (calque from other languages).'
+  },
+  {
+    type: 'mc', section: 'Collocations',
+    promptHTML: 'Pick the standard verb in math English:',
+    sentence: 'The eigenvector <em class="blank"></em> to the eigenvalue λ.',
+    options: ['corresponds', 'belongs', 'matches', 'fits'],
+    correct: 0,
+    hint: '"<b>Corresponds to</b>" — общепринятая коллокация в линейной алгебре. "Eigenvector corresponding to eigenvalue λ" — почти клише в учебниках.',
+    explain: 'Standard phrase: "eigenvector corresponding to (the) eigenvalue λ". Also acceptable: "associated with". Avoid "belongs / matches / fits" in this context.'
+  },
+
+  // ----- Section 4: Audio (3) -----
+  {
+    type: 'audio_mc', section: 'Listening',
+    audioText: 'orthonormal',
+    promptHTML: '🔊 Listen, then choose the meaning of the term you heard:',
+    options: [
+      'Unit-length vectors that are mutually orthogonal',
+      'Vectors aligned along the standard coordinate axes',
+      'Vectors of equal length in any directions',
+      'Vectors generated from the rows of a matrix'
+    ],
+    correct: 0,
+    hint: 'Услышал <b>orthonormal</b> — это "ортогональные + единичной длины" одновременно. Орто + норма (norm = length).',
+    explain: 'Orthonormal = orthogonal + unit norm. The standard basis {e₁,e₂,...} is orthonormal. Often abbreviated "ON basis".'
+  },
+  {
+    type: 'audio_mc', section: 'Listening',
+    audioText: 'eigendecomposition',
+    promptHTML: '🔊 Listen. What does this term refer to?',
+    options: [
+      'Factoring A as PDP⁻¹ using eigenvalues and eigenvectors',
+      'Splitting A into upper and lower triangular parts',
+      'Reducing A to row echelon form',
+      'Computing the inverse of A'
+    ],
+    correct: 0,
+    hint: 'Eigen-decomposition — собственное (спектральное) разложение: A = PDP⁻¹, где D диагональная из собственных значений, P из собственных векторов.',
+    explain: 'Also called <b>spectral decomposition</b>. Exists when A has n linearly independent eigenvectors. SVD is the more general cousin (exists for any matrix).'
+  },
+  {
+    type: 'audio_mc', section: 'Listening',
+    audioText: 'trace',
+    promptHTML: '🔊 Listen. In linear algebra, this term means:',
+    options: [
+      'The sum of the diagonal entries of a square matrix',
+      'A path through a graph',
+      'The boundary of a region',
+      'The history of computations'
+    ],
+    correct: 0,
+    hint: '<b>Trace</b> (tr) — след матрицы, сумма диагональных элементов. Полезный факт: tr(A) = сумма всех собственных значений (с кратностью).',
+    explain: 'tr(A) = Σ aᵢᵢ. Key properties: tr(AB) = tr(BA); tr(A) equals the sum of eigenvalues.'
+  },
+
+  // ----- Section 5: Free-text definition (2) -----
+  {
+    type: 'freetext', section: 'Define in your own words',
+    promptHTML: 'In your own English, define <b>linear independence</b>. (1-2 sentences.)',
+    placeholder: 'A set of vectors is linearly independent if ...',
+    modelAnswer: 'A set of vectors {v₁, …, vₙ} is <b>linearly independent</b> if no vector in the set can be written as a <b>linear combination</b> of the others. Equivalently, the <b>only solution</b> to c₁v₁ + … + cₙvₙ = <b>0</b> is c₁ = c₂ = … = cₙ = 0.',
+    keyPhrases: ['linear combination', 'only solution', 'zero', 'no vector'],
+    hint: 'Two equivalent ways to phrase: (a) "no vector is a linear combination of the others", or (b) "the only c₁,…,cₙ making c₁v₁+…+cₙvₙ = 0 are all zeros". Постарайся включить фразу "<b>linear combination</b>" и идею про "only the trivial solution".'
+  },
+  {
+    type: 'freetext', section: 'Define in your own words',
+    promptHTML: 'Briefly explain what <b>singular value decomposition (SVD)</b> is. (1-2 sentences.)',
+    placeholder: 'SVD factorizes any matrix A as ...',
+    modelAnswer: '<b>SVD</b> factorizes any matrix A (not necessarily square) as A = U Σ V<sup>T</sup>, where U and V are <b>orthogonal</b> matrices and Σ is a <b>diagonal</b> matrix of non-negative <b>singular values</b>.',
+    keyPhrases: ['factorize', 'orthogonal', 'diagonal', 'singular values'],
+    hint: 'Ключевые элементы определения: (1) "factorize / decompose", (2) "orthogonal" matrices U, V, (3) "diagonal" matrix Σ, (4) "singular values" (неотрицательные). SVD работает для <i>любой</i> матрицы — это её сила.'
+  },
+
+  // ----- Section 6: Synonyms (2) -----
+  {
+    type: 'mc', section: 'Synonyms',
+    promptHTML: 'Choose the closest academic synonym for <b>derive</b> (as in "derive a formula"):',
+    options: [
+      'obtain by reasoning from given premises',
+      'remove or take away',
+      'divide into parts',
+      'replace with something equivalent'
+    ],
+    correct: 0,
+    hint: 'To <b>derive</b> a formula — вывести формулу, получить путём логического рассуждения. Не путать с <i>derivative</i> (производная) — это другое.',
+    explain: '"Derive" in math = obtain through logical steps. Compare: <b>derivation</b> = the act of deriving; <b>derivative</b> = the mathematical concept df/dx. Same root, different meanings.'
+  },
+  {
+    type: 'mc', section: 'Synonyms',
+    promptHTML: 'For a linear map T: V → W, which is a common synonym for the <b>range</b> of T?',
+    options: ['image', 'domain', 'kernel', 'span'],
+    correct: 0,
+    hint: '<b>Range</b> = <b>image</b> = образ отображения = {T(v) : v ∈ V}. <i>Domain</i> — это область определения (V), <i>kernel</i> — наоборот, что отображается в 0.',
+    explain: 'range(T) = image(T) = im(T) = {T(v) : v ∈ V}. The rank-nullity theorem ties dim(image) + dim(kernel) = dim(domain).'
+  }
+];
+
+// ============ STATE ============
+var current = 0;
+var firstTryCorrect = 0;
+var attemptedWrong = false;
+var answeredCorrect = false;
+var perTypeStats = {};
+var quizStart = null;
+var timerInt = null;
+var finalSec = null;
+var wrongIdx = {};
+var shuffled = []; // task index order
+
+// ============ HELPERS ============
+function fmtTime(sec) { var m = Math.floor(sec/60), s = sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function speak(text) {
+  if (!window.speechSynthesis) { alert('Sorry, your browser does not support speech synthesis.'); return; }
+  try { speechSynthesis.cancel(); } catch(e) {}
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.85; u.pitch = 1.0;
+  speechSynthesis.speak(u);
+}
+function shuffle(a) { for (var i=a.length-1; i>0; i--) { var j = Math.floor(Math.random()*(i+1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+function startQuiz() {
+  shuffled = TASKS.map(function(_, i){ return i; });
+  // keep section grouping but shuffle within section
+  // for first run, keep original order (clearer for testing)
+  current = 0; firstTryCorrect = 0; perTypeStats = {};
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart = Date.now();
+  if (timerInt) clearInterval(timerInt);
+  timerInt = setInterval(updateTimer, 250);
+  updateTimer();
+  renderTask();
+}
+function updateTimer() {
+  if (quizStart === null) return;
+  document.getElementById('timer').textContent = '⏱️ ' + fmtTime(Math.floor((Date.now()-quizStart)/1000));
+}
+
+function renderTask() {
+  attemptedWrong = false;
+  answeredCorrect = false;
+  wrongIdx = {};
+
+  var idx = shuffled[current];
+  var t = TASKS[idx];
+  document.getElementById('section-badge').textContent = t.section;
+  document.getElementById('progress-info').textContent = 'Question ' + (current+1) + ' of ' + TASKS.length;
+  document.getElementById('progress-fill').style.width = (((current+1)/TASKS.length)*100) + '%';
+
+  var tc = document.getElementById('task-container');
+  tc.innerHTML = '';
+
+  // type label
+  var typeLabel = document.createElement('div');
+  typeLabel.className = 'task-type';
+  typeLabel.textContent = (t.type === 'mc' ? 'Multiple choice' :
+                          t.type === 'audio_mc' ? '🎧 Listen' :
+                          t.type === 'freetext' ? '✍️ Write' : t.type);
+  tc.appendChild(typeLabel);
+
+  // prompt
+  if (t.type === 'audio_mc') {
+    var ap = document.createElement('div');
+    ap.className = 'audio-prompt';
+    ap.innerHTML = '<div class="label">TAP TO LISTEN</div>';
+    var btn = document.createElement('button');
+    btn.className = 'btn btn-audio';
+    btn.innerHTML = '🔊 Play';
+    btn.onclick = function(){ speak(t.audioText); };
+    ap.appendChild(btn);
+    tc.appendChild(ap);
+    // auto-play once
+    setTimeout(function(){ speak(t.audioText); }, 250);
+  }
+
+  var pr = document.createElement('div');
+  pr.className = 'prompt';
+  pr.innerHTML = t.promptHTML || t.prompt || '';
+  tc.appendChild(pr);
+
+  if (t.sentence) {
+    var sn = document.createElement('div');
+    sn.className = 'cloze-sentence';
+    sn.innerHTML = t.sentence;
+    tc.appendChild(sn);
+  }
+
+  if (t.type === 'mc' || t.type === 'audio_mc') {
+    renderMC(t, tc);
+  } else if (t.type === 'freetext') {
+    renderFreetext(t, tc);
+  }
+
+  document.getElementById('feedback-container').innerHTML = '';
+  document.getElementById('next-area').innerHTML = '';
+}
+
+function renderMC(t, tc) {
+  var oc = document.createElement('div');
+  oc.className = 'options';
+  for (var i = 0; i < t.options.length; i++) {
+    (function(idx){
+      var btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = t.options[idx];
+      btn.onclick = function(){ selectMC(t, idx, btn); };
+      oc.appendChild(btn);
+    })(i);
+  }
+  tc.appendChild(oc);
+}
+
+function selectMC(t, choice, btnEl) {
+  if (answeredCorrect) return;
+  if (wrongIdx[choice]) return;
+  if (choice === t.correct) {
+    answeredCorrect = true;
+    if (!attemptedWrong) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+    btnEl.classList.add('correct');
+    var opts = document.querySelectorAll('#task-container .option');
+    opts.forEach(function(o){ o.disabled = true; });
+    showExplanation(t);
+    showNextButton();
+  } else {
+    wrongIdx[choice] = true;
+    attemptedWrong = true;
+    btnEl.classList.add('wrong');
+    btnEl.disabled = true;
+    showHint(t);
+  }
+}
+
+function renderFreetext(t, tc) {
+  var area = document.createElement('div');
+  area.className = 'freetext-area';
+  var ta = document.createElement('textarea');
+  ta.placeholder = t.placeholder || 'Write your definition in English…';
+  ta.id = 'freetext-input';
+  area.appendChild(ta);
+  var actions = document.createElement('div');
+  actions.className = 'freetext-actions';
+  var submit = document.createElement('button');
+  submit.className = 'btn';
+  submit.innerHTML = '✅ Check my answer';
+  submit.onclick = function(){ submitFreetext(t); };
+  var skip = document.createElement('button');
+  skip.className = 'btn btn-ghost';
+  skip.innerHTML = 'Skip — show model';
+  skip.onclick = function(){ skipFreetext(t); };
+  actions.appendChild(submit);
+  actions.appendChild(skip);
+  area.appendChild(actions);
+  tc.appendChild(area);
+}
+
+function submitFreetext(t) {
+  if (answeredCorrect) return;
+  var input = (document.getElementById('freetext-input').value || '').toLowerCase().trim();
+  if (!input) { alert('Try writing a definition first.'); return; }
+  var hits = [], misses = [];
+  for (var i = 0; i < t.keyPhrases.length; i++) {
+    var kp = t.keyPhrases[i].toLowerCase();
+    // simple substring check; also tolerate plural/-s endings
+    if (input.indexOf(kp) >= 0 ||
+        (kp.slice(-1) === 's' && input.indexOf(kp.slice(0,-1)) >= 0) ||
+        input.indexOf(kp.replace(/ /g, '-')) >= 0) {
+      hits.push(t.keyPhrases[i]);
+    } else {
+      misses.push(t.keyPhrases[i]);
+    }
+  }
+  var coverage = hits.length / t.keyPhrases.length;
+  // Scoring rule for free-text: ≥75% of key phrases counts as "first-try correct"
+  // We only count it the first time the user submits (not via skip)
+  if (!attemptedWrong) {
+    if (coverage >= 0.75) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+  } else {
+    bumpStat(t.section, false);
+  }
+  answeredCorrect = true;
+  renderFreetextResult(t, input, hits, misses, coverage);
+  showNextButton();
+}
+function skipFreetext(t) {
+  attemptedWrong = true;
+  bumpStat(t.section, false);
+  answeredCorrect = true;
+  renderFreetextResult(t, '', [], t.keyPhrases.slice(), 0);
+  showNextButton();
+}
+function renderFreetextResult(t, userInput, hits, misses, coverage) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '';
+
+  if (userInput) {
+    var ya = document.createElement('div');
+    ya.className = 'your-answer';
+    ya.innerHTML = '<b>Your answer:</b> ' + escapeHtml(userInput);
+    fb.appendChild(ya);
+  }
+
+  var pct = Math.round(coverage*100);
+  var ex = document.createElement('div');
+  ex.className = 'feedback explanation';
+  ex.innerHTML = '<div class="feedback-title">Key phrases coverage: ' + pct + '%</div>' +
+    '<div class="keywords">' +
+      hits.map(function(h){ return '<span class="kw hit">✓ ' + h + '</span>'; }).join('') +
+      misses.map(function(m){ return '<span class="kw miss">✗ ' + m + '</span>'; }).join('') +
+    '</div>' +
+    '<div class="model-answer"><b>Model answer:</b> ' + t.modelAnswer + '</div>';
+  fb.appendChild(ex);
+}
+
+function showHint(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback hint"><div class="feedback-title">💡 Hint</div><span class="ru-hint">' + t.hint + '</span></div>';
+}
+function showExplanation(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback explanation"><div class="feedback-title">✅ Correct!</div>' + (t.explain || '') + '</div>';
+}
+function showNextButton() {
+  var na = document.getElementById('next-area');
+  na.innerHTML = '';
+  var btn = document.createElement('button');
+  btn.className = 'btn btn-next btn-block';
+  btn.textContent = (current+1 < TASKS.length) ? 'Next →' : '🏁 See result';
+  btn.onclick = nextTask;
+  na.appendChild(btn);
+}
+function nextTask() {
+  current++;
+  if (current < TASKS.length) renderTask();
+  else showResult();
+}
+
+function bumpStat(section, firstTry) {
+  if (!perTypeStats[section]) perTypeStats[section] = { total:0, firstTry:0 };
+  perTypeStats[section].total++;
+  if (firstTry) perTypeStats[section].firstTry++;
+}
+
+function escapeHtml(s) {
+  return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showResult() {
+  if (timerInt) { clearInterval(timerInt); timerInt = null; }
+  finalSec = Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct = Math.round((firstTryCorrect/TASKS.length)*100);
+  document.getElementById('result-percent').textContent = pct;
+  document.getElementById('result-correct').textContent = firstTryCorrect;
+  document.getElementById('result-total').textContent = TASKS.length;
+  document.getElementById('result-time').textContent = fmtTime(finalSec);
+  // emoji
+  var emoji = '🌱', motiv = '';
+  if (pct >= 90) { emoji = '🏆'; motiv = 'Outstanding! Vocabulary is interview-ready in this area. Time to drill the next domain.'; }
+  else if (pct >= 75) { emoji = '🌟'; motiv = 'Great work! A few terms still need active practice — re-run this quiz tomorrow.'; }
+  else if (pct >= 60) { emoji = '👍'; motiv = 'Solid foundation. Look at the missed terms — write them out by hand once. Replay in 2 days.'; }
+  else if (pct >= 40) { emoji = '💪'; motiv = 'Good start. Re-read explanations of missed terms, then replay tomorrow. Numbers stay fixed but order will shuffle on Day 1 — the LEARNING is what matters.'; }
+  else { emoji = '🌱'; motiv = 'Linear algebra vocabulary is dense — totally normal to score low first run. Re-read explanations, sleep, replay tomorrow. Each replay sinks it deeper.'; }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-motivation').textContent = motiv;
+  // breakdown
+  var bd = document.getElementById('result-breakdown-list');
+  bd.innerHTML = '';
+  for (var sec in perTypeStats) {
+    var st = perTypeStats[sec];
+    var row = document.createElement('div');
+    row.className = 'breakdown-row';
+    row.innerHTML = '<span>' + sec + '</span><span><b>' + st.firstTry + '/' + st.total + '</b></span>';
+    bd.appendChild(row);
+  }
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
