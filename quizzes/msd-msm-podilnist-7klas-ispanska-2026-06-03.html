@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>НСД, НСК, ознаки подільності — фундамент скорочення (7 клас)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 55%, #6366f1 100%);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 20px; color: #1e293b;
+  }
+  .container {
+    background: #fff; border-radius: 20px; padding: 30px; max-width: 700px; width: 100%;
+    box-shadow: 0 20px 55px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:8px; background: linear-gradient(90deg, #4f46e5, #0ea5e9, #6366f1); }
+  .container > * { position: relative; }
+
+  .lang-bar { display:flex; justify-content:flex-end; align-items:center; gap:8px; margin-bottom:12px; }
+  .lang-label { color:#64748b; font-size:0.9em; }
+  .lang-select { font-family:inherit; font-size:0.95em; padding:6px 10px; border-radius:8px; border:2px solid #c7d2fe; background:white; cursor:pointer; color:#1e293b; }
+  .lang-select:focus { outline:none; border-color:#4f46e5; }
+
+  h1 { color:#4f46e5; font-size:1.6em; text-align:center; margin-bottom:6px; margin-top:8px; line-height:1.2; }
+  .subtitle { text-align:center; color:#64748b; font-size:0.95em; margin-bottom:18px; }
+
+  .start-intro { background:#eef2ff; border-left:5px solid #4f46e5; padding:16px 18px; border-radius:12px; line-height:1.6; font-size:1.02em; margin:16px 0; }
+  .start-intro ul { margin:8px 0 0 20px; }
+  .start-intro li { margin:3px 0; }
+  .emoji-big { font-size:3.6em; margin:12px 0; display:block; text-align:center; }
+
+  .btn { background:linear-gradient(135deg,#4f46e5,#6366f1); color:white; border:none; padding:14px 30px; font-size:1.08em; border-radius:12px; cursor:pointer; font-weight:700; font-family:inherit; box-shadow:0 6px 18px rgba(15,118,110,0.4); transition:transform 0.15s, box-shadow 0.15s; }
+  .btn:hover { transform:translateY(-2px); box-shadow:0 9px 22px rgba(15,118,110,0.5); }
+  .btn:active { transform:translateY(0); }
+  .btn:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+  .btn-center { display:block; margin:22px auto 0 auto; }
+  .btn-next { background:linear-gradient(135deg,#16a34a,#22c55e); box-shadow:0 6px 18px rgba(22,163,74,0.4); }
+  .btn-next:hover { box-shadow:0 9px 22px rgba(22,163,74,0.5); }
+
+  .topline { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:8px; }
+  .section-badge { background:#4f46e5; color:white; font-size:0.82em; font-weight:700; padding:5px 12px; border-radius:20px; }
+  .timer-badge { background:#eef2ff; padding:4px 12px; border-radius:10px; color:#4f46e5; font-variant-numeric:tabular-nums; font-weight:700; font-size:0.9em; }
+  .progress-info { text-align:center; color:#475569; font-size:0.9em; font-weight:600; margin-bottom:8px; }
+  .progress-bar { background:#e2e8f0; border-radius:10px; height:10px; overflow:hidden; margin-bottom:20px; }
+  .progress-fill { background:linear-gradient(90deg,#4f46e5,#6366f1); height:100%; transition:width 0.4s ease; border-radius:10px; }
+
+  .question-text { font-size:1.12em; line-height:1.55; margin-bottom:8px; color:#1e293b; }
+  .expr { text-align:center; font-size:2em; margin:18px 0 22px 0; color:#4f46e5; font-weight:700; line-height:1; }
+
+  .options { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .option { background:white; border:2px solid #cbd5e1; padding:16px; border-radius:12px; cursor:pointer; font-size:1.35em; text-align:center; transition:all 0.15s; font-family:inherit; color:#1e293b; min-height:60px; display:flex; align-items:center; justify-content:center; }
+  .option:hover:not(:disabled) { background:#eef2ff; border-color:#4f46e5; transform:translateY(-2px); }
+  .option:disabled { cursor:not-allowed; }
+  .option.wrong { background:#fef2f2; border-color:#dc2626; color:#991b1b; opacity:0.7; }
+  .option.correct { background:#f0fdf4; border-color:#16a34a; color:#14532d; font-weight:700; }
+
+  .feedback { margin-top:16px; padding:15px 18px; border-radius:12px; font-size:1em; line-height:1.55; animation:slideIn 0.25s ease; }
+  .feedback.hint { background:#fffbeb; color:#78350f; border-left:5px solid #f59e0b; }
+  .feedback.explanation { background:#f0fdf4; color:#14532d; border-left:5px solid #22c55e; }
+  .feedback-title { font-weight:700; margin-bottom:5px; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px);} to{opacity:1;transform:translateY(0);} }
+  .next-area { text-align:center; margin-top:16px; }
+
+  .frac { display:inline-flex; flex-direction:column; vertical-align:middle; text-align:center; font-size:0.62em; line-height:1.05; margin:0 2px; }
+  .fnum { border-bottom:1.6px solid currentColor; padding:0 4px; }
+  .fden { padding:0 4px; }
+  .mixed { display:inline-flex; align-items:center; gap:2px; }
+
+  .result-screen { text-align:center; }
+  .grade-badge { font-size:4.5em; font-weight:800; color:#4f46e5; margin:12px 0; text-shadow:2px 2px 4px rgba(0,0,0,0.08); }
+  .result-meta { display:flex; flex-direction:column; gap:6px; align-items:center; margin:8px 0; }
+  .score-info { font-size:1.12em; }
+  .motivation { font-style:italic; color:#4f46e5; margin:18px 0; padding:14px; background:#eef2ff; border-radius:12px; font-size:1.04em; }
+  .hidden { display:none; }
+  @media (max-width:480px){ .options{grid-template-columns:1fr;} .expr{font-size:1.6em;} }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="lang-bar">
+    <span class="lang-label" id="lang-label">Мова:</span>
+    <select class="lang-select" id="lang-select" onchange="setLanguage(this.value)">
+      <option value="uk">🇺🇦 Українська</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+  </div>
+
+  <div id="start-screen">
+    <h1 id="start-title"></h1>
+    <p class="subtitle" id="start-subtitle"></p>
+    <span class="emoji-big">🔢💯</span>
+    <div class="start-intro" id="start-intro"></div>
+    <button class="btn btn-center" id="start-btn" onclick="startQuiz()"></button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge"></span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-text"></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="question-text" id="question-text"></div>
+    <div class="expr" id="expr"></div>
+    <div class="options" id="options-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden result-screen">
+    <h1 id="result-title"></h1>
+    <span class="emoji-big" id="result-emoji">🎉</span>
+    <div class="result-meta">
+      <div class="score-info"><span id="result-first-label"></span> <strong id="result-first"></strong> <span id="result-of-total"></span></div>
+      <div class="score-info"><span id="result-percent-label"></span> <strong id="result-percent"></strong></div>
+      <div class="score-info"><span id="result-time-label"></span> <strong id="result-time"></strong></div>
+    </div>
+    <div style="margin-top:14px;" id="result-grade-label"></div>
+    <div class="grade-badge" id="result-grade"></div>
+    <div class="motivation" id="result-motivation"></div>
+    <button class="btn btn-center" id="result-restart-btn" onclick="restartQuiz()"></button>
+  </div>
+
+</div>
+
+<script>
+// ============ Helpers ============
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a||1;}
+function lcm(a,b){ return Math.abs(a*b)/gcd(a,b); }
+function intItem(x){ return {form:'int', x:x}; }
+function setItem(items){ var s=items.slice().sort(function(a,b){return a-b;}); return {form:'set', items:s}; }
+function akey(a){
+  if(!a) return 'null';
+  if(a.form==='int') return 'i:'+a.x;
+  if(a.form==='set') return 's:'+a.items.join(',');
+  return '';
+}
+function renderItem(a){
+  if(!a) return '?';
+  if(a.form==='int') return ''+a.x;
+  if(a.form==='set'){
+    if(a.items.length===0) return '∅';
+    return '{'+a.items.join(', ')+'}';
+  }
+  return '?';
+}
+function renderSource(dir, variation){
+  if(dir==='gcd'){ if(currentLang==='en') return 'GCD('+variation[0]+', '+variation[1]+') = ?'; if(currentLang==='es') return 'MCD('+variation[0]+', '+variation[1]+') = ?'; return 'НСД('+variation[0]+', '+variation[1]+') = ?'; }
+  if(dir==='lcm'){ if(currentLang==='en') return 'LCM('+variation[0]+', '+variation[1]+') = ?'; if(currentLang==='es') return 'MCM('+variation[0]+', '+variation[1]+') = ?'; return 'НСК('+variation[0]+', '+variation[1]+') = ?'; }
+  return '<span style="font-size:1.3em">'+variation[0]+'</span>';
+}
+function divsFromList(n){
+  var checks=[2,3,5,9,10], out=[];
+  for(var i=0;i<checks.length;i++){ if(n % checks[i] === 0) out.push(checks[i]); }
+  return out;
+}
+function pickDistr(correct, cands){
+  var seen={}; if(correct) seen[akey(correct)]=1; var out=[];
+  for(var i=0;i<cands.length;i++){
+    var c=cands[i]; if(!c) continue;
+    if(c.form==='int' && c.x<=0) continue;
+    var k=akey(c); if(seen[k]) continue;
+    seen[k]=1; out.push(c);
+    if(out.length===3) break;
+  }
+  var pad=0;
+  while(out.length<3){
+    var fake;
+    if(correct && correct.form==='int') fake=intItem(correct.x + 1 + pad);
+    else fake=intItem(pad+2);
+    if(!seen[akey(fake)]){ seen[akey(fake)]=1; out.push(fake); }
+    pad++; if(pad>30) break;
+  }
+  return {correct:correct, distractors:out};
+}
+
+// ============ Generators ============
+function gGCD(a, b){
+  var g = gcd(a, b), L = lcm(a, b);
+  var correct = intItem(g);
+  var dists = [
+    intItem(L),                     // confused GCD with LCM
+    intItem(Math.min(a, b)),        // took the smaller number
+    intItem(Math.abs(a-b) || a+b),  // difference
+    intItem(Math.max(a, b)),        // took the larger
+    intItem(g*2)                    // off by factor
+  ];
+  return pickDistr(correct, dists);
+}
+function gLCM(a, b){
+  var g = gcd(a, b), L = lcm(a, b);
+  var correct = intItem(L);
+  var dists = [
+    intItem(g),                     // confused LCM with GCD
+    intItem(a * b),                 // multiplied (correct only if coprime)
+    intItem(a + b),                 // summed
+    intItem(Math.max(a, b)),        // took the larger
+    intItem(L*2)                    // off by factor
+  ];
+  return pickDistr(correct, dists);
+}
+function gDIV(n){
+  var actual = divsFromList(n);
+  var correct = setItem(actual);
+  var all = [2,3,5,9,10];
+  var notIn = []; for(var i=0;i<all.length;i++){ if(actual.indexOf(all[i])<0) notIn.push(all[i]); }
+  var dists = [];
+  // d1: drop one from correct (missed a rule)
+  if(actual.length > 0){
+    for(var k=0;k<actual.length;k++){
+      var dropped = actual.slice(); dropped.splice(k, 1);
+      dists.push(setItem(dropped));
+    }
+  }
+  // d2: add a wrong one (applied rule that fails)
+  for(var j=0;j<notIn.length;j++){
+    var added = actual.slice(); added.push(notIn[j]);
+    dists.push(setItem(added));
+  }
+  // d3: swap (drop one true, add one false) — combo error
+  if(actual.length > 0 && notIn.length > 0){
+    var swapped = actual.slice(); swapped.splice(0,1); swapped.push(notIn[0]);
+    dists.push(setItem(swapped));
+  }
+  // d4: empty (didn't apply any rule)
+  if(actual.length > 0) dists.push(setItem([]));
+  return pickDistr(correct, dists);
+}
+var GEN = { gcd:gGCD, lcm:gLCM, div:gDIV };
+
+// ============ Explanations ============
+function explain(dir, variation, lang){
+  if(dir==='gcd'){
+    var a=variation[0], b=variation[1], g=gcd(a,b);
+    // Show one step of Euclidean algorithm
+    var step = a + ' mod ' + b + ' = ' + (a%b);
+    var eu;
+    if(lang==='uk') eu = 'Алгоритм Евкліда: ' + step + ', далі НСД(' + b + ',' + (a%b) + ')... → НСД = <strong>' + g + '</strong>.';
+    else if(lang==='en') eu = 'Euclidean algorithm: ' + step + ', then GCD(' + b + ',' + (a%b) + ')... → GCD = <strong>' + g + '</strong>.';
+    else eu = 'Algoritmo de Euclides: ' + step + ', luego MCD(' + b + ',' + (a%b) + ')... → MCD = <strong>' + g + '</strong>.';
+    if(lang==='uk') return 'НСД('+a+', '+b+') = <strong>'+g+'</strong>. ' + eu + ' <em>Це найбільше число, на яке діляться обидва. Корисно для скорочення дробу '+a+'/'+b+' = '+(a/g)+'/'+(b/g)+'.</em>';
+    if(lang==='en') return 'GCD('+a+', '+b+') = <strong>'+g+'</strong>. ' + eu + ' <em>Used to simplify '+a+'/'+b+' to '+(a/g)+'/'+(b/g)+'.</em>';
+    return 'MCD('+a+', '+b+') = <strong>'+g+'</strong>. ' + eu + ' <em>Sirve para simplificar '+a+'/'+b+' a '+(a/g)+'/'+(b/g)+'.</em>';
+  }
+  if(dir==='lcm'){
+    var a=variation[0], b=variation[1], g=gcd(a,b), L=lcm(a,b);
+    if(lang==='uk') return 'НСК('+a+', '+b+') = '+a+'·'+b+' ÷ НСД('+a+','+b+') = '+(a*b)+' ÷ '+g+' = <strong>'+L+'</strong>. <em>Найменше число, що ділиться на обидва. Корисно як спільний знаменник для '+a+' і '+b+'.</em>';
+    if(lang==='en') return 'LCM('+a+', '+b+') = '+a+'·'+b+' ÷ GCD = '+(a*b)+' ÷ '+g+' = <strong>'+L+'</strong>. <em>Useful as common denominator for fractions with '+a+' and '+b+'.</em>';
+    return 'MCM('+a+', '+b+') = '+a+'·'+b+' ÷ MCD = '+(a*b)+' ÷ '+g+' = <strong>'+L+'</strong>. <em>Útil como denominador común para '+a+' y '+b+'.</em>';
+  }
+  // div_check
+  var n=variation[0];
+  var actual=divsFromList(n);
+  var dsum = (''+n).split('').reduce(function(s,d){return s+parseInt(d,10);}, 0);
+  var setStr = actual.length === 0 ? '∅' : '{'+actual.join(', ')+'}';
+  if(lang==='uk'){
+    var ru=[];
+    if(n%2===0) ru.push('<b>÷2</b> ✓ (остання цифра парна)');
+    if(n%3===0) ru.push('<b>÷3</b> ✓ (сума цифр '+dsum+' ділиться на 3)');
+    if(n%5===0) ru.push('<b>÷5</b> ✓ (остання цифра 0 або 5)');
+    if(n%9===0) ru.push('<b>÷9</b> ✓ (сума цифр '+dsum+' ділиться на 9)');
+    if(n%10===0) ru.push('<b>÷10</b> ✓ (остання цифра 0)');
+    return n+' ділиться на: <strong>'+setStr+'</strong>. '+(ru.join('; ')||'жодне правило не спрацьовує')+'.';
+  }
+  if(lang==='en'){
+    var en=[];
+    if(n%2===0) en.push('<b>÷2</b> ✓ (last digit even)');
+    if(n%3===0) en.push('<b>÷3</b> ✓ (digit sum '+dsum+' divisible by 3)');
+    if(n%5===0) en.push('<b>÷5</b> ✓ (last digit 0 or 5)');
+    if(n%9===0) en.push('<b>÷9</b> ✓ (digit sum '+dsum+' divisible by 9)');
+    if(n%10===0) en.push('<b>÷10</b> ✓ (last digit 0)');
+    return n+' is divisible by: <strong>'+setStr+'</strong>. '+(en.join('; ')||'no rule applies')+'.';
+  }
+  var es=[];
+  if(n%2===0) es.push('<b>÷2</b> ✓ (última cifra par)');
+  if(n%3===0) es.push('<b>÷3</b> ✓ (suma de cifras '+dsum+' divisible entre 3)');
+  if(n%5===0) es.push('<b>÷5</b> ✓ (última cifra 0 o 5)');
+  if(n%9===0) es.push('<b>÷9</b> ✓ (suma de cifras '+dsum+' divisible entre 9)');
+  if(n%10===0) es.push('<b>÷10</b> ✓ (última cifra 0)');
+  return n+' es divisible entre: <strong>'+setStr+'</strong>. '+(es.join('; ')||'ninguna regla aplica')+'.';
+}
+
+// ============ i18n ============
+var i18n = {
+  uk: {
+    htmlLang:'uk', langLabel:'Мова:',
+    title:'🔢 НСД, НСК, ознаки подільності', quizTitle:'🔢 НСД, НСК, ознаки подільності',
+    subtitle:'Фундамент скорочення дробів · 7 клас · 3 розділи · 30 завдань',
+    intro:'Привіт! Сьогодні відточуємо <strong>три інструменти</strong>, що лежать в основі скорочення дробів і спільного знаменника:<ul><li>① 🟣 <b>НСД</b> — найбільший спільний дільник (для <i>скорочення</i> дробу)</li><li>② 🟢 <b>НСК</b> — найменше спільне кратне (для <i>спільного знаменника</i>)</li><li>③ 🔵 <b>Ознаки подільності</b> на 2, 3, 5, 9, 10 (щоб швидко бачити дільники)</li></ul>10 завдань на кожну тему — щоб руками і головою дійшло. Бал — за відповідь <strong>з першої спроби</strong>. Числа щоразу нові.',
+    startBtn:'🚀 Почати', sectionBadge:'📚 Розділ {s}/3 · {name}', progress:'Питання {n} з {total}',
+    hintTitle:'💡 Підказка', explTitle:'✅ Правильно!',
+    nextBtn:'Далі →', finishBtn:'🏁 Результат',
+    resultTitle:'Готово!', firstLabel:'Правильно з першої спроби:', ofTotal:'з {n}',
+    percentLabel:'Відсоток:', gradeLabel:'Оцінка:', timeLabel:'Час:', restartBtn:'🔄 Ще раз (нові числа!)',
+    sections:{ gcd:'НСД — для скорочення', lcm:'НСК — для спільного знаменника', div:'Ознаки подільності' },
+    instr:{ gcd:'Знайди НСД (найбільший спільний дільник) двох чисел.', lcm:'Знайди НСК (найменше спільне кратне) двох чисел.', div:'На які з чисел {2, 3, 5, 9, 10} ділиться це число?' },
+    hints:{
+      gcd:'<b>НСД</b> = найбільше число, на яке діляться обидва. Спосіб 1: розкласти кожне на прості множники і взяти спільні. Спосіб 2 (швидше) — <b>алгоритм Евкліда</b>: ділиш більше на менше, потім менше на залишок, поки залишок не стане 0; останній не-нуль і є НСД. ⚠️ Не плутай з НСК!',
+      lcm:'<b>НСК</b> = найменше число, що ділиться на обидва. Ключова формула: <b>a · b = НСД · НСК</b>, отже <b>НСК = a·b ÷ НСД</b>. ⚠️ Не плутай з НСД — НСК завжди ≥ обох чисел, НСД завжди ≤ обох.',
+      div:'<b>÷2</b> — остання цифра парна. <b>÷5</b> — остання цифра 0 або 5. <b>÷10</b> — остання цифра 0. <b>÷3</b> — сума цифр ділиться на 3. <b>÷9</b> — сума цифр ділиться на 9 (сильніше за ÷3 — якщо ÷9, то й ÷3). Перевіряй усі пʼять.'
+    },
+    motiv:{ perfect:'🏆 Бездоганно! Усі 30 з першої спроби — тепер скорочення дробів і спільний знаменник летять автоматом!', great:'🌟 Чудово! Майже все одразу. Ще трошки — і це інструменти-на-кнопці.', good:'👍 Добре! Міцна основа. Поглянь де знадобились підказки — повтори ці типи.', ok:'💪 Непогано! Підказки спрацювали — прорепетируй слабкі типи ще раз.', tryAgain:'📚 Є над чим попрацювати. Алгоритм Евкліда (НСД), формула НСК = a·b/НСД, і пʼять правил подільності — найголовніше. Перечитай і запусти ще!', dontGiveUp:'🌱 Не здавайся! Це фундамент — без нього скорочення дробів не клеїться. Кожен повтор закріплює.' }
+  },
+  en: {
+    htmlLang:'en', langLabel:'Language:',
+    title:'🔢 GCD, LCM, divisibility rules', quizTitle:'🔢 GCD, LCM, divisibility rules',
+    subtitle:'Foundation for fraction reduction · grade 7 · 3 sections · 30 tasks',
+    intro:'Hi! Today we drill the <strong>three tools</strong> at the heart of fraction reduction and common denominators:<ul><li>① 🟣 <b>GCD</b> — greatest common divisor (for <i>reducing</i> fractions)</li><li>② 🟢 <b>LCM</b> — least common multiple (for <i>common denominators</i>)</li><li>③ 🔵 <b>Divisibility rules</b> for 2, 3, 5, 9, 10 (to spot divisors fast)</li></ul>10 tasks per topic. A point counts only for a <strong>first-try</strong> correct answer. Numbers change every run.',
+    startBtn:'🚀 Start', sectionBadge:'📚 Section {s}/3 · {name}', progress:'Question {n} of {total}',
+    hintTitle:'💡 Hint', explTitle:'✅ Correct!',
+    nextBtn:'Next →', finishBtn:'🏁 Result',
+    resultTitle:'Done!', firstLabel:'Correct on first try:', ofTotal:'of {n}',
+    percentLabel:'Score:', gradeLabel:'Grade:', timeLabel:'Time:', restartBtn:'🔄 Again (new numbers!)',
+    sections:{ gcd:'GCD — for reducing', lcm:'LCM — for common denominators', div:'Divisibility rules' },
+    instr:{ gcd:'Find the GCD (greatest common divisor) of two numbers.', lcm:'Find the LCM (least common multiple) of two numbers.', div:'Which of {2, 3, 5, 9, 10} divide this number?' },
+    hints:{
+      gcd:'<b>GCD</b> = the largest number that divides both. Method 1: prime-factorize each and take common primes. Method 2 (faster) — <b>Euclidean algorithm</b>: divide larger by smaller, then smaller by remainder, until remainder is 0; the last non-zero remainder is the GCD. ⚠️ Do not confuse with LCM!',
+      lcm:'<b>LCM</b> = smallest number divisible by both. Key formula: <b>a · b = GCD · LCM</b>, so <b>LCM = a·b ÷ GCD</b>. ⚠️ Do not confuse with GCD — LCM is always ≥ both numbers, GCD always ≤ both.',
+      div:'<b>÷2</b> — last digit is even. <b>÷5</b> — last digit is 0 or 5. <b>÷10</b> — last digit is 0. <b>÷3</b> — digit sum divisible by 3. <b>÷9</b> — digit sum divisible by 9 (stronger than ÷3 — if ÷9 then also ÷3). Check all five.'
+    },
+    motiv:{ perfect:'🏆 Flawless! All 30 first try — fraction reduction and common denominators on autopilot now!', great:'🌟 Great! Almost all right away. A bit more practice and these are one-button tools.', good:'👍 Good! Solid base. Look where hints were needed and revisit.', ok:'💪 Not bad! Hints helped — drill weak types again.', tryAgain:'📚 Room to grow. Euclidean algorithm (GCD), formula LCM = a·b/GCD, and the five divisibility rules — the essentials. Re-read and try again!', dontGiveUp:'🌱 Do not give up! This is the foundation — without it fraction reduction does not click. Each retry deepens it.' }
+  },
+  es: {
+    htmlLang:'es', langLabel:'Idioma:',
+    title:'🔢 MCD, MCM, criterios de divisibilidad', quizTitle:'🔢 MCD, MCM, criterios de divisibilidad',
+    subtitle:'Base para simplificar fracciones · 1º ESO · 3 secciones · 30 ejercicios',
+    intro:'¡Hola! Hoy entrenamos las <strong>tres herramientas</strong> que están en la base de simplificar fracciones y el denominador común:<ul><li>① 🟣 <b>MCD</b> — máximo común divisor (para <i>simplificar</i> fracciones)</li><li>② 🟢 <b>MCM</b> — mínimo común múltiplo (para <i>denominador común</i>)</li><li>③ 🔵 <b>Criterios de divisibilidad</b> entre 2, 3, 5, 9, 10 (para ver divisores rápido)</li></ul>10 ejercicios por tema. El punto cuenta solo si aciertas <strong>al primer intento</strong>. Los números cambian cada vez.',
+    startBtn:'🚀 Empezar', sectionBadge:'📚 Sección {s}/3 · {name}', progress:'Pregunta {n} de {total}',
+    hintTitle:'💡 Pista', explTitle:'✅ ¡Correcto!',
+    nextBtn:'Siguiente →', finishBtn:'🏁 Resultado',
+    resultTitle:'¡Listo!', firstLabel:'Correctas al primer intento:', ofTotal:'de {n}',
+    percentLabel:'Porcentaje:', gradeLabel:'Nota:', timeLabel:'Tiempo:', restartBtn:'🔄 Otra vez (¡números nuevos!)',
+    sections:{ gcd:'MCD — para simplificar', lcm:'MCM — para denominador común', div:'Criterios de divisibilidad' },
+    instr:{ gcd:'Halla el MCD (máximo común divisor) de dos números.', lcm:'Halla el MCM (mínimo común múltiplo) de dos números.', div:'¿Entre cuáles de {2, 3, 5, 9, 10} es divisible este número?' },
+    hints:{
+      gcd:'<b>MCD</b> = el mayor número que divide a ambos. Método 1: descomponer en factores primos y tomar los comunes. Método 2 (más rápido) — <b>algoritmo de Euclides</b>: divide el mayor entre el menor, luego el menor entre el resto, hasta que el resto sea 0; el último resto no nulo es el MCD. ⚠️ ¡No confundir con MCM!',
+      lcm:'<b>MCM</b> = menor número divisible entre ambos. Fórmula clave: <b>a · b = MCD · MCM</b>, así que <b>MCM = a·b ÷ MCD</b>. ⚠️ No confundir con MCD — el MCM siempre es ≥ ambos, el MCD siempre ≤ ambos.',
+      div:'<b>÷2</b> — última cifra par. <b>÷5</b> — última cifra 0 o 5. <b>÷10</b> — última cifra 0. <b>÷3</b> — suma de cifras divisible entre 3. <b>÷9</b> — suma de cifras divisible entre 9 (más fuerte que ÷3 — si ÷9 entonces también ÷3). Comprueba los cinco.'
+    },
+    motiv:{ perfect:'🏆 ¡Impecable! Los 30 al primer intento — ¡simplificación y denominador común en automático!', great:'🌟 ¡Genial! Casi todo enseguida. Un poco más y estas son herramientas a un clic.', good:'👍 ¡Bien! Buena base. Mira dónde necesitaste pista y repasa.', ok:'💪 ¡No está mal! Las pistas ayudaron — repite los tipos débiles.', tryAgain:'📚 Hay margen. Algoritmo de Euclides (MCD), fórmula MCM = a·b/MCD, y los cinco criterios — lo esencial. Lee y vuelve a empezar.', dontGiveUp:'🌱 ¡No te rindas! Esta es la base — sin ella simplificar fracciones no cuaja. Cada intento la afianza.' }
+  }
+};
+
+// ============ Tasks ============
+var SECTIONS = [
+  { id:'gcd', tasks:[
+    {dir:'gcd', v:[[8,12],[9,15],[10,16]]},
+    {dir:'gcd', v:[[12,18],[15,25],[16,24]]},
+    {dir:'gcd', v:[[8,24],[7,35],[9,27]]},
+    {dir:'gcd', v:[[15,8],[12,25],[9,16]]},
+    {dir:'gcd', v:[[16,28],[24,36],[40,60]]},
+    {dir:'gcd', v:[[21,27],[18,30],[24,42]]},
+    {dir:'gcd', v:[[48,72],[60,90],[36,54]]},
+    {dir:'gcd', v:[[5,7],[11,13],[7,11]]},
+    {dir:'gcd', v:[[7,21],[5,30],[11,22]]},
+    {dir:'gcd', v:[[42,78],[30,66],[54,66]]}
+  ]},
+  { id:'lcm', tasks:[
+    {dir:'lcm', v:[[4,6],[6,9],[4,10]]},
+    {dir:'lcm', v:[[5,15],[6,24],[7,21]]},
+    {dir:'lcm', v:[[3,5],[4,9],[5,7]]},
+    {dir:'lcm', v:[[12,18],[10,15],[8,12]]},
+    {dir:'lcm', v:[[12,20],[15,20],[18,24]]},
+    {dir:'lcm', v:[[6,8],[8,10],[9,12]]},
+    {dir:'lcm', v:[[4,5],[3,7],[5,9]]},
+    {dir:'lcm', v:[[10,25],[15,30],[12,16]]},
+    {dir:'lcm', v:[[6,15],[9,12],[8,14]]},
+    {dir:'lcm', v:[[16,24],[18,27],[20,30]]}
+  ]},
+  { id:'div', tasks:[
+    {dir:'div', v:[[14],[22],[34]]},
+    {dir:'div', v:[[21],[33],[39]]},
+    {dir:'div', v:[[25],[35],[55]]},
+    {dir:'div', v:[[20],[40],[80]]},
+    {dir:'div', v:[[12],[24],[48]]},
+    {dir:'div', v:[[15],[75],[105]]},
+    {dir:'div', v:[[27],[81],[99]]},
+    {dir:'div', v:[[18],[36],[54]]},
+    {dir:'div', v:[[45],[135],[225]]},
+    {dir:'div', v:[[90],[180],[270]]}
+  ]}
+];
+
+// ============ State ============
+var currentLang='uk', runtime=[], current=0, firstTryCorrect=0, attemptedWrong=false, answeredCorrect=false;
+var quizStart=null, timerInt=null, finalSec=null;
+function t(){ return i18n[currentLang]; }
+function fmt(s,vars){ return s.replace(/\{(\w+)\}/g, function(_,k){ return vars[k]; }); }
+function fmtTime(sec){ var m=Math.floor(sec/60), s=sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var tmp=a[i]; a[i]=a[j]; a[j]=tmp; } return a; }
+
+function buildRuntime(){
+  runtime=[];
+  for (var s=0;s<SECTIONS.length;s++){
+    var sec=SECTIONS[s];
+    for (var ti=0;ti<sec.tasks.length;ti++){
+      var task=sec.tasks[ti];
+      var vi=Math.floor(Math.random()*task.v.length);
+      var variation=task.v[vi];
+      var res=GEN[task.dir].apply(null, variation);
+      var options=[{item:res.correct, correct:true}];
+      for (var k=0;k<res.distractors.length;k++) options.push({item:res.distractors[k], correct:false});
+      shuffle(options);
+      var correctIdx=0; for (var oi=0;oi<options.length;oi++) if(options[oi].correct) correctIdx=oi;
+      runtime.push({ sectionId:sec.id, sectionIdx:s, dir:task.dir, variation:variation, options:options, correctIdx:correctIdx });
+    }
+  }
+}
+
+function setLanguage(lang){
+  currentLang=lang; document.documentElement.lang=t().htmlLang; document.getElementById('lang-select').value=lang;
+  renderStart();
+  if (!document.getElementById('quiz-screen').classList.contains('hidden')) renderQuestion(true);
+  if (!document.getElementById('result-screen').classList.contains('hidden')) renderResult();
+}
+function renderStart(){
+  document.getElementById('lang-label').textContent=t().langLabel;
+  document.getElementById('start-title').innerHTML=t().title;
+  document.getElementById('start-subtitle').textContent=t().subtitle;
+  document.getElementById('start-intro').innerHTML=t().intro;
+  document.getElementById('start-btn').textContent=t().startBtn;
+}
+function startQuiz(){
+  buildRuntime(); current=0; firstTryCorrect=0; finalSec=null;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now(); if (timerInt) clearInterval(timerInt); timerInt=setInterval(updateTimer,250); updateTimer();
+  renderQuestion(false);
+}
+function updateTimer(){ if(quizStart===null) return; document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000)); }
+
+function renderQuestion(keepState){
+  var rt=runtime[current];
+  if (!keepState){ attemptedWrong=false; answeredCorrect=false; rt.wrongSet={}; }
+  document.getElementById('section-badge').textContent=fmt(t().sectionBadge,{s:rt.sectionIdx+1,name:t().sections[rt.sectionId]});
+  document.getElementById('progress-text').textContent=fmt(t().progress,{n:current+1,total:runtime.length});
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('question-text').innerHTML=t().instr[rt.dir];
+  document.getElementById('expr').innerHTML=renderSource(rt.dir, rt.variation);
+
+  var oc=document.getElementById('options-container'); oc.innerHTML='';
+  for (var i=0;i<rt.options.length;i++){
+    (function(idx){
+      var btn=document.createElement('button'); btn.className='option'; btn.innerHTML=renderItem(rt.options[idx].item);
+      if (rt.wrongSet && rt.wrongSet[idx]){ btn.classList.add('wrong'); btn.disabled=true; }
+      if (answeredCorrect){ btn.disabled=true; if (idx===rt.correctIdx) btn.classList.add('correct'); }
+      btn.onclick=function(){ selectAnswer(idx); };
+      oc.appendChild(btn);
+    })(i);
+  }
+
+  var fb=document.getElementById('feedback-container'); fb.innerHTML='';
+  if (answeredCorrect){
+    var ex=document.createElement('div'); ex.className='feedback explanation';
+    ex.innerHTML='<div class="feedback-title">'+t().explTitle+'</div>'+explain(rt.dir, rt.variation, currentLang);
+    fb.appendChild(ex);
+  } else if (attemptedWrong){
+    var h=document.createElement('div'); h.className='feedback hint';
+    h.innerHTML='<div class="feedback-title">'+t().hintTitle+'</div>'+t().hints[rt.dir];
+    fb.appendChild(h);
+  }
+
+  var na=document.getElementById('next-area'); na.innerHTML='';
+  if (answeredCorrect){
+    var nb=document.createElement('button'); nb.className='btn btn-next';
+    nb.textContent=(current+1<runtime.length)?t().nextBtn:t().finishBtn; nb.onclick=nextQuestion; na.appendChild(nb);
+  }
+}
+
+function selectAnswer(idx){
+  if (answeredCorrect) return;
+  var rt=runtime[current];
+  if (rt.wrongSet && rt.wrongSet[idx]) return;
+  if (idx===rt.correctIdx){ answeredCorrect=true; if (!attemptedWrong) firstTryCorrect++; }
+  else { if (!rt.wrongSet) rt.wrongSet={}; rt.wrongSet[idx]=true; attemptedWrong=true; }
+  renderQuestion(true);
+}
+function nextQuestion(){ current++; if (current<runtime.length) renderQuestion(false); else showResult(); }
+
+function getGrade(p){ if(p>=95)return 12; if(p>=88)return 11; if(p>=80)return 10; if(p>=73)return 9; if(p>=66)return 8; if(p>=59)return 7; if(p>=50)return 6; if(p>=41)return 5; if(p>=33)return 4; if(p>=25)return 3; if(p>=13)return 2; return 1; }
+function motivKey(g){ if(g===12)return 'perfect'; if(g>=10)return 'great'; if(g>=8)return 'good'; if(g>=6)return 'ok'; if(g>=4)return 'tryAgain'; return 'dontGiveUp'; }
+function gradeEmoji(g){ if(g===12)return '🏆'; if(g>=10)return '🌟'; if(g>=8)return '👍'; if(g>=6)return '💪'; if(g>=4)return '📚'; return '🌱'; }
+
+function showResult(){
+  if (timerInt){ clearInterval(timerInt); timerInt=null; }
+  finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  renderResult();
+}
+function renderResult(){
+  var total=runtime.length, percent=Math.round((firstTryCorrect/total)*100), grade=getGrade(percent);
+  document.getElementById('result-title').textContent=t().resultTitle;
+  document.getElementById('result-first-label').textContent=t().firstLabel;
+  document.getElementById('result-first').textContent=firstTryCorrect;
+  document.getElementById('result-of-total').textContent=fmt(t().ofTotal,{n:total});
+  document.getElementById('result-percent-label').textContent=t().percentLabel;
+  document.getElementById('result-percent').textContent=percent+'%';
+  document.getElementById('result-time-label').textContent=t().timeLabel;
+  document.getElementById('result-time').textContent=fmtTime(finalSec||0);
+  document.getElementById('result-grade-label').textContent=t().gradeLabel;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-motivation').innerHTML=t().motiv[motivKey(grade)];
+  document.getElementById('result-emoji').textContent=gradeEmoji(grade);
+  document.getElementById('result-restart-btn').textContent=t().restartBtn;
+}
+function restartQuiz(){ document.getElementById('result-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden'); }
+
+renderStart();
+</script>
+</body>
+</html>
