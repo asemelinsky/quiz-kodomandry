@@ -101,6 +101,25 @@
   .breakdown-row { display: flex; justify-content: space-between; padding: 3px 0; }
   .motivation { background: #eff6ff; padding: 12px 14px; border-radius: 11px; color: #1e3a8a; font-style: italic; margin: 12px 0; }
 
+  .sources-overview { background: #f0fdfa; border-left: 4px solid #14b8a6; padding: 12px 14px; border-radius: 10px; margin: 14px 0 8px; font-size: 0.9em; line-height: 1.5; }
+  .sources-overview h4 { color: #047857; font-size: 0.95em; margin-bottom: 6px; font-weight: 700; }
+  .sources-overview ul { list-style: none; padding: 0; margin: 4px 0 0; }
+  .sources-overview li { padding: 2px 0; }
+  .sources-overview a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .sources-overview a:hover { text-decoration: underline; }
+  .sources-overview .src-note { font-size: 0.85em; color: #64748b; margin-top: 6px; font-style: italic; }
+
+  .task-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .task-header .task-type { margin-bottom: 0; }
+  .task-sources-btn { background: #ecfeff; color: #0891b2; border: 1px solid #67e8f9; padding: 3px 9px; border-radius: 6px; font-size: 0.78em; font-weight: 700; cursor: pointer; font-family: inherit; -webkit-appearance: none; appearance: none; transition: background 0.12s; }
+  .task-sources-btn:active { background: #cffafe; }
+  .task-sources-panel { background: #f0fdfa; border-left: 3px solid #14b8a6; padding: 8px 12px; border-radius: 8px; margin: 0 0 12px; font-size: 0.85em; line-height: 1.5; display: none; }
+  .task-sources-panel.open { display: block; }
+  .task-sources-panel ul { list-style: none; padding: 0; margin: 0; }
+  .task-sources-panel li { padding: 2px 0; }
+  .task-sources-panel a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .task-sources-panel a:hover { text-decoration: underline; }
+
   .hidden { display: none; }
 
   @media (max-width: 480px) {
@@ -128,6 +147,7 @@
         <li>⏱️ Take your time. Target: ~30-45 min.</li>
       </ul>
     </div>
+    <div id="start-sources" class="sources-overview"></div>
     <button class="btn btn-block" onclick="startQuiz()">🚀 Start</button>
   </div>
 
@@ -167,6 +187,54 @@
 </div>
 
 <script>
+// ============ SOURCES (audit registry) ============
+// Backed by vault/authorities-en-math.md — Wikipedia + Axler/Strang cross-referenced.
+var SOURCES = {
+  'wiki-eigenvalues': { name: 'Wikipedia: Eigenvalues and eigenvectors', url: 'https://en.wikipedia.org/wiki/Eigenvalues_and_eigenvectors' },
+  'wiki-span': { name: 'Wikipedia: Linear span', url: 'https://en.wikipedia.org/wiki/Linear_span' },
+  'wiki-basis': { name: 'Wikipedia: Basis (linear algebra)', url: 'https://en.wikipedia.org/wiki/Basis_(linear_algebra)' },
+  'wiki-orthogonality': { name: 'Wikipedia: Orthogonality (math)', url: 'https://en.wikipedia.org/wiki/Orthogonality_(mathematics)' },
+  'wiki-rank': { name: 'Wikipedia: Rank (linear algebra)', url: 'https://en.wikipedia.org/wiki/Rank_(linear_algebra)' },
+  'wiki-invertible': { name: 'Wikipedia: Invertible matrix', url: 'https://en.wikipedia.org/wiki/Invertible_matrix' },
+  'wiki-linear-independence': { name: 'Wikipedia: Linear independence', url: 'https://en.wikipedia.org/wiki/Linear_independence' },
+  'wiki-diagonalizable': { name: 'Wikipedia: Diagonalizable matrix', url: 'https://en.wikipedia.org/wiki/Diagonalizable_matrix' },
+  'wiki-kernel': { name: 'Wikipedia: Kernel (linear algebra)', url: 'https://en.wikipedia.org/wiki/Kernel_(linear_algebra)' },
+  'wiki-orthonormality': { name: 'Wikipedia: Orthonormality', url: 'https://en.wikipedia.org/wiki/Orthonormality' },
+  'wiki-eigendecomposition': { name: 'Wikipedia: Eigendecomposition of a matrix', url: 'https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix' },
+  'wiki-trace': { name: 'Wikipedia: Trace (linear algebra)', url: 'https://en.wikipedia.org/wiki/Trace_(linear_algebra)' },
+  'wiki-svd': { name: 'Wikipedia: Singular value decomposition', url: 'https://en.wikipedia.org/wiki/Singular_value_decomposition' },
+  'wiki-singular-value': { name: 'Wikipedia: Singular value', url: 'https://en.wikipedia.org/wiki/Singular_value' },
+  'wiki-orthogonal-matrix': { name: 'Wikipedia: Orthogonal matrix', url: 'https://en.wikipedia.org/wiki/Orthogonal_matrix' },
+  'wiki-image': { name: 'Wikipedia: Image (mathematics)', url: 'https://en.wikipedia.org/wiki/Image_(mathematics)' },
+  'wiktionary-derive': { name: 'Wiktionary: derive', url: 'https://en.wiktionary.org/wiki/derive' },
+  'axler-ladr': { name: 'Axler, "Linear Algebra Done Right" 4th ed (Springer 2024)', url: null },
+  'strang-itla': { name: 'Strang, "Introduction to Linear Algebra" 5th ed', url: null },
+  'standard-math-en': { name: 'Standard math English usage (Strang, Axler, Trefethen-Bau cross-ref)', url: null }
+};
+// Parallel to TASKS — which sources back each task (audit 2026-06-07)
+var TASK_SOURCES = [
+  ['wiki-eigenvalues', 'axler-ladr'],           // 0: eigenvalue (def MC)
+  ['wiki-span', 'strang-itla'],                 // 1: span (def MC)
+  ['wiki-basis', 'axler-ladr'],                 // 2: basis (def MC)
+  ['wiki-orthogonality', 'axler-ladr'],         // 3: orthogonal (def MC)
+  ['wiki-rank', 'strang-itla'],                 // 4: rank (def MC)
+  ['wiki-invertible'],                          // 5: non-singular (cloze)
+  ['wiki-linear-independence', 'axler-ladr'],   // 6: linearly independent (cloze)
+  ['wiki-diagonalizable', 'axler-ladr'],        // 7: diagonalizable (cloze)
+  ['wiki-kernel'],                              // 8: kernel / null space (cloze)
+  ['standard-math-en'],                         // 9: solve a system (colloc)
+  ['wiki-invertible'],                          // 10: singular matrix (colloc)
+  ['standard-math-en'],                         // 11: compute eigenvalues (colloc)
+  ['standard-math-en', 'axler-ladr'],           // 12: eigenvector corresponds (colloc)
+  ['wiki-orthonormality', 'axler-ladr'],        // 13: orthonormal (audio)
+  ['wiki-eigendecomposition'],                  // 14: eigendecomposition (audio)
+  ['wiki-trace'],                               // 15: trace (audio)
+  ['wiki-linear-independence', 'axler-ladr'],   // 16: linear independence (freetext)
+  ['wiki-svd', 'wiki-singular-value', 'wiki-orthogonal-matrix', 'strang-itla', 'axler-ladr'], // 17: SVD (freetext)
+  ['wiktionary-derive'],                        // 18: derive (synonym)
+  ['wiki-image', 'axler-ladr']                  // 19: range = image (synonym)
+];
+
 // ============ TASKS ============
 var TASKS = [
   // ----- Section 1: Definition match (5) -----
@@ -466,13 +534,42 @@ function renderTask() {
   var tc = document.getElementById('task-container');
   tc.innerHTML = '';
 
-  // type label
+  // type label + 📖 sources button (per-task panel)
+  var headerRow = document.createElement('div');
+  headerRow.className = 'task-header';
   var typeLabel = document.createElement('div');
   typeLabel.className = 'task-type';
   typeLabel.textContent = (t.type === 'mc' ? 'Multiple choice' :
                           t.type === 'audio_mc' ? '🎧 Listen' :
                           t.type === 'freetext' ? '✍️ Write' : t.type);
-  tc.appendChild(typeLabel);
+  headerRow.appendChild(typeLabel);
+
+  var taskSources = (typeof TASK_SOURCES !== 'undefined' && TASK_SOURCES[idx]) || [];
+  var sPanel = null;
+  if (taskSources.length > 0) {
+    var sBtn = document.createElement('button');
+    sBtn.className = 'task-sources-btn';
+    sBtn.innerHTML = '📖 ' + taskSources.length + ' src';
+    sBtn.title = 'Tap to see sources backing this term';
+    sPanel = document.createElement('div');
+    sPanel.className = 'task-sources-panel';
+    var pHtml = '<ul>';
+    for (var sIdx = 0; sIdx < taskSources.length; sIdx++) {
+      var s = SOURCES[taskSources[sIdx]];
+      if (!s) continue;
+      if (s.url) {
+        pHtml += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+      } else {
+        pHtml += '<li>· ' + s.name + '</li>';
+      }
+    }
+    pHtml += '</ul>';
+    sPanel.innerHTML = pHtml;
+    sBtn.onclick = function() { sPanel.classList.toggle('open'); };
+    headerRow.appendChild(sBtn);
+  }
+  tc.appendChild(headerRow);
+  if (sPanel) tc.appendChild(sPanel);
 
   // prompt
   if (t.type === 'audio_mc') {
@@ -720,6 +817,38 @@ function restartQuiz() {
   document.getElementById('result-screen').classList.add('hidden');
   document.getElementById('start-screen').classList.remove('hidden');
 }
+
+function renderStartSources() {
+  if (typeof TASK_SOURCES === 'undefined') return;
+  var used = {};
+  for (var i = 0; i < TASK_SOURCES.length; i++) {
+    for (var j = 0; j < TASK_SOURCES[i].length; j++) used[TASK_SOURCES[i][j]] = true;
+  }
+  var keys = Object.keys(used);
+  // sort wiki/wiktionary first, then standard-math-en, then textbooks
+  keys.sort(function(a, b) {
+    var rank = function(k){
+      if (k.indexOf('wiki') === 0) return 0;
+      if (k.indexOf('axler') === 0 || k.indexOf('strang') === 0) return 2;
+      return 1;
+    };
+    return rank(a) - rank(b);
+  });
+  var html = '<h4>📖 Sources used in D1 (' + keys.length + ')</h4><ul>';
+  for (var k = 0; k < keys.length; k++) {
+    var s = SOURCES[keys[k]];
+    if (!s) continue;
+    if (s.url) {
+      html += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+    } else {
+      html += '<li>· ' + s.name + '</li>';
+    }
+  }
+  html += '</ul><div class="src-note">Each question also shows a 📖 button — tap to see which sources back that specific term.</div>';
+  var el = document.getElementById('start-sources');
+  if (el) el.innerHTML = html;
+}
+renderStartSources();
 </script>
 </body>
 </html>
