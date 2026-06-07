@@ -90,9 +90,9 @@
 | # | Тема (домен) | Статус | Live URL |
 |---|---|---|---|
 | **D1** | **Linear Algebra** — matrix, eigenvalue, span, basis, orthogonal, rank, SVD, ... (тестовий формат, 20 завдань) | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d01-linear-algebra-2026-05-31) |
-| D2 | Calculus & analysis — derivative, partial, gradient, continuity, convergence | ⏳ | — |
-| D3 | Probability — random variable, distribution, expectation, conditional | ⏳ | — |
-| D4 | Statistics — estimator, hypothesis, p-value, confidence interval | ⏳ | — |
+| **D2** | **Calculus & Analysis** — limit ε-δ, derivative, gradient, Jacobian, Hessian, Taylor, compact, supremum | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d02-calculus-analysis-2026-06-07) |
+| **D3** | **Probability** — sample space, RV, PMF/PDF, expectation, Bayes, CLT (threshold 1.0) | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d03-probability-2026-06-07) |
+| **D4** | **Statistics** — estimator, MLE, hypothesis testing, p-value/CI traps (threshold 1.0), OLS, KL | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d04-statistics-2026-06-07) |
 | D5 | Set theory & logic — tuple, partition, mapping, surjective, predicate | ⏳ | — |
 | D6 | Discrete math — recurrence, induction, combinatorics | ⏳ | — |
 | D7 | Graph theory — vertex, edge, traversal, spanning tree | ⏳ | — |
@@ -126,8 +126,8 @@
 |---|---|---|---|
 | 🧮 Матвій · pre-plan | 3 | 0 | 3 |
 | 🧮 Матвій · літня програма | 2 (L1, L2) | 25 (L3-L27) | 27 |
-| 📐 Тімур · English math vocab | 1 (D1) | 19 (D2-D20) | 20 |
+| 📐 Тімур · English math vocab | 4 (D1-D4) | 16 (D5-D20) | 20 |
 | 🐍 Python · Кодомандри | 1 | 0 | 1 |
-| **Всього** | **7** | **44** | **51** |
+| **Всього** | **10** | **41** | **51** |
 
 > Документ автогенерується ні — оновлюй вручну при додаванні нових квізів. Інша версія для майбутніх Claude-сесій — у git-репозиторії: `quiz/vault/plan.md` (Матвій), методологія — `quiz/vault/methodology.md`.
