@@ -93,9 +93,9 @@
 | **D2** | **Calculus & Analysis** — limit ε-δ, derivative, gradient, Jacobian, Hessian, Taylor, compact, supremum | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d02-calculus-analysis-2026-06-07) |
 | **D3** | **Probability** — sample space, RV, PMF/PDF, expectation, Bayes, CLT (threshold 1.0) | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d03-probability-2026-06-07) |
 | **D4** | **Statistics** — estimator, MLE, hypothesis testing, p-value/CI traps (threshold 1.0), OLS, KL | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d04-statistics-2026-06-07) |
-| D5 | Set theory & logic — tuple, partition, mapping, surjective, predicate | ⏳ | — |
-| D6 | Discrete math — recurrence, induction, combinatorics | ⏳ | — |
-| D7 | Graph theory — vertex, edge, traversal, spanning tree | ⏳ | — |
+| **D5** | **Set Theory & Logic** — ∅ vs {∅}, ⊆/⊊ convention, bijection, quantifier order | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d05-set-theory-logic-2026-06-07) |
+| **D6** | **Discrete Mathematics** — induction, perm/comb, modular arithmetic, Big-O/Θ/Ω, CRT | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d06-discrete-math-2026-06-07) |
+| **D7** | **Graph Theory** — G=(V,E), DAG ⇔ topo, BFS/DFS, Dijkstra negative trap, MST | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d07-graph-theory-2026-06-07) |
 | D8 | Databases — relation, schema, normalization, JOIN, cardinality | ⏳ | — |
 | D9 | ML / data science — feature, embedding, loss, overfitting, regularization | ⏳ | — |
 | D10 | Algorithms & complexity — NP-hard, recursion, asymptotic | ⏳ | — |
@@ -126,8 +126,8 @@
 |---|---|---|---|
 | 🧮 Матвій · pre-plan | 3 | 0 | 3 |
 | 🧮 Матвій · літня програма | 2 (L1, L2) | 25 (L3-L27) | 27 |
-| 📐 Тімур · English math vocab | 4 (D1-D4) | 16 (D5-D20) | 20 |
+| 📐 Тімур · English math vocab | 7 (D1-D7) | 13 (D8-D20) | 20 |
 | 🐍 Python · Кодомандри | 1 | 0 | 1 |
-| **Всього** | **10** | **41** | **51** |
+| **Всього** | **13** | **38** | **51** |
 
 > Документ автогенерується ні — оновлюй вручну при додаванні нових квізів. Інша версія для майбутніх Claude-сесій — у git-репозиторії: `quiz/vault/plan.md` (Матвій), методологія — `quiz/vault/methodology.md`.
