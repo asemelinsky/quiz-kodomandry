@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Day 6 · Discrete Mathematics — English vocabulary for math interviews</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 60%, #06b6d4 100%);
+    min-height: 100vh; padding: 14px;
+    color: #0f172a; -webkit-tap-highlight-color: transparent;
+  }
+  .container {
+    background: #fff; border-radius: 18px; padding: 22px 18px 18px;
+    max-width: 680px; margin: 0 auto; box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+    position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4); }
+
+  h1 { color: #1e3a8a; font-size: 1.45em; line-height: 1.2; margin: 6px 0 4px; }
+  .subtitle { color: #64748b; font-size: 0.92em; margin-bottom: 14px; }
+  .intro { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 14px; border-radius: 10px; font-size: 0.96em; line-height: 1.5; margin: 12px 0; }
+  .intro ul { margin: 6px 0 0 18px; }
+  .intro li { margin: 3px 0; }
+
+  .btn {
+    border: none; padding: 13px 22px; font-size: 1em; font-weight: 700;
+    border-radius: 11px; cursor: pointer; font-family: inherit;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #fff;
+    box-shadow: 0 5px 15px rgba(30,58,138,0.35); transition: transform .12s, box-shadow .12s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-block { display: block; width: 100%; margin-top: 12px; }
+  .btn-next { background: linear-gradient(135deg, #059669, #10b981); box-shadow: 0 5px 15px rgba(5,150,105,0.35); }
+  .btn-audio { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 12px rgba(124,58,237,0.3); padding: 11px 18px; font-size: 0.95em; }
+  .btn-ghost { background: transparent; color: #64748b; border: 2px solid #e2e8f0; box-shadow: none; padding: 11px 16px; }
+
+  .top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .section-badge { background: #1e3a8a; color: #fff; font-size: 0.78em; font-weight: 700; padding: 4px 10px; border-radius: 14px; }
+  .timer-badge { background: #eff6ff; color: #1e3a8a; font-weight: 700; font-size: 0.85em; padding: 4px 10px; border-radius: 10px; font-variant-numeric: tabular-nums; }
+  .progress-info { color: #475569; font-size: 0.85em; font-weight: 600; text-align: center; margin: 6px 0; }
+  .progress-bar { background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden; margin-bottom: 14px; }
+  .progress-fill { background: linear-gradient(90deg, #1e3a8a, #06b6d4); height: 100%; transition: width .35s ease; }
+
+  .task-type { display: inline-block; background: #f1f5f9; color: #475569; font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 6px; margin-bottom: 8px; text-transform: uppercase; }
+  .prompt { font-size: 1.06em; line-height: 1.5; margin-bottom: 12px; color: #0f172a; }
+  .prompt b, .prompt strong { color: #1e3a8a; }
+  .prompt .blank-mark { font-family: "SF Mono","Menlo","Consolas",monospace; color: #4f46e5; font-weight: 700; letter-spacing: 1px; }
+  .cloze-sentence { font-size: 1.1em; line-height: 1.6; background: #f8fafc; padding: 12px 14px; border-radius: 10px; margin: 8px 0 14px; }
+
+  .options { display: grid; gap: 9px; }
+  .option {
+    background: #fff; border: 2px solid #e2e8f0; padding: 13px 14px; border-radius: 11px;
+    cursor: pointer; font-size: 0.98em; font-family: inherit; color: #0f172a;
+    text-align: left; transition: all .12s; -webkit-appearance: none; appearance: none;
+    line-height: 1.4;
+  }
+  .option:active { transform: translateY(1px); }
+  .option:disabled { cursor: not-allowed; }
+  .option.wrong { background: #fef2f2; border-color: #dc2626; color: #7f1d1d; opacity: 0.75; }
+  .option.correct { background: #f0fdf4; border-color: #16a34a; color: #14532d; font-weight: 700; }
+
+  .freetext-area textarea {
+    width: 100%; min-height: 100px; border: 2px solid #cbd5e1; border-radius: 11px;
+    padding: 11px 12px; font-family: inherit; font-size: 0.97em; line-height: 1.5;
+    color: #0f172a; resize: vertical; -webkit-appearance: none;
+  }
+  .freetext-area textarea:focus { outline: none; border-color: #3b82f6; }
+  .freetext-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .freetext-actions .btn { flex: 1; min-width: 130px; }
+
+  .keywords { margin-top: 10px; }
+  .kw { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 0.85em; font-weight: 600; margin: 3px 3px 3px 0; }
+  .kw.hit { background: #f0fdf4; color: #14532d; border: 1px solid #bbf7d0; }
+  .kw.miss { background: #fef2f2; color: #7f1d1d; border: 1px solid #fecaca; }
+  .your-answer { background: #f8fafc; padding: 10px 12px; border-radius: 9px; font-style: italic; color: #475569; margin: 8px 0; font-size: 0.93em; line-height: 1.45; }
+  .model-answer { background: #f0fdfa; padding: 10px 12px; border-radius: 9px; font-size: 0.95em; line-height: 1.5; margin: 8px 0; border-left: 3px solid #14b8a6; }
+
+  .feedback { margin-top: 12px; padding: 12px 14px; border-radius: 11px; font-size: 0.96em; line-height: 1.5; animation: slideIn .22s ease; }
+  .feedback.hint { background: #fffbeb; color: #78350f; border-left: 4px solid #f59e0b; }
+  .feedback.explanation { background: #f0fdf4; color: #14532d; border-left: 4px solid #22c55e; }
+  .feedback-title { font-weight: 700; margin-bottom: 4px; font-size: 0.94em; }
+  .ru-hint { display: block; margin-top: 6px; color: #92400e; font-size: 0.9em; }
+  .ru-hint::before { content: '🇷🇺 '; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .next-area { margin-top: 14px; }
+
+  .audio-prompt { background: linear-gradient(135deg, #f5f3ff, #ede9fe); border: 2px dashed #a78bfa; padding: 14px; border-radius: 12px; text-align: center; margin: 8px 0 14px; }
+  .audio-prompt .label { font-size: 0.85em; color: #6d28d9; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px; }
+
+  .result-screen { text-align: center; padding: 6px 4px; }
+  .result-emoji { font-size: 3.6em; margin: 8px 0; }
+  .result-score { font-size: 3em; font-weight: 800; color: #1e3a8a; margin: 4px 0; }
+  .result-meta { display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 10px 0; color: #475569; }
+  .result-breakdown { background: #f8fafc; padding: 12px 14px; border-radius: 11px; margin: 14px 0; text-align: left; font-size: 0.93em; line-height: 1.6; }
+  .result-breakdown h3 { color: #1e3a8a; font-size: 0.92em; margin-bottom: 6px; font-weight: 700; }
+  .breakdown-row { display: flex; justify-content: space-between; padding: 3px 0; }
+  .motivation { background: #eff6ff; padding: 12px 14px; border-radius: 11px; color: #1e3a8a; font-style: italic; margin: 12px 0; }
+
+  .sources-overview { background: #f0fdfa; border-left: 4px solid #14b8a6; padding: 12px 14px; border-radius: 10px; margin: 14px 0 8px; font-size: 0.9em; line-height: 1.5; }
+  .sources-overview h4 { color: #047857; font-size: 0.95em; margin-bottom: 6px; font-weight: 700; }
+  .sources-overview ul { list-style: none; padding: 0; margin: 4px 0 0; }
+  .sources-overview li { padding: 2px 0; }
+  .sources-overview a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .sources-overview a:hover { text-decoration: underline; }
+  .sources-overview .src-note { font-size: 0.85em; color: #64748b; margin-top: 6px; font-style: italic; }
+
+  .task-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .task-header .task-type { margin-bottom: 0; }
+  .task-sources-btn { background: #ecfeff; color: #0891b2; border: 1px solid #67e8f9; padding: 3px 9px; border-radius: 6px; font-size: 0.78em; font-weight: 700; cursor: pointer; font-family: inherit; -webkit-appearance: none; appearance: none; transition: background 0.12s; }
+  .task-sources-btn:active { background: #cffafe; }
+  .task-sources-panel { background: #f0fdfa; border-left: 3px solid #14b8a6; padding: 8px 12px; border-radius: 8px; margin: 0 0 12px; font-size: 0.85em; line-height: 1.5; display: none; }
+  .task-sources-panel.open { display: block; }
+  .task-sources-panel ul { list-style: none; padding: 0; margin: 0; }
+  .task-sources-panel li { padding: 2px 0; }
+  .task-sources-panel a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .task-sources-panel a:hover { text-decoration: underline; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 480px) {
+    .container { padding: 18px 14px 14px; border-radius: 14px; }
+    h1 { font-size: 1.28em; }
+    .prompt { font-size: 1em; }
+    .option { padding: 12px; font-size: 0.95em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== START SCREEN ===== -->
+  <div id="start-screen">
+    <h1>🔢 Day 6 · Discrete Mathematics</h1>
+    <div class="subtitle">English vocabulary booster — math interview prep · B2/C1</div>
+    <div class="intro">
+      Welcome! Today: <b>discrete mathematics</b> — proof techniques, combinatorics, recurrences, number theory.<ul><li>📋 <b>20 tasks</b>: definitions · cloze · collocations · audio · free-writing · synonyms</li><li>🎯 Critical traps: <b>induction vs contradiction vs contrapositive</b>, <b>permutation vs combination</b>, <b>a ≡ b (mod n) vs a mod n</b> notation collision, <b>Big-O vs Θ vs Ω</b> distinction, <b>inclusion-exclusion sign alternation</b></li><li>🎧 <b>Audio</b> via Web Speech API</li><li>💡 Russian hints; first-try scoring</li><li>✍️ 2 freetexts at threshold 1.0 (perm/comb formulas, modular+Euclidean)</li><li>⏱️ ~30-45 min.</li></ul>
+    </div>
+    <div id="start-sources" class="sources-overview"></div>
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Start</button>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div id="quiz-screen" class="hidden">
+    <div class="top-row">
+      <span class="section-badge" id="section-badge">—</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-info">Question 1 of 20</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div id="task-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1 id="result-title">Done!</h1>
+      <div class="result-score"><span id="result-percent">0</span>%</div>
+      <div class="result-meta">
+        <div>First-try correct: <b id="result-correct">0</b> of <b id="result-total">20</b></div>
+        <div>Time: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="result-breakdown">
+        <h3>By task type</h3>
+        <div id="result-breakdown-list"></div>
+      </div>
+      <div class="motivation" id="result-motivation"></div>
+      <button class="btn btn-block" onclick="restartQuiz()">🔄 Try again (new order)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ SOURCES (audit registry) ============
+// Backed by vault/authorities-en-math.md — Wikipedia + Rosen / Concrete Mathematics / Niven-Zuckerman / CLRS cross-referenced.
+var SOURCES = {
+  'wiki-induction':       { name: 'Wikipedia: Mathematical induction',                  url: 'https://en.wikipedia.org/wiki/Mathematical_induction' },
+  'wiki-contradiction':   { name: 'Wikipedia: Proof by contradiction',                  url: 'https://en.wikipedia.org/wiki/Proof_by_contradiction' },
+  'wiki-contrapositive':  { name: 'Wikipedia: Contraposition',                          url: 'https://en.wikipedia.org/wiki/Contraposition' },
+  'wiki-pigeonhole':      { name: 'Wikipedia: Pigeonhole principle',                    url: 'https://en.wikipedia.org/wiki/Pigeonhole_principle' },
+  'wiki-recurrence':      { name: 'Wikipedia: Recurrence relation',                     url: 'https://en.wikipedia.org/wiki/Recurrence_relation' },
+  'wiki-linrec':          { name: 'Wikipedia: Linear recurrence with constant coefficients', url: 'https://en.wikipedia.org/wiki/Linear_recurrence_with_constant_coefficients' },
+  'wiki-fibonacci':       { name: 'Wikipedia: Fibonacci sequence',                      url: 'https://en.wikipedia.org/wiki/Fibonacci_sequence' },
+  'wiki-permutation':     { name: 'Wikipedia: Permutation',                             url: 'https://en.wikipedia.org/wiki/Permutation' },
+  'wiki-combination':     { name: 'Wikipedia: Combination',                             url: 'https://en.wikipedia.org/wiki/Combination' },
+  'wiki-binomial':        { name: 'Wikipedia: Binomial coefficient',                    url: 'https://en.wikipedia.org/wiki/Binomial_coefficient' },
+  'wiki-incexc':          { name: 'Wikipedia: Inclusion–exclusion principle',           url: 'https://en.wikipedia.org/wiki/Inclusion%E2%80%93exclusion_principle' },
+  'wiki-genfn':           { name: 'Wikipedia: Generating function',                     url: 'https://en.wikipedia.org/wiki/Generating_function' },
+  'wiki-divisor':         { name: 'Wikipedia: Divisor',                                 url: 'https://en.wikipedia.org/wiki/Divisor' },
+  'wiki-prime':           { name: 'Wikipedia: Prime number',                            url: 'https://en.wikipedia.org/wiki/Prime_number' },
+  'wiki-gcd':             { name: 'Wikipedia: Greatest common divisor',                 url: 'https://en.wikipedia.org/wiki/Greatest_common_divisor' },
+  'wiki-euclid':          { name: 'Wikipedia: Euclidean algorithm',                     url: 'https://en.wikipedia.org/wiki/Euclidean_algorithm' },
+  'wiki-modular':         { name: 'Wikipedia: Modular arithmetic',                      url: 'https://en.wikipedia.org/wiki/Modular_arithmetic' },
+  'wiki-crt':             { name: 'Wikipedia: Chinese remainder theorem',               url: 'https://en.wikipedia.org/wiki/Chinese_remainder_theorem' },
+  'wiki-bigo':            { name: 'Wikipedia: Big O notation',                          url: 'https://en.wikipedia.org/wiki/Big_O_notation' },
+  'rosen':                { name: 'Rosen, "Discrete Mathematics and Its Applications" 8th ed (McGraw-Hill 2019)', url: null },
+  'concrete-math':        { name: 'Graham/Knuth/Patashnik, "Concrete Mathematics" 2nd ed (Addison-Wesley 1994)',  url: null },
+  'stanley-ec1':          { name: 'Stanley, "Enumerative Combinatorics" Vol 1, 2nd ed (Cambridge 2011)',          url: null },
+  'niven-zuckerman':      { name: 'Niven/Zuckerman/Montgomery, "An Introduction to the Theory of Numbers" 5th ed (Wiley 1991)', url: null },
+  'clrs':                 { name: 'CLRS, "Introduction to Algorithms" 4th ed (MIT 2022)', url: null }
+};
+var TASK_SOURCES = [
+  ['wiki-induction', 'rosen'],
+  ['wiki-pigeonhole', 'rosen'],
+  ['wiki-contrapositive', 'rosen'],
+  ['wiki-linrec', 'concrete-math'],
+  ['wiki-combination', 'rosen'],
+  ['wiki-incexc', 'rosen'],
+  ['wiki-modular', 'niven-zuckerman'],
+  ['wiki-fibonacci', 'concrete-math'],
+  ['wiki-bigo', 'clrs'],
+  ['wiki-euclid', 'niven-zuckerman'],
+  ['wiki-induction', 'rosen'],
+  ['wiki-recurrence', 'concrete-math'],
+  ['wiki-binomial', 'concrete-math'],
+  ['wiki-pigeonhole', 'rosen'],
+  ['wiki-crt', 'niven-zuckerman'],
+  ['wiki-genfn', 'concrete-math', 'stanley-ec1'],
+  ['wiki-permutation', 'wiki-combination', 'rosen'],
+  ['wiki-modular', 'wiki-euclid', 'niven-zuckerman'],
+  ['wiki-divisor', 'wiki-prime'],
+  ['wiki-recurrence', 'concrete-math']
+];
+
+// ============ TASKS ============
+var TASKS = [
+  {
+    type: 'mc', section: 'Proof techniques',
+    prompt: 'Weak <b>mathematical induction</b> proves ∀n ≥ n₀ P(n) by:',
+    options: [
+      'Proving base case P(n₀), then proving P(k) ⇒ P(k+1) for all k ≥ n₀',
+      'Assuming ¬P(n) and deriving a contradiction',
+      'Showing that P(n) follows from the contrapositive ¬Q ⇒ ¬P',
+      'Proving P(n) for a single specific n and generalizing'
+    ],
+    correct: 0,
+    hint: '<b>Induction</b> — два шага: <b>base case</b> (P(n₀) верно) и <b>inductive step</b> (если P(k), то P(k+1)). <span class="ru-hint">🇷🇺 Это <i>не</i> proof by contradiction (опция B) и <i>не</i> contrapositive (опция C). Strong induction отличается от weak только формой гипотезы.</span>',
+    explain: 'Induction: (1) base P(n₀), (2) step P(k) ⇒ P(k+1). Strong induction differs only in hypothesis (assume P(n₀)..P(k) instead of just P(k)) — logically equivalent. Source: Rosen §5.1.'
+  },
+  {
+    type: 'mc', section: 'Proof techniques',
+    prompt: 'The <b>pigeonhole principle</b> states that:',
+    options: [
+      'If n items are placed into m < n containers, at least one container holds ≥ 2 items',
+      'Every container holds exactly ⌊n/m⌋ items',
+      'There exists an injective function from any n-set into any m-set',
+      'If n items fit in m containers, then n ≤ m'
+    ],
+    correct: 0,
+    hint: '<b>Голуби и ящики</b>: больше голубей чем ящиков → хотя бы в одном ≥ 2 голубя. Формально: <b>нет инъекции</b> из большего в меньшее. <span class="ru-hint">🇷🇺 Базовая идея для Ramsey theory, hash collisions, approximation.</span>',
+    explain: 'Generalized: n items in m boxes ⇒ some box has ≥ ⌈n/m⌉. Function form: no injection from n-set to m-set when n > m. Source: Rosen §6.2.'
+  },
+  {
+    type: 'mc', section: 'Proof techniques',
+    prompt: 'A <b>proof by contrapositive</b> of "P ⇒ Q" proceeds by:',
+    options: [
+      'Proving the equivalent statement ¬Q ⇒ ¬P directly',
+      'Assuming P ∧ ¬Q and deriving a contradiction',
+      'Showing that both P and Q are independently true',
+      'Constructing a counter-example to ¬P'
+    ],
+    correct: 0,
+    hint: '⚠️ <b>Contrapositive ≠ contradiction!</b> Contrapositive: <i>прямое</i> доказательство <b>¬Q ⇒ ¬P</b>. Contradiction: предполагаем P ∧ ¬Q, получаем абсурд. <span class="ru-hint">🇷🇺 Оба валидны, но логически разные приёмы. Контрапозиция чище — без отрицания заключения.</span>',
+    explain: 'Contrapositive: directly prove ¬Q ⇒ ¬P (logically equivalent to P ⇒ Q). Contradiction: assume P ∧ ¬Q, derive ⊥. Source: Rosen §1.7.'
+  },
+  {
+    type: 'mc', section: 'Recurrence relations',
+    prompt: 'For the linear homogeneous recurrence aₙ = c₁aₙ₋₁ + c₂aₙ₋₂, the <b>characteristic equation</b> is:',
+    options: [
+      'r² − c₁r − c₂ = 0',
+      'r² + c₁r + c₂ = 0',
+      'aₙ = c₁ + c₂',
+      'r² − aₙ₋₁r − aₙ₋₂ = 0'
+    ],
+    correct: 0,
+    hint: 'Подставляем aₙ = rⁿ, делим на rⁿ⁻² → получаем <b>r² − c₁r − c₂ = 0</b>. Корни дают общее решение aₙ = α·r₁ⁿ + β·r₂ⁿ. <span class="ru-hint">🇷🇺 Знаки минусов критичны! Для повторного корня формула с (α + βn)rⁿ.</span>',
+    explain: 'aₙ = rⁿ substitution yields r² − c₁r − c₂ = 0. Distinct roots r₁,r₂: aₙ = α·r₁ⁿ + β·r₂ⁿ. Repeated root: (α + βn)·rⁿ. Source: Rosen §8.2.'
+  },
+  {
+    type: 'mc', section: 'Combinatorics',
+    prompt: 'The number of ways to choose k objects from n distinct objects, <b>where order does not matter</b>, is:',
+    options: [
+      'C(n, k) = n! / (k!(n−k)!)',
+      'P(n, k) = n! / (n−k)!',
+      'n^k',
+      'k! · (n − k)!'
+    ],
+    correct: 0,
+    hint: '⚠️ <b>Classic trap</b>: <b>combination</b> (порядок НЕ важен) → <b>C(n,k)</b>. <b>Permutation</b> (порядок важен) → P(n,k). Связь: P(n,k) = k!·C(n,k). <span class="ru-hint">🇷🇺 "Выбираем команду из 5 человек" — combination. "Расставляем 5 человек в очереди" — permutation.</span>',
+    explain: 'C(n,k) = n!/(k!(n−k)!) counts unordered k-subsets. P(n,k) = n!/(n−k)! counts ordered arrangements. Source: Rosen §6.3.'
+  },
+  {
+    type: 'mc', section: 'Counting · Cloze',
+    promptHTML: 'Fill the blank:',
+    sentence: 'By inclusion–exclusion for three sets: |A ∪ B ∪ C| = |A| + |B| + |C| − |A∩B| − |A∩C| − |B∩C| <span class="blank-mark">______</span> |A∩B∩C|.',
+    options: ['+', '−', '×', '÷'],
+    correct: 0,
+    hint: '⚠️ <b>Знаки чередуются!</b> +singles, −pairs, <b>+triples</b>, −quadruples … <span class="ru-hint">🇷🇺 Типичная ошибка — забыть последний плюс для тройного пересечения. Каждый элемент должен в итоге быть посчитан ровно 1 раз.</span>',
+    explain: 'Inclusion–exclusion for n sets: Σ|Aᵢ| − Σ|Aᵢ∩Aⱼ| + Σ|Aᵢ∩Aⱼ∩Aₖ| − … For 3 sets last term is +|A∩B∩C|. Source: Rosen §8.5.'
+  },
+  {
+    type: 'mc', section: 'Number theory · Cloze',
+    promptHTML: 'Fill the blank:',
+    sentence: 'We write a <span class="blank-mark">______</span> b (mod n) when n divides (a − b), meaning a and b have the same remainder modulo n.',
+    options: ['≡', '=', '∼', 'mod'],
+    correct: 0,
+    hint: '⚠️ <b>Notation collision</b>: <b>a ≡ b (mod n)</b> = congruence relation (тройной знак ≡). <b>a mod n</b> = operation, возвращает остаток. <span class="ru-hint">🇷🇺 Это <b>разные</b> вещи! ≡ — отношение между a и b; mod (как операция) — функция возвращающая число.</span>',
+    explain: 'a ≡ b (mod n) means n | (a − b). It is a relation, not an operation. The operation a mod n returns r with 0 ≤ r < n. Source: Wikipedia Modular_arithmetic.'
+  },
+  {
+    type: 'mc', section: 'Recurrence · Cloze',
+    promptHTML: 'Fill the blank:',
+    sentence: 'The Fibonacci sequence is defined by F₀ = 0, F₁ = 1, and F_n = <span class="blank-mark">______</span> for n ≥ 2.',
+    options: ['F_{n−1} + F_{n−2}', 'F_{n−1} · F_{n−2}', 'F_{n+1} − F_n', '2·F_{n−1}'],
+    correct: 0,
+    hint: 'Самая известная linear homogeneous recurrence порядка 2. Closed form — <b>формула Бине</b>: F_n = (φⁿ − ψⁿ)/√5, φ = (1+√5)/2 ≈ 1.618. <span class="ru-hint">🇷🇺 Золотое сечение φ — характеристический корень.</span>',
+    explain: 'F_n = F_{n−1} + F_{n−2}. Characteristic equation r² − r − 1 = 0, roots φ,ψ. Binet: F_n = (φⁿ − ψⁿ)/√5. Source: Concrete Math §6.6.'
+  },
+  {
+    type: 'mc', section: 'Asymptotic notation · Cloze',
+    promptHTML: 'Fill the blank:',
+    sentence: 'A function f(n) is <span class="blank-mark">______</span>(g(n)) iff f(n) = O(g(n)) AND f(n) = Ω(g(n)) — i.e., g is both upper and lower asymptotic bound.',
+    options: ['Θ', 'O', 'Ω', 'o'],
+    correct: 0,
+    hint: '⚠️ Строгая математика: <b>O</b> = upper bound, <b>Ω</b> = lower bound, <b>Θ</b> = tight bound (оба). <span class="ru-hint">🇷🇺 В неформальной CS "Big-O" часто означает Θ, но в data theory важна точность. Технически O(n) ⊂ O(n²), хотя в речи это часто игнорируется.</span>',
+    explain: 'Θ(g) ⇔ O(g) ∧ Ω(g). Strict math: O is upper bound only. CS practitioners often loosely say "O(n)" meaning Θ(n). Source: CLRS §3; Concrete Math §9.2.'
+  },
+  {
+    type: 'mc', section: 'Number theory · Collocations',
+    prompt: 'Pick the standard mathematical English collocation:',
+    options: [
+      'run the Euclidean algorithm to compute gcd(a, b)',
+      'play the Euclidean algorithm to compute gcd(a, b)',
+      'execute the Euclidean algorithm on gcd(a, b)',
+      'do the Euclidean algorithm for gcd(a, b)'
+    ],
+    correct: 0,
+    hint: 'Стандарт для algorithms — <b>run</b> (или apply, perform). "Execute" — OK для CS, но "<b>run the Euclidean algorithm</b>" — самая частая коллокация. <span class="ru-hint">🇷🇺 Не "do/play".</span>',
+    explain: 'Standard: "run / apply / perform the Euclidean algorithm." For RSA, extended Euclidean computes modular inverses. Source: Niven-Zuckerman §1.2.'
+  },
+  {
+    type: 'mc', section: 'Proof techniques · Collocations',
+    prompt: 'Pick the standard mathematical English collocation:',
+    options: [
+      'We prove the claim by induction on n',
+      'We prove the claim with induction on n',
+      'We make the claim by induction on n',
+      'We do induction to the claim on n'
+    ],
+    correct: 0,
+    hint: 'Стандартная формула: <b>"prove ... by induction on &lt;variable&gt;"</b>. Preposition важен: <b>by</b> induction, <b>on</b> n. <span class="ru-hint">🇷🇺 Не "with induction" и не "do induction". "By induction on n" открывает каждое индуктивное доказательство.</span>',
+    explain: 'Standard formula: "prove X by induction on n." Opens essentially every inductive proof. Source: Rosen 8th ed.'
+  },
+  {
+    type: 'mc', section: 'Recurrence · Collocations',
+    prompt: 'Pick the standard mathematical English collocation:',
+    options: [
+      'solve the recurrence to obtain a closed-form expression',
+      'open the recurrence to obtain a closed-form expression',
+      'compute the recurrence to obtain a closed-form expression',
+      'resolve the recurrence into a closed-form expression'
+    ],
+    correct: 0,
+    hint: 'Стандарт: <b>"solve a recurrence"</b>. Closed form = explicit non-recursive formula. <span class="ru-hint">🇷🇺 Связано с generating functions, characteristic equation, master theorem (CS).</span>',
+    explain: '"Solve a recurrence" — standard verb. Techniques: characteristic equation, generating functions, master theorem. Source: Concrete Math Ch.6,7.'
+  },
+  {
+    type: 'mc', section: 'Binomial · Collocations',
+    prompt: 'Pick the most idiomatic reading for the binomial coefficient (n choose k):',
+    options: [
+      '"n choose k"',
+      '"n over k"',
+      '"n on top of k"',
+      '"binomial of n and k"'
+    ],
+    correct: 0,
+    hint: 'Стандартное чтение: <b>"n choose k"</b>. "n over k" — это про дроби n/k. <span class="ru-hint">🇷🇺 Notation: C(n,k), nCk, (n choose k), Cₙᵏ — всё одно и то же.</span>',
+    explain: '"n choose k" is the standard reading. C(n,k), nCk, ₙCₖ all equivalent. Source: Wikipedia Binomial_coefficient; Concrete Math Ch.5.'
+  },
+  {
+    type: 'audio_mc', section: 'Proof techniques · Listening',
+    audioText: 'pigeonhole principle',
+    promptHTML: 'You hear an English term. Pick its meaning:',
+    options: [
+      'If n > m items go into m containers, then some container holds ≥ 2 items',
+      'The principle of induction on natural numbers',
+      'The fundamental theorem of arithmetic about prime factorization',
+      'A method for solving recurrence relations'
+    ],
+    correct: 0,
+    hint: 'Два слова: <b>pigeon</b> + <b>hole</b>. Принцип звучит тривиально, но даёт глубокие следствия в Ramsey theory, hash collisions. Generalized: <b>⌈n/m⌉</b>. <span class="ru-hint">🇷🇺 "Принцип ящиков Дирихле".</span>',
+    explain: 'n items in m < n boxes ⇒ some box has ≥ 2 items. Generalized: ⌈n/m⌉. Function form: no injection from larger to smaller. Source: Rosen §6.2.'
+  },
+  {
+    type: 'audio_mc', section: 'Number theory · Listening',
+    audioText: 'Chinese remainder theorem',
+    promptHTML: 'You hear an English term. Pick its meaning:',
+    options: [
+      'For pairwise coprime moduli n₁,…,nₖ, the system x ≡ aᵢ (mod nᵢ) has a unique solution mod n₁⋯nₖ',
+      'Every integer has a unique prime factorization',
+      'The remainder of dividing by n is always less than n',
+      'Modular exponentiation can be computed in polynomial time'
+    ],
+    correct: 0,
+    hint: '⚠️ Важно: модули должны быть <b>pairwise coprime</b> (каждая пара), не просто "coprime as a set". <span class="ru-hint">🇷🇺 Основа быстрых вычислений в RSA, hash functions. Ring form: ℤ/Nℤ ≅ ℤ/n₁ℤ × … × ℤ/nₖℤ.</span>',
+    explain: 'CRT: pairwise coprime n₁,…,nₖ ⇒ x ≡ aᵢ (mod nᵢ) has unique solution mod N = ∏nᵢ. Foundation of RSA-CRT optimization. Source: Niven-Zuckerman §2.3.'
+  },
+  {
+    type: 'audio_mc', section: 'Generating functions · Listening',
+    audioText: 'exponential generating function',
+    promptHTML: 'You hear an English term. Pick its meaning:',
+    options: [
+      'A formal power series Σ aₙ xⁿ / n! — preferred for labeled combinatorial structures',
+      'A formal power series Σ aₙ xⁿ — for unlabeled structures',
+      'The function eˣ used to model exponential growth',
+      'A recurrence solution of the form aₙ = α·rⁿ'
+    ],
+    correct: 0,
+    hint: '<b>EGF</b> делит коэффициенты на <b>n!</b>: Σ aₙ xⁿ/n!. Для <b>labeled</b> structures. <b>OGF</b> (без n!) — для <b>unlabeled</b>. <span class="ru-hint">🇷🇺 EGF — permutations, labeled trees. OGF — partitions, compositions.</span>',
+    explain: 'EGF: Σ aₙxⁿ/n!. Product of EGFs ↔ labeled product of structures. Source: Concrete Math Ch.7; Stanley EC2.'
+  },
+  {
+    type: 'freetext', section: 'Combinatorics · Free-text',
+    promptHTML: 'Explain the difference between a <b>permutation</b> and a <b>combination</b>. Give the formulas P(n,k) and C(n,k).',
+    placeholder: 'A permutation of k objects from n is …; a combination is …',
+    modelAnswer: 'A <b>permutation</b> P(n,k) = <b>n!/(n−k)!</b> is an <b>ordered</b> arrangement of k distinct objects from n — the order <b>matters</b>. A <b>combination</b> C(n,k) = <b>n!/(k!(n−k)!)</b> is an <b>unordered</b> subset of k from n — the order does <b>not</b> matter. Relation: P(n,k) = k!·C(n,k).',
+    keyPhrases: [
+      'order matters|ordered|order of',
+      'unordered|order does not|order doesn|not matter',
+      'n!/(n-k)!|n!/(n−k)!|factorial',
+      'n!/(k!(n-k)!)|n!/(k!(n−k)!)|binomial|n choose k|(n choose k)'
+    ],
+    threshold: 1.0,
+    hint: '⚠️ 4 idea (threshold 1.0): <i>order matters</i> (perm), <i>order doesn\'t matter</i> (comb), formula <b>P(n,k) = n!/(n−k)!</b>, formula <b>C(n,k) = n!/(k!(n−k)!)</b>. Связь: P = k!·C.'
+  },
+  {
+    type: 'freetext', section: 'Number theory · Free-text',
+    promptHTML: 'Define <b>modular arithmetic</b> notation a ≡ b (mod n), and explain how the <b>Euclidean algorithm</b> computes gcd(a, b).',
+    placeholder: 'a ≡ b (mod n) means …; the Euclidean algorithm …',
+    modelAnswer: '<b>a ≡ b (mod n)</b> means that <b>n divides (a − b)</b>, equivalently a and b leave the <b>same remainder</b> when divided by n. The <b>Euclidean algorithm</b> computes gcd(a, b) by repeatedly applying <b>gcd(a, b) = gcd(b, a mod b)</b> until the second argument is <b>zero</b>; the last nonzero remainder is the gcd.',
+    keyPhrases: [
+      'divides|divisible|n divides',
+      'remainder|same remainder|equal remainder',
+      'gcd(b, a mod b)|gcd(a, b) = gcd|a mod b|mod b',
+      'zero|0|last nonzero|stops|terminates'
+    ],
+    threshold: 1.0,
+    hint: '⚠️ 4 ideas (threshold 1.0): n | (a − b), same remainder, recursion <b>gcd(a,b) = gcd(b, a mod b)</b>, termination at <b>zero</b>. <span class="ru-hint">🇷🇺 База криптографии (RSA, modular inverse).</span>'
+  },
+  {
+    type: 'mc', section: 'Synonyms',
+    prompt: 'The phrase "<b>a divides b</b>" is most precisely synonymous with:',
+    options: [
+      'There exists an integer k such that b = a·k',
+      'a is less than or equal to b',
+      'a and b have the same parity',
+      'a is a multiple of b'
+    ],
+    correct: 0,
+    hint: '<b>a | b</b> ⇔ ∃ integer k: <b>b = a·k</b>. Synonyms: "a is a divisor of b", "a is a factor of b", "b is a multiple of a". ⚠️ Опция D переворачивает отношение! <span class="ru-hint">🇷🇺 a делит b означает a — делитель b, b — кратное a.</span>',
+    explain: 'a | b ⇔ ∃ k ∈ ℤ: b = a·k. Synonyms: a is divisor/factor of b; b is multiple of a. Source: Niven-Zuckerman §1.1.'
+  },
+  {
+    type: 'mc', section: 'Synonyms',
+    prompt: 'A "<b>closed-form expression</b>" for aₙ is best described as:',
+    options: [
+      'An explicit non-recursive formula for aₙ as a function of n',
+      'A solution that uses only closed intervals',
+      'A formula expressed inside parentheses',
+      'A recurrence relation written compactly'
+    ],
+    correct: 0,
+    hint: '<b>Closed form</b> ≠ "написано в скобках"! Это <b>explicit formula</b> — не рекурсивная. Пример: Fibonacci closed form = формула Бине (φⁿ − ψⁿ)/√5. <span class="ru-hint">🇷🇺 "Замкнутая форма" — формула в которой нет рекурсии и нет невычислимых сумм/интегралов.</span>',
+    explain: 'Closed-form = explicit non-recursive formula. Examples: arith aₙ = a₁ + (n−1)d; Fibonacci Binet; geometric Σrⁿ = 1/(1−r). Source: Concrete Math Ch.6.'
+  }
+];
+
+// ============ STATE ============
+var current = 0;
+var firstTryCorrect = 0;
+var attemptedWrong = false;
+var answeredCorrect = false;
+var perTypeStats = {};
+var quizStart = null;
+var timerInt = null;
+var finalSec = null;
+var wrongIdx = {};
+var shuffled = []; // task index order
+
+// ============ HELPERS ============
+function fmtTime(sec) { var m = Math.floor(sec/60), s = sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function speak(text) {
+  if (!window.speechSynthesis) { alert('Sorry, your browser does not support speech synthesis.'); return; }
+  try { speechSynthesis.cancel(); } catch(e) {}
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.85; u.pitch = 1.0;
+  speechSynthesis.speak(u);
+}
+function shuffle(a) { for (var i=a.length-1; i>0; i--) { var j = Math.floor(Math.random()*(i+1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+function startQuiz() {
+  shuffled = TASKS.map(function(_, i){ return i; });
+  // Shuffle MC option order per task (re-shuffled on every restart)
+  TASKS.forEach(function(t){
+    if (t.type === 'mc' || t.type === 'audio_mc') {
+      var order = [];
+      for (var i = 0; i < t.options.length; i++) order.push(i);
+      for (var j = order.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var tmp = order[j]; order[j] = order[k]; order[k] = tmp;
+      }
+      t._order = order;
+      t._correctIdx = order.indexOf(t.correct);
+    }
+  });
+  current = 0; firstTryCorrect = 0; perTypeStats = {};
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart = Date.now();
+  if (timerInt) clearInterval(timerInt);
+  timerInt = setInterval(updateTimer, 250);
+  updateTimer();
+  renderTask();
+}
+function updateTimer() {
+  if (quizStart === null) return;
+  document.getElementById('timer').textContent = '⏱️ ' + fmtTime(Math.floor((Date.now()-quizStart)/1000));
+}
+
+function renderTask() {
+  attemptedWrong = false;
+  answeredCorrect = false;
+  wrongIdx = {};
+
+  var idx = shuffled[current];
+  var t = TASKS[idx];
+  document.getElementById('section-badge').textContent = t.section;
+  document.getElementById('progress-info').textContent = 'Question ' + (current+1) + ' of ' + TASKS.length;
+  document.getElementById('progress-fill').style.width = (((current+1)/TASKS.length)*100) + '%';
+
+  var tc = document.getElementById('task-container');
+  tc.innerHTML = '';
+
+  // type label + 📖 sources button (per-task panel)
+  var headerRow = document.createElement('div');
+  headerRow.className = 'task-header';
+  var typeLabel = document.createElement('div');
+  typeLabel.className = 'task-type';
+  typeLabel.textContent = (t.type === 'mc' ? 'Multiple choice' :
+                          t.type === 'audio_mc' ? '🎧 Listen' :
+                          t.type === 'freetext' ? '✍️ Write' : t.type);
+  headerRow.appendChild(typeLabel);
+
+  var taskSources = (typeof TASK_SOURCES !== 'undefined' && TASK_SOURCES[idx]) || [];
+  var sPanel = null;
+  if (taskSources.length > 0) {
+    var sBtn = document.createElement('button');
+    sBtn.className = 'task-sources-btn';
+    sBtn.innerHTML = '📖 ' + taskSources.length + ' src';
+    sBtn.title = 'Tap to see sources backing this term';
+    sPanel = document.createElement('div');
+    sPanel.className = 'task-sources-panel';
+    var pHtml = '<ul>';
+    for (var sIdx = 0; sIdx < taskSources.length; sIdx++) {
+      var s = SOURCES[taskSources[sIdx]];
+      if (!s) continue;
+      if (s.url) {
+        pHtml += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+      } else {
+        pHtml += '<li>· ' + s.name + '</li>';
+      }
+    }
+    pHtml += '</ul>';
+    sPanel.innerHTML = pHtml;
+    sBtn.onclick = function() { sPanel.classList.toggle('open'); };
+    headerRow.appendChild(sBtn);
+  }
+  tc.appendChild(headerRow);
+  if (sPanel) tc.appendChild(sPanel);
+
+  // prompt
+  if (t.type === 'audio_mc') {
+    var ap = document.createElement('div');
+    ap.className = 'audio-prompt';
+    ap.innerHTML = '<div class="label">TAP TO LISTEN</div>';
+    var btn = document.createElement('button');
+    btn.className = 'btn btn-audio';
+    btn.innerHTML = '🔊 Play';
+    btn.onclick = function(){ speak(t.audioText); };
+    ap.appendChild(btn);
+    tc.appendChild(ap);
+    // auto-play once
+    setTimeout(function(){ speak(t.audioText); }, 250);
+  }
+
+  var pr = document.createElement('div');
+  pr.className = 'prompt';
+  pr.innerHTML = t.promptHTML || t.prompt || '';
+  tc.appendChild(pr);
+
+  if (t.sentence) {
+    var sn = document.createElement('div');
+    sn.className = 'cloze-sentence';
+    sn.innerHTML = t.sentence;
+    tc.appendChild(sn);
+  }
+
+  if (t.type === 'mc' || t.type === 'audio_mc') {
+    renderMC(t, tc);
+  } else if (t.type === 'freetext') {
+    renderFreetext(t, tc);
+  }
+
+  document.getElementById('feedback-container').innerHTML = '';
+  document.getElementById('next-area').innerHTML = '';
+}
+
+function renderMC(t, tc) {
+  var oc = document.createElement('div');
+  oc.className = 'options';
+  // t._order maps displayIdx -> originalOptionIdx (computed in startQuiz)
+  var order = t._order || (function(){ var a=[]; for(var i=0;i<t.options.length;i++) a.push(i); return a; })();
+  for (var i = 0; i < order.length; i++) {
+    (function(displayIdx){
+      var originalIdx = order[displayIdx];
+      var btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = t.options[originalIdx];
+      btn.onclick = function(){ selectMC(t, displayIdx, btn); };
+      oc.appendChild(btn);
+    })(i);
+  }
+  tc.appendChild(oc);
+}
+
+function selectMC(t, choice, btnEl) {
+  if (answeredCorrect) return;
+  if (wrongIdx[choice]) return;
+  var correctDisplayIdx = (typeof t._correctIdx === 'number') ? t._correctIdx : t.correct;
+  if (choice === correctDisplayIdx) {
+    answeredCorrect = true;
+    if (!attemptedWrong) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+    btnEl.classList.add('correct');
+    var opts = document.querySelectorAll('#task-container .option');
+    opts.forEach(function(o){ o.disabled = true; });
+    showExplanation(t);
+    showNextButton();
+  } else {
+    wrongIdx[choice] = true;
+    attemptedWrong = true;
+    btnEl.classList.add('wrong');
+    btnEl.disabled = true;
+    showHint(t);
+  }
+}
+
+function renderFreetext(t, tc) {
+  var area = document.createElement('div');
+  area.className = 'freetext-area';
+  var ta = document.createElement('textarea');
+  ta.placeholder = t.placeholder || 'Write your definition in English…';
+  ta.id = 'freetext-input';
+  area.appendChild(ta);
+  var actions = document.createElement('div');
+  actions.className = 'freetext-actions';
+  var submit = document.createElement('button');
+  submit.className = 'btn';
+  submit.innerHTML = '✅ Check my answer';
+  submit.onclick = function(){ submitFreetext(t); };
+  var skip = document.createElement('button');
+  skip.className = 'btn btn-ghost';
+  skip.innerHTML = 'Skip — show model';
+  skip.onclick = function(){ skipFreetext(t); };
+  actions.appendChild(submit);
+  actions.appendChild(skip);
+  area.appendChild(actions);
+  tc.appendChild(area);
+}
+
+function matchKeyPhrase(input, kp) {
+  // Support '|' as OR-alternatives; return matched alt for display, or null
+  var alts = kp.split('|');
+  for (var i = 0; i < alts.length; i++) {
+    var a = alts[i].toLowerCase().trim();
+    if (a === '') continue;
+    if (input.indexOf(a) >= 0) return alts[i];
+    if (a.slice(-1) === 's' && input.indexOf(a.slice(0, -1)) >= 0) return alts[i];
+    if (input.indexOf(a.replace(/ /g, '-')) >= 0) return alts[i];
+  }
+  return null;
+}
+
+function submitFreetext(t) {
+  if (answeredCorrect) return;
+  var input = (document.getElementById('freetext-input').value || '').toLowerCase().trim();
+  if (!input) { alert('Try writing a definition first.'); return; }
+  var hits = [], misses = [];
+  for (var i = 0; i < t.keyPhrases.length; i++) {
+    var matched = matchKeyPhrase(input, t.keyPhrases[i]);
+    if (matched !== null) {
+      hits.push(matched);
+    } else {
+      // display first alt as canonical when missed
+      misses.push(t.keyPhrases[i].split('|')[0]);
+    }
+  }
+  var coverage = hits.length / t.keyPhrases.length;
+  // Threshold can be overridden per-task (e.g., SVD requires 100% to force "rectangular")
+  var threshold = (typeof t.threshold === 'number') ? t.threshold : 0.75;
+  if (!attemptedWrong) {
+    if (coverage >= threshold) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+  } else {
+    bumpStat(t.section, false);
+  }
+  answeredCorrect = true;
+  renderFreetextResult(t, input, hits, misses, coverage);
+  showNextButton();
+}
+function skipFreetext(t) {
+  attemptedWrong = true;
+  bumpStat(t.section, false);
+  answeredCorrect = true;
+  renderFreetextResult(t, '', [], t.keyPhrases.slice(), 0);
+  showNextButton();
+}
+function renderFreetextResult(t, userInput, hits, misses, coverage) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '';
+
+  if (userInput) {
+    var ya = document.createElement('div');
+    ya.className = 'your-answer';
+    ya.innerHTML = '<b>Your answer:</b> ' + escapeHtml(userInput);
+    fb.appendChild(ya);
+  }
+
+  var pct = Math.round(coverage*100);
+  var ex = document.createElement('div');
+  ex.className = 'feedback explanation';
+  ex.innerHTML = '<div class="feedback-title">Key phrases coverage: ' + pct + '%</div>' +
+    '<div class="keywords">' +
+      hits.map(function(h){ return '<span class="kw hit">✓ ' + h + '</span>'; }).join('') +
+      misses.map(function(m){ return '<span class="kw miss">✗ ' + m + '</span>'; }).join('') +
+    '</div>' +
+    '<div class="model-answer"><b>Model answer:</b> ' + t.modelAnswer + '</div>';
+  fb.appendChild(ex);
+}
+
+function showHint(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback hint"><div class="feedback-title">💡 Hint</div><span class="ru-hint">' + t.hint + '</span></div>';
+}
+function showExplanation(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback explanation"><div class="feedback-title">✅ Correct!</div>' + (t.explain || '') + '</div>';
+}
+function showNextButton() {
+  var na = document.getElementById('next-area');
+  na.innerHTML = '';
+  var btn = document.createElement('button');
+  btn.className = 'btn btn-next btn-block';
+  btn.textContent = (current+1 < TASKS.length) ? 'Next →' : '🏁 See result';
+  btn.onclick = nextTask;
+  na.appendChild(btn);
+}
+function nextTask() {
+  current++;
+  if (current < TASKS.length) renderTask();
+  else showResult();
+}
+
+function bumpStat(section, firstTry) {
+  if (!perTypeStats[section]) perTypeStats[section] = { total:0, firstTry:0 };
+  perTypeStats[section].total++;
+  if (firstTry) perTypeStats[section].firstTry++;
+}
+
+function escapeHtml(s) {
+  return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showResult() {
+  if (timerInt) { clearInterval(timerInt); timerInt = null; }
+  finalSec = Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct = Math.round((firstTryCorrect/TASKS.length)*100);
+  document.getElementById('result-percent').textContent = pct;
+  document.getElementById('result-correct').textContent = firstTryCorrect;
+  document.getElementById('result-total').textContent = TASKS.length;
+  document.getElementById('result-time').textContent = fmtTime(finalSec);
+  // emoji
+  var emoji = '🌱', motiv = '';
+  if (pct >= 90) { emoji = '🏆'; motiv = 'Outstanding! Vocabulary is interview-ready in this area. Time to drill the next domain.'; }
+  else if (pct >= 75) { emoji = '🌟'; motiv = 'Great work! A few terms still need active practice — re-run this quiz tomorrow.'; }
+  else if (pct >= 60) { emoji = '👍'; motiv = 'Solid foundation. Look at the missed terms — write them out by hand once. Replay in 2 days.'; }
+  else if (pct >= 40) { emoji = '💪'; motiv = 'Good start. Re-read explanations of missed terms, then replay tomorrow. Numbers stay fixed but order will shuffle on Day 1 — the LEARNING is what matters.'; }
+  else { emoji = '🌱'; motiv = 'Linear algebra vocabulary is dense — totally normal to score low first run. Re-read explanations, sleep, replay tomorrow. Each replay sinks it deeper.'; }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-motivation').textContent = motiv;
+  // breakdown
+  var bd = document.getElementById('result-breakdown-list');
+  bd.innerHTML = '';
+  for (var sec in perTypeStats) {
+    var st = perTypeStats[sec];
+    var row = document.createElement('div');
+    row.className = 'breakdown-row';
+    row.innerHTML = '<span>' + sec + '</span><span><b>' + st.firstTry + '/' + st.total + '</b></span>';
+    bd.appendChild(row);
+  }
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+
+function renderStartSources() {
+  if (typeof TASK_SOURCES === 'undefined') return;
+  var used = {};
+  for (var i = 0; i < TASK_SOURCES.length; i++) {
+    for (var j = 0; j < TASK_SOURCES[i].length; j++) used[TASK_SOURCES[i][j]] = true;
+  }
+  var keys = Object.keys(used);
+  // sort wiki/wiktionary first, then standard-math-en, then textbooks
+  keys.sort(function(a, b) {
+    var rank = function(k){
+      if (k.indexOf('wiki') === 0) return 0;
+      if (k.indexOf('axler') === 0 || k.indexOf('strang') === 0) return 2;
+      return 1;
+    };
+    return rank(a) - rank(b);
+  });
+  var html = '<h4>📖 Sources used in D1 (' + keys.length + ')</h4><ul>';
+  for (var k = 0; k < keys.length; k++) {
+    var s = SOURCES[keys[k]];
+    if (!s) continue;
+    if (s.url) {
+      html += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+    } else {
+      html += '<li>· ' + s.name + '</li>';
+    }
+  }
+  html += '</ul><div class="src-note">Each question also shows a 📖 button — tap to see which sources back that specific term.</div>';
+  var el = document.getElementById('start-sources');
+  if (el) el.innerHTML = html;
+}
+renderStartSources();
+</script>
+</body>
+</html>
