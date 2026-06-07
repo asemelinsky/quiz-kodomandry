@@ -1,104 +1,62 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Вікторини з математики — Кодомандри</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      padding: 2rem 1rem;
-      color: #333;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 16px;
-      padding: 2.5rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    }
-    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #4c1d95; }
-    .subtitle { color: #6b7280; margin-bottom: 2rem; font-size: 1.1rem; }
-    .quizzes { display: grid; gap: 1rem; }
-    .quiz-card {
-      display: block;
-      padding: 1.2rem 1.5rem;
-      background: #f9fafb;
-      border: 2px solid #e5e7eb;
-      border-radius: 12px;
-      text-decoration: none;
-      color: #1f2937;
-      transition: all 0.2s;
-    }
-    .quiz-card:hover {
-      border-color: #667eea;
-      background: #f3f4f6;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    }
-    .quiz-title { font-weight: 600; font-size: 1.15rem; margin-bottom: 0.3rem; }
-    .quiz-meta { color: #6b7280; font-size: 0.9rem; }
-    .empty {
-      text-align: center;
-      padding: 3rem 1rem;
-      color: #9ca3af;
-      font-style: italic;
-    }
-    footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #e5e7eb;
-      text-align: center;
-      color: #9ca3af;
-      font-size: 0.85rem;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Hub — Кодомандри</title>
+<link rel="stylesheet" href="/assets/hub.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🧮 Вікторини з математики</h1>
-    <p class="subtitle">Інтерактивні тести для учнів 5-12 класів. Відкривай — і пробуй свої сили!</p>
+<div class="container">
+  <h1>📚 Quiz Hub</h1>
+  <p class="subtitle">Інтерактивні матеріали для учнів — обери розділ нижче.</p>
 
-    <div class="quizzes">
-      <!-- QUIZZES_START -->
-      <a class="quiz-card" href="/onboarding" style="border-color:#4f46e5;background:#eef2ff;">
-        <div class="quiz-title">🎓 Онбординг · AI-помічник для дипломної (Тимур)</div>
-        <div class="quiz-meta">Інтерактивний walkthrough · 9 слайдів · знайомство з робочим процесом</div>
-      </a>
-      <a class="quiz-card" href="/quizzes/msd-msm-podilnist-7klas-ispanska-2026-06-03">
-        <div class="quiz-title">🔢 НСД, НСК, ознаки подільності — фундамент скорочення (7 клас) <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:0.8em;margin-left:6px;">L2 · НОВЕ</span></div>
-        <div class="quiz-meta">30 задач · 3 блоки × 10 (НСД / НСК / ознаки на 2,3,5,9,10) · 🎲 числа щоразу нові · 🌐 UK/EN/ES · ⏱️ таймер · 2026-06-03</div>
-      </a>
-      <a class="quiz-card" href="/quizzes/drobi-arifmetyka-7klas-ispanska-2026-05-31">
-        <div class="quiz-title">➕ Арифметика дробів — тренажер дій (7 клас) <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:0.8em;margin-left:6px;">L1 · НОВЕ</span></div>
-        <div class="quiz-meta">30 задач · 3 блоки × 10 (± / × / ÷) · мішані дроби · 🎲 числа щоразу нові · 🌐 UK/EN/ES · ⏱️ таймер · 2026-05-31</div>
-      </a>
-      <a class="quiz-card" href="/quizzes/drobi-desyatkovi-vidsotky-7klas-ispanska-2026-05-27">
-        <div class="quiz-title">🔢 Дроби · десяткові · відсотки — тренажер переведення (7 клас)</div>
-        <div class="quiz-meta">18 задач · 3 мости між формами (¾ ↔ 0,75 ↔ 75%) · 🎲 числа щоразу нові · 🌐 UK/EN/ES · ⏱️ таймер · 2026-05-27</div>
-      </a>
-      <a class="quiz-card" href="/quizzes/drobi-chas-7klas-ispanska-2026-05-20">
-        <div class="quiz-title">🧮 Дроби та час — тренажер (7 клас)</div>
-        <div class="quiz-meta">18 задач · додавання/множення мішаних дробів + дроби від часу · 🎲 числа щоразу нові · 🌐 UK/EN/ES · ⏱️ таймер · 2026-05-20</div>
-      </a>
-      <a class="quiz-card" href="/quizzes/return-perehony-urok1-2026-05-17">
-        <div class="quiz-title">🏁 Перевірка перед стартом — Урок 1: <code style="background:#f1f5f9;padding:1px 6px;border-radius:4px;font-family:Menlo,monospace;">return</code></div>
-        <div class="quiz-meta">Перегони машинок · Python для початківців · самоперевірка з підказками · 2026-05-17</div>
-      </a>
-      <a class="quiz-card" href="/quizzes/zagalna-7klas-ispanska-2026-05-17">
-        <div class="quiz-title">Математична фієста — 7 клас (іспанська школа)</div>
-        <div class="quiz-meta">10 запитань · змішана складність · 🌐 UK/EN/ES · ⏱️ таймер · 2026-05-17</div>
-      </a>
-      <!-- QUIZZES_END -->
-    </div>
+  <div class="cat-grid">
 
-    <footer>
-      Проєкт <strong>Кодомандри</strong> · Створено для учнів української школи
-    </footer>
+    <a class="cat-card" href="/categories/matviy">
+      <span class="cat-emoji">🧮</span>
+      <div class="cat-title">Математика — Матвій</div>
+      <div class="cat-subtitle">7 клас, іспанська школа (1º ESO) · 27-урочний літній план повторення + pre-plan квізи</div>
+      <div class="cat-stats">
+        <span class="stat-published">5 готових</span>
+        <span class="stat-planned">25 у плані</span>
+      </div>
+    </a>
+
+    <a class="cat-card" href="/categories/timur">
+      <span class="cat-emoji">📐</span>
+      <div class="cat-title">English math vocab — Тімур</div>
+      <div class="cat-subtitle">B2/C1 prep для Master's interview (data theory, U. Ulm) · 20-денна програма з 3-х фаз</div>
+      <div class="cat-stats">
+        <span class="stat-published">1 готовий</span>
+        <span class="stat-planned">19 у плані</span>
+      </div>
+    </a>
+
+    <a class="cat-card" href="/categories/python">
+      <span class="cat-emoji">🐍</span>
+      <div class="cat-title">Python — Кодомандри</div>
+      <div class="cat-subtitle">Уроки для учнів школи Кодомандри · самоперевірка з підказками</div>
+      <div class="cat-stats">
+        <span class="stat-published">1 готовий</span>
+      </div>
+    </a>
+
+    <a class="cat-card cat-other" href="/onboarding">
+      <span class="cat-emoji">🎓</span>
+      <div class="cat-title">Онбординг диплома (Тимур)</div>
+      <div class="cat-subtitle">9-слайдовий walkthrough AI-помічника для дипломної роботи. Окремий artifact — не квіз.</div>
+      <div class="cat-stats">
+        <span class="stat-other">artifact</span>
+      </div>
+    </a>
+
   </div>
+
+  <footer>
+    Проєкт <strong>Кодомандри</strong> · Створено для учнів української школи<br>
+    <a href="https://github.com/asemelinsky/quiz-kodomandry">GitHub</a> · 7 квізів готових · 44 у плані
+  </footer>
+</div>
 </body>
 </html>
