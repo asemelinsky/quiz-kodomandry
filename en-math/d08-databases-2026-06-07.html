@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Day 8 · Databases — English vocabulary for math interviews</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 60%, #06b6d4 100%);
+    min-height: 100vh; padding: 14px;
+    color: #0f172a; -webkit-tap-highlight-color: transparent;
+  }
+  .container {
+    background: #fff; border-radius: 18px; padding: 22px 18px 18px;
+    max-width: 680px; margin: 0 auto; box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+    position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4); }
+
+  h1 { color: #1e3a8a; font-size: 1.45em; line-height: 1.2; margin: 6px 0 4px; }
+  .subtitle { color: #64748b; font-size: 0.92em; margin-bottom: 14px; }
+  .intro { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 14px; border-radius: 10px; font-size: 0.96em; line-height: 1.5; margin: 12px 0; }
+  .intro ul { margin: 6px 0 0 18px; }
+  .intro li { margin: 3px 0; }
+
+  .btn {
+    border: none; padding: 13px 22px; font-size: 1em; font-weight: 700;
+    border-radius: 11px; cursor: pointer; font-family: inherit;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #fff;
+    box-shadow: 0 5px 15px rgba(30,58,138,0.35); transition: transform .12s, box-shadow .12s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-block { display: block; width: 100%; margin-top: 12px; }
+  .btn-next { background: linear-gradient(135deg, #059669, #10b981); box-shadow: 0 5px 15px rgba(5,150,105,0.35); }
+  .btn-audio { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 12px rgba(124,58,237,0.3); padding: 11px 18px; font-size: 0.95em; }
+  .btn-ghost { background: transparent; color: #64748b; border: 2px solid #e2e8f0; box-shadow: none; padding: 11px 16px; }
+
+  .top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .section-badge { background: #1e3a8a; color: #fff; font-size: 0.78em; font-weight: 700; padding: 4px 10px; border-radius: 14px; }
+  .timer-badge { background: #eff6ff; color: #1e3a8a; font-weight: 700; font-size: 0.85em; padding: 4px 10px; border-radius: 10px; font-variant-numeric: tabular-nums; }
+  .progress-info { color: #475569; font-size: 0.85em; font-weight: 600; text-align: center; margin: 6px 0; }
+  .progress-bar { background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden; margin-bottom: 14px; }
+  .progress-fill { background: linear-gradient(90deg, #1e3a8a, #06b6d4); height: 100%; transition: width .35s ease; }
+
+  .task-type { display: inline-block; background: #f1f5f9; color: #475569; font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 6px; margin-bottom: 8px; text-transform: uppercase; }
+  .prompt { font-size: 1.06em; line-height: 1.5; margin-bottom: 12px; color: #0f172a; }
+  .prompt b, .prompt strong { color: #1e3a8a; }
+  .prompt .blank-mark { font-family: "SF Mono","Menlo","Consolas",monospace; color: #4f46e5; font-weight: 700; letter-spacing: 1px; }
+  .cloze-sentence { font-size: 1.1em; line-height: 1.6; background: #f8fafc; padding: 12px 14px; border-radius: 10px; margin: 8px 0 14px; }
+
+  .options { display: grid; gap: 9px; }
+  .option {
+    background: #fff; border: 2px solid #e2e8f0; padding: 13px 14px; border-radius: 11px;
+    cursor: pointer; font-size: 0.98em; font-family: inherit; color: #0f172a;
+    text-align: left; transition: all .12s; -webkit-appearance: none; appearance: none;
+    line-height: 1.4;
+  }
+  .option:active { transform: translateY(1px); }
+  .option:disabled { cursor: not-allowed; }
+  .option.wrong { background: #fef2f2; border-color: #dc2626; color: #7f1d1d; opacity: 0.75; }
+  .option.correct { background: #f0fdf4; border-color: #16a34a; color: #14532d; font-weight: 700; }
+
+  .freetext-area textarea {
+    width: 100%; min-height: 100px; border: 2px solid #cbd5e1; border-radius: 11px;
+    padding: 11px 12px; font-family: inherit; font-size: 0.97em; line-height: 1.5;
+    color: #0f172a; resize: vertical; -webkit-appearance: none;
+  }
+  .freetext-area textarea:focus { outline: none; border-color: #3b82f6; }
+  .freetext-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .freetext-actions .btn { flex: 1; min-width: 130px; }
+
+  .keywords { margin-top: 10px; }
+  .kw { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 0.85em; font-weight: 600; margin: 3px 3px 3px 0; }
+  .kw.hit { background: #f0fdf4; color: #14532d; border: 1px solid #bbf7d0; }
+  .kw.miss { background: #fef2f2; color: #7f1d1d; border: 1px solid #fecaca; }
+  .your-answer { background: #f8fafc; padding: 10px 12px; border-radius: 9px; font-style: italic; color: #475569; margin: 8px 0; font-size: 0.93em; line-height: 1.45; }
+  .model-answer { background: #f0fdfa; padding: 10px 12px; border-radius: 9px; font-size: 0.95em; line-height: 1.5; margin: 8px 0; border-left: 3px solid #14b8a6; }
+
+  .feedback { margin-top: 12px; padding: 12px 14px; border-radius: 11px; font-size: 0.96em; line-height: 1.5; animation: slideIn .22s ease; }
+  .feedback.hint { background: #fffbeb; color: #78350f; border-left: 4px solid #f59e0b; }
+  .feedback.explanation { background: #f0fdf4; color: #14532d; border-left: 4px solid #22c55e; }
+  .feedback-title { font-weight: 700; margin-bottom: 4px; font-size: 0.94em; }
+  .ru-hint { display: block; margin-top: 6px; color: #92400e; font-size: 0.9em; }
+  .ru-hint::before { content: '🇷🇺 '; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .next-area { margin-top: 14px; }
+
+  .audio-prompt { background: linear-gradient(135deg, #f5f3ff, #ede9fe); border: 2px dashed #a78bfa; padding: 14px; border-radius: 12px; text-align: center; margin: 8px 0 14px; }
+  .audio-prompt .label { font-size: 0.85em; color: #6d28d9; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px; }
+
+  .result-screen { text-align: center; padding: 6px 4px; }
+  .result-emoji { font-size: 3.6em; margin: 8px 0; }
+  .result-score { font-size: 3em; font-weight: 800; color: #1e3a8a; margin: 4px 0; }
+  .result-meta { display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 10px 0; color: #475569; }
+  .result-breakdown { background: #f8fafc; padding: 12px 14px; border-radius: 11px; margin: 14px 0; text-align: left; font-size: 0.93em; line-height: 1.6; }
+  .result-breakdown h3 { color: #1e3a8a; font-size: 0.92em; margin-bottom: 6px; font-weight: 700; }
+  .breakdown-row { display: flex; justify-content: space-between; padding: 3px 0; }
+  .motivation { background: #eff6ff; padding: 12px 14px; border-radius: 11px; color: #1e3a8a; font-style: italic; margin: 12px 0; }
+
+  .sources-overview { background: #f0fdfa; border-left: 4px solid #14b8a6; padding: 12px 14px; border-radius: 10px; margin: 14px 0 8px; font-size: 0.9em; line-height: 1.5; }
+  .sources-overview h4 { color: #047857; font-size: 0.95em; margin-bottom: 6px; font-weight: 700; }
+  .sources-overview ul { list-style: none; padding: 0; margin: 4px 0 0; }
+  .sources-overview li { padding: 2px 0; }
+  .sources-overview a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .sources-overview a:hover { text-decoration: underline; }
+  .sources-overview .src-note { font-size: 0.85em; color: #64748b; margin-top: 6px; font-style: italic; }
+
+  .task-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .task-header .task-type { margin-bottom: 0; }
+  .task-sources-btn { background: #ecfeff; color: #0891b2; border: 1px solid #67e8f9; padding: 3px 9px; border-radius: 6px; font-size: 0.78em; font-weight: 700; cursor: pointer; font-family: inherit; -webkit-appearance: none; appearance: none; transition: background 0.12s; }
+  .task-sources-btn:active { background: #cffafe; }
+  .task-sources-panel { background: #f0fdfa; border-left: 3px solid #14b8a6; padding: 8px 12px; border-radius: 8px; margin: 0 0 12px; font-size: 0.85em; line-height: 1.5; display: none; }
+  .task-sources-panel.open { display: block; }
+  .task-sources-panel ul { list-style: none; padding: 0; margin: 0; }
+  .task-sources-panel li { padding: 2px 0; }
+  .task-sources-panel a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .task-sources-panel a:hover { text-decoration: underline; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 480px) {
+    .container { padding: 18px 14px 14px; border-radius: 14px; }
+    h1 { font-size: 1.28em; }
+    .prompt { font-size: 1em; }
+    .option { padding: 12px; font-size: 0.95em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== START SCREEN ===== -->
+  <div id="start-screen">
+    <h1>🗄️ Day 8 · Databases</h1>
+    <div class="subtitle">English vocabulary booster — math interview prep · B2/C1</div>
+    <div class="intro">
+      Welcome! Today: <b>databases</b> — relational model, SQL, transactions, distributed systems.<ul><li>📋 <b>22 tasks</b>: definitions · cloze · audio · free-writing</li><li>🎯 Critical traps: <b>ACID-C ≠ CAP-C</b> (two different "C"s), <b>CAP "pick 2 of 3" is misleading</b> (per Brewer 2012), <b>π vs SQL SELECT</b> (set vs bag semantics), <b>superkey ⊇ candidate ⊇ primary</b>, <b>NULL = NULL → UNKNOWN</b>, <b>BCNF vs 3NF trade-off</b></li><li>🎧 <b>Audio</b> via Web Speech API</li><li>💡 Russian hints; first-try scoring</li><li>✍️ 3 freetexts: relation vs SQL table (0.8) · ACID-C vs CAP-C (0.75) · BCNF condition (0.8)</li><li>⏱️ ~35-50 min.</li></ul>
+    </div>
+    <div id="start-sources" class="sources-overview"></div>
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Start</button>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div id="quiz-screen" class="hidden">
+    <div class="top-row">
+      <span class="section-badge" id="section-badge">—</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-info">Question 1 of 20</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div id="task-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1 id="result-title">Done!</h1>
+      <div class="result-score"><span id="result-percent">0</span>%</div>
+      <div class="result-meta">
+        <div>First-try correct: <b id="result-correct">0</b> of <b id="result-total">20</b></div>
+        <div>Time: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="result-breakdown">
+        <h3>By task type</h3>
+        <div id="result-breakdown-list"></div>
+      </div>
+      <div class="motivation" id="result-motivation"></div>
+      <button class="btn btn-block" onclick="restartQuiz()">🔄 Try again (new order)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ SOURCES (audit registry) ============
+// Backed by vault/authorities-en-math.md — Wikipedia + Date / Garcia-Molina / Ramakrishnan / Codd 1970 / Brewer 2012.
+var SOURCES = {
+  'wiki-rel-model':    { name: 'Wikipedia: Relational model',                        url: 'https://en.wikipedia.org/wiki/Relational_model' },
+  'wiki-pk':           { name: 'Wikipedia: Primary key',                             url: 'https://en.wikipedia.org/wiki/Primary_key' },
+  'wiki-superkey':     { name: 'Wikipedia: Superkey',                                url: 'https://en.wikipedia.org/wiki/Superkey' },
+  'wiki-fk':           { name: 'Wikipedia: Foreign key',                             url: 'https://en.wikipedia.org/wiki/Foreign_key' },
+  'wiki-relalg':       { name: 'Wikipedia: Relational algebra',                      url: 'https://en.wikipedia.org/wiki/Relational_algebra' },
+  'wiki-join':         { name: 'Wikipedia: Join (SQL)',                              url: 'https://en.wikipedia.org/wiki/Join_(SQL)' },
+  'wiki-fd':           { name: 'Wikipedia: Functional dependency',                   url: 'https://en.wikipedia.org/wiki/Functional_dependency' },
+  'wiki-norm':         { name: 'Wikipedia: Database normalization',                  url: 'https://en.wikipedia.org/wiki/Database_normalization' },
+  'wiki-bcnf':         { name: 'Wikipedia: Boyce-Codd normal form',                  url: 'https://en.wikipedia.org/wiki/Boyce%E2%80%93Codd_normal_form' },
+  'wiki-acid':         { name: 'Wikipedia: ACID',                                    url: 'https://en.wikipedia.org/wiki/ACID' },
+  'wiki-isolation':    { name: 'Wikipedia: Isolation (database systems)',            url: 'https://en.wikipedia.org/wiki/Isolation_(database_systems)' },
+  'wiki-cap':          { name: 'Wikipedia: CAP theorem',                             url: 'https://en.wikipedia.org/wiki/CAP_theorem' },
+  'wiki-null':         { name: 'Wikipedia: Null (SQL)',                              url: 'https://en.wikipedia.org/wiki/Null_(SQL)' },
+  'wiki-btree':        { name: 'Wikipedia: B-tree',                                  url: 'https://en.wikipedia.org/wiki/B-tree' },
+  'wiki-deadlock':     { name: 'Wikipedia: Deadlock',                                url: 'https://en.wikipedia.org/wiki/Deadlock_(computer_science)' },
+  'date':              { name: 'Date, "An Introduction to Database Systems" 8th ed (Addison-Wesley 2003)',           url: null },
+  'gmuw':              { name: 'Garcia-Molina, Ullman, Widom, "Database Systems: The Complete Book" 2nd ed',         url: null },
+  'codd-1970':         { name: 'Codd, "A Relational Model of Data for Large Shared Data Banks" (CACM 13(6) 1970)',   url: 'https://dl.acm.org/doi/10.1145/362384.362685' },
+  'brewer-2012':       { name: 'Brewer, "CAP twelve years later" (IEEE Computer 2012)',                               url: null }
+};
+var TASK_SOURCES = [
+  ['wiki-rel-model', 'codd-1970', 'date'],
+  ['wiki-rel-model', 'gmuw'],
+  ['wiki-rel-model', 'date'],
+  ['wiki-superkey', 'date'],
+  ['wiki-pk', 'date'],
+  ['wiki-fk', 'gmuw'],
+  ['wiki-relalg', 'gmuw'],
+  ['wiki-relalg', 'gmuw'],
+  ['wiki-join', 'gmuw'],
+  ['wiki-fd', 'gmuw', 'date'],
+  ['wiki-bcnf', 'gmuw'],
+  ['wiki-norm', 'date'],
+  ['wiki-acid'],
+  ['wiki-isolation', 'gmuw'],
+  ['wiki-null'],
+  ['wiki-btree', 'gmuw'],
+  ['wiki-cap', 'brewer-2012'],
+  ['wiki-acid'],
+  ['wiki-deadlock', 'gmuw'],
+  ['wiki-rel-model', 'codd-1970', 'date'],
+  ['wiki-acid', 'wiki-cap', 'brewer-2012'],
+  ['wiki-norm', 'wiki-fd', 'wiki-bcnf']
+];
+
+// ============ TASKS ============
+var TASKS = [
+  {
+    type: 'mc', section: 'Relational model',
+    prompt: 'In the relational model, a <b>relation</b> over attributes A1,...,An with domains D1,...,Dn is formally:',
+    options: [
+      'A subset of the Cartesian product D1 x D2 x ... x Dn — i.e. a set of tuples (no duplicates, no inherent order)',
+      'An ordered list of rows stored on disk in insertion order',
+      'A two-dimensional array of bytes',
+      'A function from primary keys to row identifiers'
+    ],
+    correct: 0,
+    hint: '<b>Relation</b> — это <i>математический</i> объект (Codd 1970): подмножество декартова произведения доменов. <span class="ru-hint">🇷🇺 Ключевые свойства: (1) <b>set</b> — нет дубликатов; (2) tuples <b>не упорядочены</b>; (3) атрибуты идентифицируются по <b>имени</b>. SQL <i>table</i> ≠ relation: допускает дубликаты и упорядоченные столбцы.</span>',
+    explain: 'Codd 1970: relation = subset of D1 x ... x Dn. Set semantics: no duplicate tuples, no order, attributes by name. SQL tables relax these: bags, not sets. Sources: Codd CACM 1970; Date Ch.3.'
+  },
+  {
+    type: 'mc', section: 'Relational model',
+    prompt: 'A <b>tuple</b> in a relation R(A1,...,An) is:',
+    options: [
+      'A mapping from attribute names to atomic values, one for each attribute of the schema',
+      'A pointer to a disk page',
+      'A SQL row including its rowid',
+      'Any ordered n-tuple of bytes'
+    ],
+    correct: 0,
+    hint: 'Tuple = <b>function</b> attribute_name → atomic_value. <span class="ru-hint">🇷🇺 Атрибуты идентифицируются по имени, не по порядку. SQL <i>row</i> сохраняет порядок столбцов — это relaxation.</span>',
+    explain: 'A tuple maps each attribute name to an atomic value of the proper domain. Source: Wikipedia Relational model; Garcia-Molina §2.2.2.'
+  },
+  {
+    type: 'mc', section: 'Relational model',
+    prompt: 'The distinction between a <b>relation schema</b> and a <b>relation instance</b> is:',
+    options: [
+      'Schema = the fixed structure (attribute names, domains, constraints); instance = the current set of tuples, which changes over time',
+      'Schema = the SQL CREATE TABLE statement; instance = a backup file',
+      'Schema = primary keys; instance = foreign keys',
+      'There is no difference — both terms mean the same'
+    ],
+    correct: 0,
+    hint: 'Это <b>intension vs extension</b> distinction. <span class="ru-hint">🇷🇺 Schema — структура, фиксирована. Instance — текущее множество кортежей, меняется при INSERT/UPDATE/DELETE.</span>',
+    explain: 'Schema is the intension (fixed metadata); instance is the extension (current data). Same schema can have infinitely many legal instances. Source: Garcia-Molina §2.2.4.'
+  },
+  {
+    type: 'mc', section: 'Keys',
+    prompt: 'The strict containment hierarchy of key types is:',
+    options: [
+      'primary key ⊆ candidate key ⊆ superkey (every PK is candidate; every candidate is superkey; superkeys may have redundant attributes)',
+      'superkey ⊆ candidate key ⊆ primary key',
+      'primary key = candidate key = superkey (synonyms)',
+      'foreign key ⊆ primary key ⊆ candidate key'
+    ],
+    correct: 0,
+    hint: '<b>Superkey</b>: любой уникально-идентифицирующий набор. <b>Candidate key</b>: <i>minimal</i> superkey. <b>Primary key</b>: один <i>выбранный</i> candidate. <span class="ru-hint">🇷🇺 Например в Students(id, ssn, email): candidate keys — {id}, {ssn}, {email}. Primary — один из них, выбранный дизайнером.</span>',
+    explain: 'Superkey: any unique-identifying set. Candidate key: minimal superkey. Primary key: one chosen candidate key (NOT NULL). Source: Wikipedia Superkey; Date Ch.9.'
+  },
+  {
+    type: 'mc', section: 'Keys',
+    prompt: 'A <b>primary key</b> of a relation is:',
+    options: [
+      'A candidate key chosen by the designer as the principal identifier — must be unique AND NOT NULL',
+      'The first attribute listed in the CREATE TABLE statement',
+      'Any column that has an index',
+      'An auto-incrementing integer column'
+    ],
+    correct: 0,
+    hint: '<b>PK = chosen candidate key</b>. Свойства: (1) unique; (2) NOT NULL; (3) выбирается дизайнером. <span class="ru-hint">🇷🇺 Surrogate key (auto-increment) — частая, но не обязательная реализация PK.</span>',
+    explain: 'PK = a candidate key designated as primary. Must be unique and NOT NULL. Source: Wikipedia Primary key; Date Ch.9.'
+  },
+  {
+    type: 'mc', section: 'Keys',
+    prompt: 'A <b>foreign key</b> constraint requires that:',
+    options: [
+      'Every non-NULL value of the foreign-key attributes must equal the value of a candidate key in the referenced relation',
+      'The foreign key column must be auto-incrementing',
+      'The referenced table must have the same name as the foreign-key column',
+      'The foreign key must always be NOT NULL'
+    ],
+    correct: 0,
+    hint: 'Это <b>referential integrity</b>. FK references <i>candidate key</i> (обычно PK). <span class="ru-hint">🇷🇺 NULL в FK обычно разрешён. Цель: предотвратить orphan rows.</span>',
+    explain: 'Referential integrity: every non-NULL FK value matches some candidate-key value in the parent relation. Source: Wikipedia Foreign key.'
+  },
+  {
+    type: 'mc', section: 'Relational algebra',
+    prompt: 'The <b>selection</b> operator σ_φ(R) in relational algebra:',
+    options: [
+      'Returns the set of tuples of R for which the predicate φ evaluates to true (filters rows)',
+      'Returns the attributes named in φ (filters columns)',
+      'Joins R with another relation specified by φ',
+      'Sorts R by the attributes named in φ'
+    ],
+    correct: 0,
+    hint: '<b>σ filters rows</b> (a.k.a. SQL WHERE). <span class="ru-hint">🇷🇺 Не путать с π (projection) — он фильтрует <i>столбцы</i>. Memo: σ = Selection of rows, π = Projection of columns.</span>',
+    explain: 'σ_φ(R) = {t ∈ R | φ(t) is true}. Unary, row-filtering. SQL: WHERE. Source: Wikipedia Relational algebra.'
+  },
+  {
+    type: 'mc', section: 'Relational algebra',
+    prompt: 'The <b>projection</b> operator π_{a1,...,ak}(R) in pure relational algebra:',
+    options: [
+      'Restricts each tuple of R to attributes a1,...,ak and removes duplicate tuples (set semantics)',
+      'Restricts each tuple to attributes a1,...,ak and keeps duplicates',
+      'Selects the first k rows of R',
+      'Returns the Cartesian product of the attributes'
+    ],
+    correct: 0,
+    hint: '⚠️ <b>Pitfall:</b> чистая π <i>удаляет дубликаты</i>, а SQL <code>SELECT col</code> — <b>не удаляет</b> (надо <code>SELECT DISTINCT</code>). <span class="ru-hint">🇷🇺 Главное расхождение между relational algebra и SQL: алгебра — set, SQL — multiset (bag).</span>',
+    explain: 'π restricts attributes; result is a SET (duplicates removed). SQL SELECT col FROM R is a bag — use SELECT DISTINCT for pure π. Source: Wikipedia Relational algebra.'
+  },
+  {
+    type: 'mc', section: 'SQL',
+    prompt: 'The crucial difference between SQL <b>INNER JOIN</b> and <b>LEFT OUTER JOIN</b> is:',
+    options: [
+      'Inner join drops rows of the left table without a matching right row; left outer join keeps them, padding the right-side columns with NULL',
+      'Inner join is faster; outer join is more general but does the same thing',
+      'Inner join requires a primary key; outer join does not',
+      'Outer join produces the Cartesian product; inner join filters it'
+    ],
+    correct: 0,
+    hint: '<b>OUTER preserves unmatched rows</b>, padding with NULL. <span class="ru-hint">🇷🇺 Даже NOT NULL столбцы после OUTER JOIN могут стать NULL. <code>WHERE x IS NULL</code> для anti-join (есть слева, нет справа).</span>',
+    explain: 'INNER: matched rows only. LEFT OUTER: all left rows; unmatched right side → NULL. Source: Wikipedia Join (SQL).'
+  },
+  {
+    type: 'mc', section: 'Normalization',
+    prompt: 'A <b>functional dependency</b> X → Y in a relation R means:',
+    options: [
+      'For any two tuples t1, t2 in R: if t1[X] = t2[X] then t1[Y] = t2[Y] (X determines Y, semantically, for every legal instance)',
+      'There is a stored procedure that computes Y from X',
+      'X is a foreign key referencing Y',
+      'Y appears in the WHERE clause whenever X does'
+    ],
+    correct: 0,
+    hint: '<b>X → Y</b>: same X ⇒ same Y. Свойство <b>схемы</b>, не instance. <span class="ru-hint">🇷🇺 Пример: id → name, dept_id, salary. Но dept_id ↛ salary. FD — основа теории нормализации.</span>',
+    explain: 'X → Y: tuples agreeing on X must agree on Y. Semantic property of the schema. Source: Wikipedia Functional dependency.'
+  },
+  {
+    type: 'mc', section: 'Normalization',
+    prompt: 'A schema R is in <b>BCNF</b> (Boyce-Codd Normal Form) iff:',
+    options: [
+      'For every non-trivial functional dependency X → Y in R, X is a superkey of R',
+      'No attribute is NULL',
+      'Every attribute is part of the primary key',
+      'There are no foreign keys'
+    ],
+    correct: 0,
+    hint: '<b>BCNF strictly stronger than 3NF</b>. BCNF: <i>каждый</i> non-trivial FD имеет superkey на LHS. <span class="ru-hint">🇷🇺 Trade-off: BCNF убирает всю redundancy от FD, но иногда decomposition не сохраняет все FDs. 3NF может сохранить FDs.</span>',
+    explain: 'BCNF: ∀ non-trivial X→Y, X is superkey. Stricter than 3NF. Pitfall: BCNF decomposition may not preserve all FDs. Source: Wikipedia BCNF.'
+  },
+  {
+    type: 'mc', section: 'Cloze',
+    promptHTML: 'Fill the blank (normalization goal):',
+    sentence: 'The primary purpose of database normalization is to eliminate <span class="blank-mark">______</span> caused by storing the same fact in multiple places.',
+    options: ['redundancy and update anomalies', 'all NULL values', 'foreign keys', 'composite keys'],
+    correct: 0,
+    hint: 'Normalization → каждый факт хранится в <b>одном месте</b>. <span class="ru-hint">🇷🇺 Иначе при UPDATE одного факта в нескольких местах → inconsistency.</span>',
+    explain: 'Normalization decomposes relations to remove redundancy → eliminates update/insertion/deletion anomalies. Source: Wikipedia.'
+  },
+  {
+    type: 'mc', section: 'Cloze',
+    promptHTML: 'Fill the blank (ACID — Atomicity):',
+    sentence: 'In ACID, <b>Atomicity</b> means that a transaction is treated as a single unit that either <span class="blank-mark">______</span>.',
+    options: ['succeeds completely or fails completely (all-or-nothing)', 'eventually becomes consistent', 'is isolated from itself', 'persists after a crash'],
+    correct: 0,
+    hint: 'Atomicity = <b>all-or-nothing</b>. <span class="ru-hint">🇷🇺 Реализуется через WAL + undo log. Если падение посередине — recovery откатывает частичные изменения.</span>',
+    explain: 'Atomicity: transaction = indivisible unit. COMMIT or ROLLBACK; no partial state visible. Source: Wikipedia ACID.'
+  },
+  {
+    type: 'mc', section: 'Cloze',
+    promptHTML: 'Fill the blank (isolation levels):',
+    sentence: 'The SQL-standard isolation levels in strictness order: READ UNCOMMITTED → READ COMMITTED → REPEATABLE READ → <span class="blank-mark">______</span>.',
+    options: ['SERIALIZABLE', 'SNAPSHOT', 'EVENTUALLY CONSISTENT', 'LINEARIZABLE'],
+    correct: 0,
+    hint: 'Каждый следующий уровень <b>предотвращает</b> один read phenomenon: dirty → non-repeatable → phantom. <span class="ru-hint">🇷🇺 SERIALIZABLE — высший: эффект как последовательное выполнение. PostgreSQL "REPEATABLE READ" на самом деле snapshot isolation.</span>',
+    explain: 'SQL standard 4 levels. SERIALIZABLE = serial-execution equivalent. Source: Wikipedia Isolation.'
+  },
+  {
+    type: 'mc', section: 'Cloze',
+    promptHTML: 'Fill the blank (NULL semantics):',
+    sentence: 'In SQL, the comparison <code>x = NULL</code> always evaluates to <span class="blank-mark">______</span>, not TRUE — so to test for NULL you must write <code>x IS NULL</code>.',
+    options: ['UNKNOWN', 'FALSE', 'TRUE', 'NULL'],
+    correct: 0,
+    hint: 'SQL <b>three-valued logic</b>: TRUE / FALSE / UNKNOWN. <span class="ru-hint">🇷🇺 WHERE пропускает только TRUE rows, поэтому UNKNOWN на практике как FALSE. Но NOT UNKNOWN = UNKNOWN (не TRUE!).</span>',
+    explain: 'Three-valued logic (3VL): comparison with NULL → UNKNOWN. Use IS NULL / IS NOT NULL. Source: Wikipedia Null (SQL).'
+  },
+  {
+    type: 'mc', section: 'Cloze',
+    promptHTML: 'Fill the blank (index choice):',
+    sentence: 'For <b>range queries</b> like <code>WHERE age BETWEEN 25 AND 35</code>, a <span class="blank-mark">______</span> index is appropriate, while a hash index supports equality lookups only.',
+    options: ['B-tree (or B+ tree)', 'hash', 'bitmap', 'full-text'],
+    correct: 0,
+    hint: '<b>B-tree</b>: sorted, equality + range + ORDER BY. <b>Hash</b>: O(1) equality only. <span class="ru-hint">🇷🇺 PostgreSQL по умолчанию делает B-tree.</span>',
+    explain: 'B-tree: sorted multiway tree — equality, range, ordering all O(log n). Hash: O(1) equality only. Source: Wikipedia B-tree.'
+  },
+  {
+    type: 'audio_mc', section: 'Distributed systems · Listening',
+    audioText: 'CAP theorem',
+    promptHTML: 'You hear an English term. Pick its meaning:',
+    options: [
+      'In a distributed data store, during a network partition the system must choose between Consistency (most recent write returned) and Availability (every request answered); Partition tolerance is mandatory in practice',
+      'Every distributed system can always achieve consistency, availability, and partition tolerance simultaneously',
+      'A theorem stating that database transactions must be Atomic, Consistent, Isolated, and Durable',
+      'A protocol for committing distributed transactions across multiple nodes'
+    ],
+    correct: 0,
+    hint: '⚠️ "Pick 2 of 3" <b>misleading</b>. Brewer 2012: P фактически обязателен, trade-off C vs A только <i>во время</i> партиции. <span class="ru-hint">🇷🇺 Не путать с ACID! ACID-C = invariants (один node). CAP-C = linearizability (latest write видна везде). Это разные "C".</span>',
+    explain: 'CAP: during partition, trade C vs A. P is practically mandatory. Brewer 2012 clarified the misleading "pick 2 of 3". Source: Wikipedia CAP; Brewer 2012.'
+  },
+  {
+    type: 'audio_mc', section: 'Transactions · Listening',
+    audioText: 'isolation level',
+    promptHTML: 'You hear an English term. Pick its meaning:',
+    options: [
+      'A configurable setting controlling how concurrent transactions see each other\'s intermediate state — trades correctness vs throughput',
+      'The CPU cache layer used by the database engine',
+      'A constraint that prevents NULL values',
+      'A backup strategy across geographic regions'
+    ],
+    correct: 0,
+    hint: 'Isolation level — relaxation of <b>I</b> в ACID для performance. <span class="ru-hint">🇷🇺 SQL standard: READ UNCOMMITTED, READ COMMITTED, REPEATABLE READ, SERIALIZABLE. Большинство OLTP DB default — READ COMMITTED.</span>',
+    explain: 'Isolation level: a knob trading consistency for concurrency. Lower levels expose dirty/non-repeatable/phantom reads. Source: Wikipedia.'
+  },
+  {
+    type: 'audio_mc', section: 'Concurrency · Listening',
+    audioText: 'deadlock',
+    promptHTML: 'You hear an English term. Pick its meaning:',
+    options: [
+      'A cyclic wait state where each transaction holds a lock that another transaction in the cycle needs — none can proceed',
+      'A transaction that runs forever due to an infinite loop in application code',
+      'A scenario where the database server has crashed',
+      'A type of database index that locks rows on read'
+    ],
+    correct: 0,
+    hint: '<b>Coffman conditions</b> (4 necessary): mutual exclusion, hold-and-wait, no preemption, circular wait. <span class="ru-hint">🇷🇺 DB detection: wait-for graph cycle → abort victim. PostgreSQL/MySQL InnoDB ловят автоматически.</span>',
+    explain: 'Deadlock: cyclic lock wait. DB detection: wait-for graph cycle → abort victim. Source: Wikipedia Deadlock.'
+  },
+  {
+    type: 'freetext', section: 'Relational model · Free-text',
+    promptHTML: 'Define a <b>relation</b> in the relational model formally. Distinguish a relation from a SQL <b>table</b>.',
+    placeholder: 'A relation R(A1,...,An) with domains D1,...,Dn is...',
+    modelAnswer: 'A <b>relation</b> R(A1,...,An) with attribute domains D1,...,Dn is a <b>subset of the Cartesian product</b> D1 x D2 x ... x Dn — i.e. a <b>set</b> of tuples. As a mathematical set: (1) <b>no duplicate</b> tuples, (2) <b>no inherent ordering</b>, (3) attributes by <b>name</b>. A SQL <b>table</b> is a relaxation: <b>multiset (bag)</b> of rows (duplicates allowed unless PRIMARY KEY/UNIQUE), columns have fixed order.',
+    keyPhrases: ['subset|Cartesian product|set of tuples|product of domains', 'set|no duplicate|no duplicates|unique tuples', 'no order|unordered|not ordered|no inherent order', 'SQL|table|bag|multiset|duplicates allowed', 'name|attribute name|by name'],
+    threshold: 0.8,
+    hint: '5 идей: (1) subset of D1 x ... x Dn; (2) <b>set</b> — no duplicates; (3) unordered tuples; (4) SQL table = bag; (5) attributes by name.'
+  },
+  {
+    type: 'freetext', section: 'Data theory · Free-text',
+    promptHTML: 'The letter "C" appears in both <b>ACID</b> and <b>CAP</b>, but means different things. Explain both and why this is a common interview pitfall.',
+    placeholder: 'ACID-C refers to...',
+    modelAnswer: 'In <b>ACID</b>, Consistency means a transaction takes the database from one <b>consistent state</b> to another, preserving <b>integrity constraints</b> (PRIMARY KEY, FOREIGN KEY, CHECK). Property of <b>single node</b>. In <b>CAP</b>, Consistency means every <b>read returns the most recent committed write</b> (<b>linearizability</b>) across a <b>distributed</b> system. Pitfall: candidates conflate them; NoSQL eventual consistency gives up <b>CAP-Consistency</b>, not ACID-Consistency.',
+    keyPhrases: ['invariant|integrity constraint|constraint|preserves|valid state', 'most recent|latest|linearizability|linearizable|same value|all nodes', 'single|local|one node|transaction', 'distributed|nodes|cluster|replica', 'different|distinct|not the same|confuse|conflate'],
+    threshold: 0.75,
+    hint: '5 идей: (1) ACID-C = integrity constraints; (2) ACID single-node; (3) CAP-C = linearizability; (4) CAP distributed; (5) NoSQL gives up CAP-C, not ACID-C.'
+  },
+  {
+    type: 'freetext', section: 'Normalization · Free-text',
+    promptHTML: 'State the BCNF condition precisely. Explain why BCNF is strictly stronger than 3NF, and one practical trade-off.',
+    placeholder: 'A relation R is in BCNF iff...',
+    modelAnswer: 'A relation R is in <b>BCNF</b> iff for every non-trivial <b>functional dependency</b> X → Y in R, X is a <b>superkey</b>. 3NF additionally allows non-trivial X → Y where Y is a <b>prime attribute</b> (member of some candidate key) even if X is not a superkey, so BCNF ⊂ 3NF in strictness. Trade-off: BCNF eliminates all FD-redundancy, but BCNF decomposition is not always <b>dependency-preserving</b>. 3NF guarantees both <b>lossless join</b> and <b>dependency preservation</b>.',
+    keyPhrases: ['superkey|super key', 'non-trivial|nontrivial|functional dependency|FD', 'prime attribute|prime|part of candidate key|key attribute', 'dependency.preserv|preserve|dependency preserving|FD preserving', 'lossless|redundancy|stronger|stricter'],
+    threshold: 0.8,
+    hint: '5 идей: (1) ∀ non-trivial X→Y, X is superkey; (2) 3NF allows Y prime attribute; (3) BCNF strictly stronger; (4) BCNF может потерять dependency preservation; (5) 3NF — lossless + dependency-preserving.'
+  }
+];
+
+// ============ STATE ============
+var current = 0;
+var firstTryCorrect = 0;
+var attemptedWrong = false;
+var answeredCorrect = false;
+var perTypeStats = {};
+var quizStart = null;
+var timerInt = null;
+var finalSec = null;
+var wrongIdx = {};
+var shuffled = []; // task index order
+
+// ============ HELPERS ============
+function fmtTime(sec) { var m = Math.floor(sec/60), s = sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function speak(text) {
+  if (!window.speechSynthesis) { alert('Sorry, your browser does not support speech synthesis.'); return; }
+  try { speechSynthesis.cancel(); } catch(e) {}
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.85; u.pitch = 1.0;
+  speechSynthesis.speak(u);
+}
+function shuffle(a) { for (var i=a.length-1; i>0; i--) { var j = Math.floor(Math.random()*(i+1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+function startQuiz() {
+  shuffled = TASKS.map(function(_, i){ return i; });
+  // Shuffle MC option order per task (re-shuffled on every restart)
+  TASKS.forEach(function(t){
+    if (t.type === 'mc' || t.type === 'audio_mc') {
+      var order = [];
+      for (var i = 0; i < t.options.length; i++) order.push(i);
+      for (var j = order.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var tmp = order[j]; order[j] = order[k]; order[k] = tmp;
+      }
+      t._order = order;
+      t._correctIdx = order.indexOf(t.correct);
+    }
+  });
+  current = 0; firstTryCorrect = 0; perTypeStats = {};
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart = Date.now();
+  if (timerInt) clearInterval(timerInt);
+  timerInt = setInterval(updateTimer, 250);
+  updateTimer();
+  renderTask();
+}
+function updateTimer() {
+  if (quizStart === null) return;
+  document.getElementById('timer').textContent = '⏱️ ' + fmtTime(Math.floor((Date.now()-quizStart)/1000));
+}
+
+function renderTask() {
+  attemptedWrong = false;
+  answeredCorrect = false;
+  wrongIdx = {};
+
+  var idx = shuffled[current];
+  var t = TASKS[idx];
+  document.getElementById('section-badge').textContent = t.section;
+  document.getElementById('progress-info').textContent = 'Question ' + (current+1) + ' of ' + TASKS.length;
+  document.getElementById('progress-fill').style.width = (((current+1)/TASKS.length)*100) + '%';
+
+  var tc = document.getElementById('task-container');
+  tc.innerHTML = '';
+
+  // type label + 📖 sources button (per-task panel)
+  var headerRow = document.createElement('div');
+  headerRow.className = 'task-header';
+  var typeLabel = document.createElement('div');
+  typeLabel.className = 'task-type';
+  typeLabel.textContent = (t.type === 'mc' ? 'Multiple choice' :
+                          t.type === 'audio_mc' ? '🎧 Listen' :
+                          t.type === 'freetext' ? '✍️ Write' : t.type);
+  headerRow.appendChild(typeLabel);
+
+  var taskSources = (typeof TASK_SOURCES !== 'undefined' && TASK_SOURCES[idx]) || [];
+  var sPanel = null;
+  if (taskSources.length > 0) {
+    var sBtn = document.createElement('button');
+    sBtn.className = 'task-sources-btn';
+    sBtn.innerHTML = '📖 ' + taskSources.length + ' src';
+    sBtn.title = 'Tap to see sources backing this term';
+    sPanel = document.createElement('div');
+    sPanel.className = 'task-sources-panel';
+    var pHtml = '<ul>';
+    for (var sIdx = 0; sIdx < taskSources.length; sIdx++) {
+      var s = SOURCES[taskSources[sIdx]];
+      if (!s) continue;
+      if (s.url) {
+        pHtml += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+      } else {
+        pHtml += '<li>· ' + s.name + '</li>';
+      }
+    }
+    pHtml += '</ul>';
+    sPanel.innerHTML = pHtml;
+    sBtn.onclick = function() { sPanel.classList.toggle('open'); };
+    headerRow.appendChild(sBtn);
+  }
+  tc.appendChild(headerRow);
+  if (sPanel) tc.appendChild(sPanel);
+
+  // prompt
+  if (t.type === 'audio_mc') {
+    var ap = document.createElement('div');
+    ap.className = 'audio-prompt';
+    ap.innerHTML = '<div class="label">TAP TO LISTEN</div>';
+    var btn = document.createElement('button');
+    btn.className = 'btn btn-audio';
+    btn.innerHTML = '🔊 Play';
+    btn.onclick = function(){ speak(t.audioText); };
+    ap.appendChild(btn);
+    tc.appendChild(ap);
+    // auto-play once
+    setTimeout(function(){ speak(t.audioText); }, 250);
+  }
+
+  var pr = document.createElement('div');
+  pr.className = 'prompt';
+  pr.innerHTML = t.promptHTML || t.prompt || '';
+  tc.appendChild(pr);
+
+  if (t.sentence) {
+    var sn = document.createElement('div');
+    sn.className = 'cloze-sentence';
+    sn.innerHTML = t.sentence;
+    tc.appendChild(sn);
+  }
+
+  if (t.type === 'mc' || t.type === 'audio_mc') {
+    renderMC(t, tc);
+  } else if (t.type === 'freetext') {
+    renderFreetext(t, tc);
+  }
+
+  document.getElementById('feedback-container').innerHTML = '';
+  document.getElementById('next-area').innerHTML = '';
+}
+
+function renderMC(t, tc) {
+  var oc = document.createElement('div');
+  oc.className = 'options';
+  // t._order maps displayIdx -> originalOptionIdx (computed in startQuiz)
+  var order = t._order || (function(){ var a=[]; for(var i=0;i<t.options.length;i++) a.push(i); return a; })();
+  for (var i = 0; i < order.length; i++) {
+    (function(displayIdx){
+      var originalIdx = order[displayIdx];
+      var btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = t.options[originalIdx];
+      btn.onclick = function(){ selectMC(t, displayIdx, btn); };
+      oc.appendChild(btn);
+    })(i);
+  }
+  tc.appendChild(oc);
+}
+
+function selectMC(t, choice, btnEl) {
+  if (answeredCorrect) return;
+  if (wrongIdx[choice]) return;
+  var correctDisplayIdx = (typeof t._correctIdx === 'number') ? t._correctIdx : t.correct;
+  if (choice === correctDisplayIdx) {
+    answeredCorrect = true;
+    if (!attemptedWrong) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+    btnEl.classList.add('correct');
+    var opts = document.querySelectorAll('#task-container .option');
+    opts.forEach(function(o){ o.disabled = true; });
+    showExplanation(t);
+    showNextButton();
+  } else {
+    wrongIdx[choice] = true;
+    attemptedWrong = true;
+    btnEl.classList.add('wrong');
+    btnEl.disabled = true;
+    showHint(t);
+  }
+}
+
+function renderFreetext(t, tc) {
+  var area = document.createElement('div');
+  area.className = 'freetext-area';
+  var ta = document.createElement('textarea');
+  ta.placeholder = t.placeholder || 'Write your definition in English…';
+  ta.id = 'freetext-input';
+  area.appendChild(ta);
+  var actions = document.createElement('div');
+  actions.className = 'freetext-actions';
+  var submit = document.createElement('button');
+  submit.className = 'btn';
+  submit.innerHTML = '✅ Check my answer';
+  submit.onclick = function(){ submitFreetext(t); };
+  var skip = document.createElement('button');
+  skip.className = 'btn btn-ghost';
+  skip.innerHTML = 'Skip — show model';
+  skip.onclick = function(){ skipFreetext(t); };
+  actions.appendChild(submit);
+  actions.appendChild(skip);
+  area.appendChild(actions);
+  tc.appendChild(area);
+}
+
+function matchKeyPhrase(input, kp) {
+  // Support '|' as OR-alternatives; return matched alt for display, or null
+  var alts = kp.split('|');
+  for (var i = 0; i < alts.length; i++) {
+    var a = alts[i].toLowerCase().trim();
+    if (a === '') continue;
+    if (input.indexOf(a) >= 0) return alts[i];
+    if (a.slice(-1) === 's' && input.indexOf(a.slice(0, -1)) >= 0) return alts[i];
+    if (input.indexOf(a.replace(/ /g, '-')) >= 0) return alts[i];
+  }
+  return null;
+}
+
+function submitFreetext(t) {
+  if (answeredCorrect) return;
+  var input = (document.getElementById('freetext-input').value || '').toLowerCase().trim();
+  if (!input) { alert('Try writing a definition first.'); return; }
+  var hits = [], misses = [];
+  for (var i = 0; i < t.keyPhrases.length; i++) {
+    var matched = matchKeyPhrase(input, t.keyPhrases[i]);
+    if (matched !== null) {
+      hits.push(matched);
+    } else {
+      // display first alt as canonical when missed
+      misses.push(t.keyPhrases[i].split('|')[0]);
+    }
+  }
+  var coverage = hits.length / t.keyPhrases.length;
+  // Threshold can be overridden per-task (e.g., SVD requires 100% to force "rectangular")
+  var threshold = (typeof t.threshold === 'number') ? t.threshold : 0.75;
+  if (!attemptedWrong) {
+    if (coverage >= threshold) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+  } else {
+    bumpStat(t.section, false);
+  }
+  answeredCorrect = true;
+  renderFreetextResult(t, input, hits, misses, coverage);
+  showNextButton();
+}
+function skipFreetext(t) {
+  attemptedWrong = true;
+  bumpStat(t.section, false);
+  answeredCorrect = true;
+  renderFreetextResult(t, '', [], t.keyPhrases.slice(), 0);
+  showNextButton();
+}
+function renderFreetextResult(t, userInput, hits, misses, coverage) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '';
+
+  if (userInput) {
+    var ya = document.createElement('div');
+    ya.className = 'your-answer';
+    ya.innerHTML = '<b>Your answer:</b> ' + escapeHtml(userInput);
+    fb.appendChild(ya);
+  }
+
+  var pct = Math.round(coverage*100);
+  var ex = document.createElement('div');
+  ex.className = 'feedback explanation';
+  ex.innerHTML = '<div class="feedback-title">Key phrases coverage: ' + pct + '%</div>' +
+    '<div class="keywords">' +
+      hits.map(function(h){ return '<span class="kw hit">✓ ' + h + '</span>'; }).join('') +
+      misses.map(function(m){ return '<span class="kw miss">✗ ' + m + '</span>'; }).join('') +
+    '</div>' +
+    '<div class="model-answer"><b>Model answer:</b> ' + t.modelAnswer + '</div>';
+  fb.appendChild(ex);
+}
+
+function showHint(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback hint"><div class="feedback-title">💡 Hint</div><span class="ru-hint">' + t.hint + '</span></div>';
+}
+function showExplanation(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback explanation"><div class="feedback-title">✅ Correct!</div>' + (t.explain || '') + '</div>';
+}
+function showNextButton() {
+  var na = document.getElementById('next-area');
+  na.innerHTML = '';
+  var btn = document.createElement('button');
+  btn.className = 'btn btn-next btn-block';
+  btn.textContent = (current+1 < TASKS.length) ? 'Next →' : '🏁 See result';
+  btn.onclick = nextTask;
+  na.appendChild(btn);
+}
+function nextTask() {
+  current++;
+  if (current < TASKS.length) renderTask();
+  else showResult();
+}
+
+function bumpStat(section, firstTry) {
+  if (!perTypeStats[section]) perTypeStats[section] = { total:0, firstTry:0 };
+  perTypeStats[section].total++;
+  if (firstTry) perTypeStats[section].firstTry++;
+}
+
+function escapeHtml(s) {
+  return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showResult() {
+  if (timerInt) { clearInterval(timerInt); timerInt = null; }
+  finalSec = Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct = Math.round((firstTryCorrect/TASKS.length)*100);
+  document.getElementById('result-percent').textContent = pct;
+  document.getElementById('result-correct').textContent = firstTryCorrect;
+  document.getElementById('result-total').textContent = TASKS.length;
+  document.getElementById('result-time').textContent = fmtTime(finalSec);
+  // emoji
+  var emoji = '🌱', motiv = '';
+  if (pct >= 90) { emoji = '🏆'; motiv = 'Outstanding! Vocabulary is interview-ready in this area. Time to drill the next domain.'; }
+  else if (pct >= 75) { emoji = '🌟'; motiv = 'Great work! A few terms still need active practice — re-run this quiz tomorrow.'; }
+  else if (pct >= 60) { emoji = '👍'; motiv = 'Solid foundation. Look at the missed terms — write them out by hand once. Replay in 2 days.'; }
+  else if (pct >= 40) { emoji = '💪'; motiv = 'Good start. Re-read explanations of missed terms, then replay tomorrow. Numbers stay fixed but order will shuffle on Day 1 — the LEARNING is what matters.'; }
+  else { emoji = '🌱'; motiv = 'Linear algebra vocabulary is dense — totally normal to score low first run. Re-read explanations, sleep, replay tomorrow. Each replay sinks it deeper.'; }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-motivation').textContent = motiv;
+  // breakdown
+  var bd = document.getElementById('result-breakdown-list');
+  bd.innerHTML = '';
+  for (var sec in perTypeStats) {
+    var st = perTypeStats[sec];
+    var row = document.createElement('div');
+    row.className = 'breakdown-row';
+    row.innerHTML = '<span>' + sec + '</span><span><b>' + st.firstTry + '/' + st.total + '</b></span>';
+    bd.appendChild(row);
+  }
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+
+function renderStartSources() {
+  if (typeof TASK_SOURCES === 'undefined') return;
+  var used = {};
+  for (var i = 0; i < TASK_SOURCES.length; i++) {
+    for (var j = 0; j < TASK_SOURCES[i].length; j++) used[TASK_SOURCES[i][j]] = true;
+  }
+  var keys = Object.keys(used);
+  // sort wiki/wiktionary first, then standard-math-en, then textbooks
+  keys.sort(function(a, b) {
+    var rank = function(k){
+      if (k.indexOf('wiki') === 0) return 0;
+      if (k.indexOf('axler') === 0 || k.indexOf('strang') === 0) return 2;
+      return 1;
+    };
+    return rank(a) - rank(b);
+  });
+  var html = '<h4>📖 Sources used in D1 (' + keys.length + ')</h4><ul>';
+  for (var k = 0; k < keys.length; k++) {
+    var s = SOURCES[keys[k]];
+    if (!s) continue;
+    if (s.url) {
+      html += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+    } else {
+      html += '<li>· ' + s.name + '</li>';
+    }
+  }
+  html += '</ul><div class="src-note">Each question also shows a 📖 button — tap to see which sources back that specific term.</div>';
+  var el = document.getElementById('start-sources');
+  if (el) el.innerHTML = html;
+}
+renderStartSources();
+</script>
+</body>
+</html>
