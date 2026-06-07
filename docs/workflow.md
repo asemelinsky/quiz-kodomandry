@@ -266,11 +266,19 @@ cd /root/projects/docs-site/infra && /tmp/mkdocs-venv/bin/mkdocs build
 ### Англомовні квізи для Тімура
 
 - Шлях: `/en-math/d<NN>-<domain>-<date>.html`
-- Стандарт відрізняється: 20 завдань × 6 форматів (definition match · cloze · collocation · audio · free-text · synonyms)
-- Шаблон-стартер: `en-math/d01-linear-algebra-2026-05-31.html`
-- Підказки EN+RU (не UK!), бо Тімур не володіє українською
-- Web Speech API для аудіо (TTS прямо у браузері)
-- Free-text відповіді — keyword-coverage аналіз
+- **Стандарт — у `vault/methodology-en-math.md`** (паралельно до Матвієвого стандарту):
+  - 20 завдань × 6 форматів (definition match · cloze · collocation · audio · free-text · synonyms)
+  - Підказки EN+RU (не UK — Тімур не володіє)
+  - Web Speech API для аудіо (TTS прямо у браузері)
+  - Free-text → keyword-coverage аналіз з OR-aware матчером (`'unitary|orthogonal'`) і per-task threshold
+  - MC options shuffled per session
+  - Cloze з видимими `______`
+- **Source-anchored workflow** (НОВЕ з 2026-06-07):
+  1. Перед написанням означень — fetch min 2 джерела (Wikipedia + textbook)
+  2. Записати verdict у `vault/authorities-en-math.md`
+  3. У квізі — SOURCES dict + TASK_SOURCES array (parallel to TASKS)
+  4. UI показує блок sources на start screen + 📖 кнопка біля кожного task
+- Шаблон-стартер: `en-math/d01-linear-algebra-2026-05-31.html` (включає всі критичні вимоги)
 
 ### Інший учень / новий проєкт
 

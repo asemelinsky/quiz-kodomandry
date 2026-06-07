@@ -5,7 +5,9 @@
 ## Структура
 
 - **[plan.md](plan.md)** — 27-урочний план на нд+ср з 31.05.2026 до 30.08.2026, з статусом кожного уроку (✅/⏳) та коротким описом.
-- **[methodology.md](methodology.md)** — стандарт квізу (30 завдань, hybrid format, multilang), слабкі місця Матвія, патерни дистракторів, file-naming convention.
+- **[methodology.md](methodology.md)** — стандарт квізу для **Матвія** (30 завдань, hybrid format, multilang UK/EN/ES), слабкі місця, патерни дистракторів, file-naming convention.
+- **[methodology-en-math.md](methodology-en-math.md)** — стандарт квізу для **Тімура** (20 завдань × 6 форматів, EN+RU hints, sources cited in UI, source-anchored definitions). КРИТИЧНІ вимоги з фідбеку 2026-06-07.
+- **[authorities-en-math.md](authorities-en-math.md)** — реєстр джерел для математичних означень у en-math (Wikipedia + Axler/Strang + verdicts).
 - **[lessons/](lessons/)** — детальні нотатки по кожному уроку: фіксація точних задач (щоб не повторювати), дистрактори, спостереження після зустрічі.
 
 ## Як користуватись (для майбутньої Claude-сесії)
