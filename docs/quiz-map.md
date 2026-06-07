@@ -96,9 +96,9 @@
 | **D5** | **Set Theory & Logic** — ∅ vs {∅}, ⊆/⊊ convention, bijection, quantifier order | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d05-set-theory-logic-2026-06-07) |
 | **D6** | **Discrete Mathematics** — induction, perm/comb, modular arithmetic, Big-O/Θ/Ω, CRT | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d06-discrete-math-2026-06-07) |
 | **D7** | **Graph Theory** — G=(V,E), DAG ⇔ topo, BFS/DFS, Dijkstra negative trap, MST | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d07-graph-theory-2026-06-07) |
-| D8 | Databases — relation, schema, normalization, JOIN, cardinality | ⏳ | — |
-| D9 | ML / data science — feature, embedding, loss, overfitting, regularization | ⏳ | — |
-| D10 | Algorithms & complexity — NP-hard, recursion, asymptotic | ⏳ | — |
+| **D8** | **Databases** — relational model, keys, BCNF/3NF, ACID-C vs CAP-C trap, isolation levels | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d08-databases-2026-06-07) |
+| **D9** | **Machine Learning / Data Science** — gradient descent, cross-validation, embedding ≠ PCA, L1 vs L2 (threshold 1.0), 3 different "biases" | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d09-ml-data-science-2026-06-07) |
+| **D10** ⭐ | **Algorithms & Complexity** (FINAL Phase A) — NP-c vs NP-hard, reduction direction, amortized vs avg-case, DP prereqs (threshold 1.0), Master thm, PTAS, SAT | ✅ | [🔗](https://quiz-kodomandry.vercel.app/en-math/d10-algorithms-complexity-2026-06-07) |
 | D11-D15 | Phase B: Activation drills (production) | ⏳ | — |
 | D16-D20 | Phase C: Interview simulations | ⏳ | — |
 
@@ -126,8 +126,8 @@
 |---|---|---|---|
 | 🧮 Матвій · pre-plan | 3 | 0 | 3 |
 | 🧮 Матвій · літня програма | 2 (L1, L2) | 25 (L3-L27) | 27 |
-| 📐 Тімур · English math vocab | 7 (D1-D7) | 13 (D8-D20) | 20 |
+| 📐 Тімур · English math vocab | **10 (D1-D10) ⭐ Phase A COMPLETE** | 10 (D11-D20 Phase B/C) | 20 |
 | 🐍 Python · Кодомандри | 1 | 0 | 1 |
-| **Всього** | **13** | **38** | **51** |
+| **Всього** | **16** | **35** | **51** |
 
 > Документ автогенерується ні — оновлюй вручну при додаванні нових квізів. Інша версія для майбутніх Claude-сесій — у git-репозиторії: `quiz/vault/plan.md` (Матвій), методологія — `quiz/vault/methodology.md`.

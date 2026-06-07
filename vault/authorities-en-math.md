@@ -183,3 +183,213 @@ Plus all 4 cloze sentences upgraded with literal `______` (visible blanks) per s
 3. Якщо розходяться — фіксуй обидві точки зору у lesson note під «Discrepancies» і обирай канонічне формулювання з обґрунтуванням.
 4. MathWorld не доступний через WebFetch (Cloudflare) — для disputed термів вручну перевіряй у браузері.
 5. NEVER писати означення з пам'яті AI без перевірки 2+ джерел — це підстава Тімура (флагнув bug у D1 SVD).
+
+---
+
+## D2 — Calculus & Analysis (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/a286414c91b0e8f9b.output`
+
+**Terms covered (21):** limit (ε-δ), continuous, discontinuity, derivative, differentiable, partial derivative, gradient, chain rule, antiderivative, definite integral, integration by parts, FTC, convergent/divergent series, Taylor series, power series, Jacobian, Hessian, directional derivative, supremum/infimum, compact set, open/closed/neighborhood.
+
+**Sources used:**
+- Wikipedia (20 articles)
+- Spivak "Calculus" 4th ed
+- Rudin "Principles of Mathematical Analysis" 3rd ed
+- Apostol "Calculus" Vol I & II 2nd ed
+- Nocedal & Wright "Numerical Optimization" 2nd ed
+- MathWorld: WebFetch HTTP 403 (Cloudflare)
+
+**Critical traps documented & built into quiz:**
+- ε-δ rigorous formulation (not "f gets close to L")
+- Differentiable ⇒ continuous (converse FAILS — |x| counter-example)
+- Heine-Borel: compact ⇔ closed+bounded ONLY in ℝⁿ (general metric spaces need complete + totally bounded)
+- Taylor series can converge to ≠ f (smooth ≠ analytic — e^(-1/x²) at 0)
+- Absolute vs conditional convergence — threshold 1.0 in freetext (Riemann rearrangement theorem)
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d02-calculus-analysis-2026-06-07
+
+---
+
+## D3 — Probability (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/aafb122bf65d1834a.output`
+
+**Terms covered (20):** sample space, event, random variable, PMF, PDF, CDF, expected value, variance, conditional probability, Bayes theorem, independence, i.i.d., Bernoulli, binomial, Poisson, normal, covariance, joint/marginal, CLT, law of large numbers, likelihood function, prior/posterior.
+
+**Sources:**
+- Wikipedia (20 articles)
+- Ross "A First Course in Probability" 10th ed
+- Casella & Berger "Statistical Inference" 2nd ed
+- Bertsekas & Tsitsiklis "Introduction to Probability" 2nd ed
+- Grimmett & Stirzaker "Probability and Random Processes" 4th ed
+- MathWorld 403
+
+**Critical traps:**
+- PDF f(x) is DENSITY, not probability (P(X=x)=0 for continuous; f can exceed 1)
+- Linearity of expectation E[X+Y]=E[X]+E[Y] holds ALWAYS (no independence needed) — classic B2/C1 misconception
+- Independence ≠ mutually exclusive (opposite-looking concepts)
+- Uncorrelated ≠ independent (only under joint normality)
+- CLT requires i.i.d. + finite variance — threshold 1.0 in freetext
+- Likelihood L(θ|x) is NOT a probability over θ
+- Random variable is a FUNCTION, not a variable
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d03-probability-2026-06-07
+
+---
+
+## D4 — Statistics (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/a543b0a4f88c88fb5.output`
+
+**Terms covered (25):** estimator, bias, variance, MSE, consistent estimator, likelihood, MLE, log-likelihood, Fisher information, null hypothesis (H₀), Type I/II errors, significance level (α), p-value, confidence interval, standard error, sampling distribution, linear regression, OLS, residual, Gauss-Markov/BLUE, R², bias-variance tradeoff, prior/posterior, regularization L1/L2, cross-validation, bootstrap, entropy/KL/cross-entropy.
+
+**Sources:**
+- Wikipedia (28 articles)
+- Casella & Berger "Statistical Inference" 2nd ed
+- Wasserman "All of Statistics"
+- Hastie/Tibshirani/Friedman "Elements of Statistical Learning" 2nd ed
+- ASA Statement on P-Values (2016) — https://doi.org/10.1080/00031305.2016.1154108
+
+**Critical traps (2 CRITICAL):**
+- **p-value** is P(data ≥ extreme | H₀), NOT P(H₀|data) — most misinterpreted concept in statistics (ASA 2016) — threshold 1.0
+- **Confidence interval** is long-run frequency, NOT P(θ ∈ this interval) — that's credible interval (Bayesian)
+- Consistent ≠ unbiased (independent properties)
+- Likelihood NOT probability over θ — threshold 1.0
+- Gauss-Markov does NOT require normality
+- KL divergence is NOT a distance (not symmetric, no triangle inequality)
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d04-statistics-2026-06-07
+
+---
+
+## D5 — Set Theory & Logic (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/ad1375742513dba04.output`
+
+**Terms covered (~30 → 20 used):** set, element, subset (⊆/⊊/⊂), empty set, power set, cardinality, union, intersection, set difference, complement, symmetric difference, Cartesian product, relation, equivalence relation, partial order, total order, function, domain/codomain, image/preimage, injective/surjective/bijective, inverse function, countable/uncountable, Cantor's theorem, proposition, predicate, quantifiers (∀,∃), implication/contrapositive, proof by contradiction, set-builder notation, tuple.
+
+**Sources:** Wikipedia (32) + Halmos "Naive Set Theory" + Enderton "Elements of Set Theory" + Rosen "Discrete Mathematics" 8th ed + Mendelson "Introduction to Mathematical Logic" 6th ed.
+
+**Critical traps:**
+- ∅ vs {∅}: |∅|=0, |{∅}|=1
+- ⊂ convention varies (Halmos inclusive; Enderton/Rosen strict) — quiz uses ⊆/⊊
+- Symmetric vs antisymmetric (equivalence vs partial order)
+- Function = relation + totality + uniqueness
+- Quantifier order ∀∃ vs ∃∀ — critical math skill
+- Contrapositive vs converse vs inverse
+- Preimage f⁻¹[B] vs inverse function (set operation, not function inverse)
+- Tuple (a,b,a) ≠ set {a,b}
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d05-set-theory-logic-2026-06-07
+
+---
+
+## D6 — Discrete Mathematics (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/ac8e3e0027371818b.output`
+
+**Terms covered (30 → 20 used):** weak/strong induction, proof by contradiction, contrapositive, pigeonhole, recurrence relation, linear recurrence with constant coefficients, characteristic equation, closed-form, Fibonacci, permutation, combination, binomial coefficient, Pascal's triangle, multinomial coefficient, sum/product rule, inclusion-exclusion, double counting, OGF/EGF generating functions, divisibility, prime, GCD, Euclidean algorithm, modular arithmetic, CRT, arithmetic/geometric sequence, asymptotic notation (Θ, O, Ω).
+
+**Sources:** Wikipedia (24) + Rosen "Discrete Mathematics" 8th ed + Graham/Knuth/Patashnik "Concrete Mathematics" 2nd ed + Stanley "Enumerative Combinatorics" Vol 1 + Niven-Zuckerman-Montgomery "Number Theory" 5th ed + CLRS 4th ed.
+
+**Critical traps:**
+- Permutation vs combination (order matters?) — classic
+- a ≡ b (mod n) — relation vs operation `a mod n` — notation collision
+- Big-O vs Θ vs Ω strict math meaning
+- Inclusion-exclusion sign alternation for 3+ sets
+- DP vs D&C: overlapping subproblems requirement
+- CRT requires pairwise coprime moduli
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d06-discrete-math-2026-06-07
+
+---
+
+## D7 — Graph Theory (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/a52c986c78b4b7e06.output`
+
+**Terms covered (30 → 20 used):** graph G=(V,E), vertex/node, edge, directed/undirected, weighted graph, multigraph, degree, in-/out-degree, bipartite, complete graph K_n, walk/trail/path, cycle, connected, strongly/weakly connected, cut vertex, bridge, tree, forest, spanning tree, DAG, BFS, DFS, Dijkstra, MST, max-flow/min-cut, planar, chromatic number, isomorphism, subgraph, adjacency matrix, adjacency list, sparse/dense.
+
+**Sources:** Wikipedia (23) + Diestel "Graph Theory" 5th ed + Bondy & Murty "Graph Theory with Applications" + West "Introduction to Graph Theory" + CLRS Ch.22-26.
+
+**Critical traps:**
+- Dijkstra fails on negative weights (greedy invariant breaks) — use Bellman-Ford
+- BFS shortest path only on unweighted
+- Adjacency matrix always n×n, regardless of sparsity
+- Strongly vs weakly connected (directed only)
+- Path vs walk vs trail terminology varies (CLRS vs Diestel)
+- Tree: 3 equivalent characterizations
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d07-graph-theory-2026-06-07
+
+---
+
+## D8 — Databases (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/ac5a66930c4c3de0d.output`
+
+**Terms covered (24 → 22 used):** relation (Codd's def), tuple, attribute, schema vs instance, domain, primary key, candidate key, superkey, foreign key, referential integrity, selection (σ), projection (π), natural join, INNER vs OUTER JOIN, functional dependency, 1NF/3NF/BCNF, ACID, isolation levels, CAP theorem, NULL semantics (3VL), B-tree index, hash index, deadlock.
+
+**Sources:** Wikipedia (18) + Date "An Introduction to Database Systems" 8th ed + Garcia-Molina/Ullman/Widom "Database Systems: The Complete Book" 2nd ed + Ramakrishnan/Gehrke "Database Management Systems" 3rd ed + Codd 1970 CACM paper + Brewer 2012 CAP clarification.
+
+**Critical traps (2 CRITICAL):**
+- **ACID-C vs CAP-C** — completely different "C"s (integrity constraints vs linearizability) — threshold 0.75 freetext
+- **CAP "pick 2 of 3"** misleading per Brewer 2012 — P is mandatory in practice
+- π vs SQL SELECT (set vs bag semantics) — pure π deduplicates, SELECT does not
+- Superkey ⊇ candidate ⊇ primary hierarchy
+- NULL = NULL → UNKNOWN (use IS NULL)
+- BCNF strictly stronger than 3NF (BCNF can lose FD-preservation; 3NF guarantees lossless + dep-preserving)
+- B-tree (range queries) vs hash index (equality only)
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d08-databases-2026-06-07
+
+---
+
+## D9 — Machine Learning / Data Science (audit 2026-06-07)
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/a0579ea88ee42a3bd.output`
+
+**Terms covered (20):** supervised/unsupervised, overfitting, k-fold cross-validation, gradient descent, train/validation/test split, one-hot encoding, learning rate, tune hyperparameters, train a model, achieve SOTA, label data, F1 score, embedding, backpropagation, regularization (L1/L2), cross-entropy loss, bias-variance tradeoff, inductive bias.
+
+**Sources:** Wikipedia (18) + Bishop "Pattern Recognition and Machine Learning" + Hastie/Tibshirani/Friedman "Elements of Statistical Learning" 2nd ed + Goodfellow/Bengio/Courville "Deep Learning" + Murphy "Probabilistic Machine Learning" 2022.
+
+**Critical traps:**
+- **L1 vs L2** sparsity vs shrinkage — threshold 1.0 freetext (all 5 keyPhrases required)
+- **Embedding ≠ PCA/SVD** (D1 trap): embedding LEARNS dense vectors for discrete tokens; PCA reduces existing continuous
+- **3 different "biases"** in ML: inductive bias (model assumptions) vs statistical bias E[θ̂]-θ vs bias-term b in y=wx+b
+- F1 = harmonic mean (not arithmetic)
+- Data leakage if test set touched during tuning
+- Overfitting diagnosis = generalization gap widening
+- Linearity of expectation always holds (cross-ref D3)
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d09-ml-data-science-2026-06-07
+
+---
+
+## D10 — Algorithms & Complexity (audit 2026-06-07) ⭐ FINAL Phase A
+
+**Agent transcript:** `/tmp/claude-0/.../tasks/ac0f602272838298e.output`
+
+**Terms covered (20):** time complexity, polynomial time, binary search, divide-and-conquer, hash table (avg O(1) / worst O(n)), heap, self-balancing BST, quicksort worst-case, mergesort, comparison sort lower bound, greedy, backtracking, P vs NP, NP-complete vs NP-hard, polynomial-time reduction direction, amortized vs average-case, Master theorem, dynamic programming, approximation ratio / PTAS, SAT / Cook-Levin.
+
+**Sources:** Wikipedia (19) + CLRS 4th ed (multiple chapters) + Sipser "Theory of Computation" 3rd ed + Kleinberg/Tardos "Algorithm Design" + Garey/Johnson "Computers and Intractability" 1979.
+
+**Critical traps (5 CRITICAL):**
+- **NP-complete = (in NP) AND (NP-hard)** — halting problem is NP-hard but undecidable
+- **Reduction direction** "A ≤_p B" → B at least as hard as A (most common interview mistake)
+- **Amortized vs average-case** — amortized deterministic over sequence; average-case probabilistic over inputs
+- **Quicksort worst-case O(n²)**, not O(n log n) (randomized pivot doesn't change worst case)
+- **DP requires BOTH** optimal substructure AND overlapping subproblems — threshold 1.0
+- PTAS poly in n FOR FIXED ε (FPTAS additionally poly in 1/ε)
+- Mergesort stable but not in-place; heapsort in-place but not stable
+
+**Live URL:** https://quiz-kodomandry.vercel.app/en-math/d10-algorithms-complexity-2026-06-07
+
+---
+
+## Phase A status
+
+**10/10 acquisition quizzes built and deployed (2026-06-07).** All source-anchored per `methodology-en-math.md` §2 with ≥2 sources per term. Critical traps explicitly drilled with wrong-answer→hint→retry mechanism.
+
+Next: Phase B (D11-D15 Activation) and Phase C (D16-D20 Interview simulation) — specification pending per `methodology-en-math.md` open questions.
