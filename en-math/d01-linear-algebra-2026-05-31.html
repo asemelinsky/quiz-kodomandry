@@ -48,7 +48,7 @@
   .task-type { display: inline-block; background: #f1f5f9; color: #475569; font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 6px; margin-bottom: 8px; text-transform: uppercase; }
   .prompt { font-size: 1.06em; line-height: 1.5; margin-bottom: 12px; color: #0f172a; }
   .prompt b, .prompt strong { color: #1e3a8a; }
-  .prompt em.blank { display: inline-block; min-width: 60px; border-bottom: 2px solid #94a3b8; height: 1.3em; margin: 0 2px; }
+  .prompt .blank-mark { font-family: "SF Mono","Menlo","Consolas",monospace; color: #4f46e5; font-weight: 700; letter-spacing: 1px; }
   .cloze-sentence { font-size: 1.1em; line-height: 1.6; background: #f8fafc; padding: 12px 14px; border-radius: 10px; margin: 8px 0 14px; }
 
   .options { display: grid; gap: 9px; }
@@ -220,27 +220,27 @@ var TASKS = [
     ],
     correct: 0,
     hint: 'Orthogonal — <b>ортогональные</b> = перпендикулярные. Формальный критерий: ⟨u, v⟩ = 0.',
-    explain: 'Orthogonal ↔ ⟨u, v⟩ = 0. If they are also unit-length, they are <b>orthonormal</b>.'
+    explain: 'Orthogonal ↔ ⟨u, v⟩ = 0. In ℝⁿ this is the dot product u·v = Σ uᵢvᵢ; in ℂⁿ it becomes the Hermitian inner product ⟨u,v⟩ = Σ uᵢv̄ᵢ. If they are also unit-length, they are <b>orthonormal</b>.'
   },
   {
     type: 'mc', section: 'Definitions',
     prompt: 'The <b>rank</b> of a matrix A is:',
     options: [
-      'The dimension of its column space (= dimension of its row space)',
+      'The dimension of its column space',
       'The number of rows',
       'The largest absolute value of its eigenvalues',
       'The determinant'
     ],
     correct: 0,
     hint: 'Rank — <b>ранг</b>: размерность столбцового (или строчного — они совпадают) пространства. Не путать с количеством строк (это просто dimension of domain).',
-    explain: 'rank(A) = dim(col A) = dim(row A). It tells you "how many independent directions" the matrix can produce.'
+    explain: 'rank(A) := dim(col A). By a classical theorem, this also equals dim(row A). It tells you "how many independent directions" the matrix can produce.'
   },
 
   // ----- Section 2: Cloze fill (4) -----
   {
     type: 'mc', section: 'Cloze (fill the blank)',
     promptHTML: 'Fill in the blank:',
-    sentence: 'If a matrix A is invertible, then A is also called <em class="blank"></em>.',
+    sentence: 'If a matrix A is invertible, then A is also called <span class="blank-mark">______</span>.',
     options: ['non-singular', 'non-unique', 'non-square', 'non-zero'],
     correct: 0,
     hint: '<b>Singular</b> matrix — вырожденная (det = 0, необратимая). Значит обратимая = <b>non-singular</b>.',
@@ -249,7 +249,7 @@ var TASKS = [
   {
     type: 'mc', section: 'Cloze (fill the blank)',
     promptHTML: 'Fill in the blank:',
-    sentence: 'The columns of a matrix form a basis if and only if they are linearly <em class="blank"></em>.',
+    sentence: 'The columns of a <b>square</b> matrix form a basis if and only if they are linearly <span class="blank-mark">______</span>.',
     options: ['independent', 'dependent', 'orthogonal', 'unit'],
     correct: 0,
     hint: 'Linearly <b>independent</b> — линейно независимые. Если бы были <i>dependent</i>, базиса бы не получилось (одна колонка лишняя).',
@@ -258,7 +258,7 @@ var TASKS = [
   {
     type: 'mc', section: 'Cloze (fill the blank)',
     promptHTML: 'Fill in the blank:',
-    sentence: 'A square matrix can be <em class="blank"></em> if it has n linearly independent eigenvectors.',
+    sentence: 'A square matrix can be <span class="blank-mark">______</span> if it has n linearly independent eigenvectors.',
     options: ['diagonalized', 'inverted', 'transposed', 'normalized'],
     correct: 0,
     hint: 'Диагонализация (diagonalize) — представить A = PDP⁻¹, где D — диагональная. Требует именно n линейно независимых собственных <b>векторов</b>.',
@@ -267,7 +267,7 @@ var TASKS = [
   {
     type: 'mc', section: 'Cloze (fill the blank)',
     promptHTML: 'Fill in the blank:',
-    sentence: 'The <em class="blank"></em> of a matrix A is the set of vectors x such that Ax = 0.',
+    sentence: 'The <span class="blank-mark">______</span> of a matrix A is the set of vectors x such that Ax = 0.',
     options: ['kernel (null space)', 'image (range)', 'spectrum', 'span'],
     correct: 0,
     hint: 'То, что даёт <i>ноль</i> — это <b>ядро</b> (kernel) или <b>нулевое пространство</b> (null space). Image / range — наоборот, это все возможные Ax.',
@@ -278,7 +278,7 @@ var TASKS = [
   {
     type: 'mc', section: 'Collocations',
     promptHTML: 'Which verb is natural here?',
-    sentence: 'We need to <em class="blank"></em> the system of equations.',
+    sentence: 'We need to <span class="blank-mark">______</span> the system of equations.',
     options: ['solve', 'make', 'build', 'decide'],
     correct: 0,
     hint: 'Стандартная коллокация в математике — "<b>solve</b> an equation / a system". Не "decide" (это для проблем-выборов) и не "make" (это калька).',
@@ -287,7 +287,7 @@ var TASKS = [
   {
     type: 'mc', section: 'Collocations',
     promptHTML: 'Pick the natural adjective:',
-    sentence: 'The matrix is <em class="blank"></em> since its determinant is zero.',
+    sentence: 'The matrix is <span class="blank-mark">______</span> since its determinant is zero.',
     options: ['singular', 'strange', 'odd', 'unique'],
     correct: 0,
     hint: '"Singular" matrix — <b>вырожденная</b> (det = 0). "Strange/odd" — нематематические слова. "Unique" — это про единственность чего-то.',
@@ -296,7 +296,7 @@ var TASKS = [
   {
     type: 'mc', section: 'Collocations',
     promptHTML: 'Pick the natural verb in math English:',
-    sentence: 'Let us <em class="blank"></em> the eigenvalues of A.',
+    sentence: 'Let us <span class="blank-mark">______</span> the eigenvalues of A.',
     options: ['compute', 'count', 'make', 'produce'],
     correct: 0,
     hint: '"<b>Compute</b>" — вычислить (стандартное academic English). "Calculate" тоже подходит. "Count" — это «посчитать сколько штук», не значение.',
@@ -305,7 +305,7 @@ var TASKS = [
   {
     type: 'mc', section: 'Collocations',
     promptHTML: 'Pick the standard verb in math English:',
-    sentence: 'The eigenvector <em class="blank"></em> to the eigenvalue λ.',
+    sentence: 'The eigenvector <span class="blank-mark">______</span> to the eigenvalue λ.',
     options: ['corresponds', 'belongs', 'matches', 'fits'],
     correct: 0,
     hint: '"<b>Corresponds to</b>" — общепринятая коллокация в линейной алгебре. "Eigenvector corresponding to eigenvalue λ" — почти клише в учебниках.',
@@ -332,14 +332,14 @@ var TASKS = [
     audioText: 'eigendecomposition',
     promptHTML: '🔊 Listen. What does this term refer to?',
     options: [
-      'Factoring A as PDP⁻¹ using eigenvalues and eigenvectors',
+      'Factoring a diagonalizable matrix A as PDP⁻¹ where columns of P are eigenvectors and D is diagonal of eigenvalues',
       'Splitting A into upper and lower triangular parts',
       'Reducing A to row echelon form',
       'Computing the inverse of A'
     ],
     correct: 0,
     hint: 'Eigen-decomposition — собственное (спектральное) разложение: A = PDP⁻¹, где D диагональная из собственных значений, P из собственных векторов.',
-    explain: 'Also called <b>spectral decomposition</b>. Exists when A has n linearly independent eigenvectors. SVD is the more general cousin (exists for any matrix).'
+    explain: 'Also called <b>spectral decomposition</b>. <b>Requires</b> A to be diagonalizable — i.e., to have n linearly independent eigenvectors. Counter-example: the shear matrix [[1,1],[0,1]] is invertible but has only one eigenvector, so it has no eigendecomposition. SVD is the more general cousin (exists for any matrix).'
   },
   {
     type: 'audio_mc', section: 'Listening',
@@ -368,10 +368,11 @@ var TASKS = [
   {
     type: 'freetext', section: 'Define in your own words',
     promptHTML: 'Briefly explain what <b>singular value decomposition (SVD)</b> is. (1-2 sentences.)',
-    placeholder: 'SVD factorizes any matrix A as ...',
-    modelAnswer: '<b>SVD</b> factorizes any matrix A (not necessarily square) as A = U Σ V<sup>T</sup>, where U and V are <b>orthogonal</b> matrices and Σ is a <b>diagonal</b> matrix of non-negative <b>singular values</b>.',
-    keyPhrases: ['factorize', 'orthogonal', 'diagonal', 'singular values'],
-    hint: 'Ключевые элементы определения: (1) "factorize / decompose", (2) "orthogonal" matrices U, V, (3) "diagonal" matrix Σ, (4) "singular values" (неотрицательные). SVD работает для <i>любой</i> матрицы — это её сила.'
+    placeholder: 'SVD factorizes any m×n matrix A as ...',
+    modelAnswer: '<b>SVD</b> factorizes any m×n matrix A as <b>A = UΣV*</b> (UΣV<sup>T</sup> in the real case), where U (m×m) and V (n×n) are <b>unitary</b> matrices (<b>orthogonal</b> if A is real), and Σ is an <b>m×n rectangular diagonal</b> matrix whose diagonal entries are the non-negative <b>singular values</b> of A (conventionally in decreasing order). SVD exists for every matrix — real or complex, square or rectangular.',
+    keyPhrases: ['factor', 'unitary|orthogonal', 'rectangular|m×n', 'singular value'],
+    threshold: 1.0,
+    hint: 'Ключевые элементы: (1) <b>factorize / decompose</b>; (2) U, V — <b>unitary</b> (orthogonal только для real case); (3) Σ — <b>rectangular m×n</b> диагональная (НЕ square!); (4) <b>singular values</b> (неотрицательные, в убывающем порядке). V* = conjugate transpose (в комплексном случае). SVD существует для ЛЮБОЙ матрицы — square или rectangular, real или complex.'
   },
 
   // ----- Section 6: Synonyms (2) -----
@@ -423,8 +424,19 @@ function shuffle(a) { for (var i=a.length-1; i>0; i--) { var j = Math.floor(Math
 
 function startQuiz() {
   shuffled = TASKS.map(function(_, i){ return i; });
-  // keep section grouping but shuffle within section
-  // for first run, keep original order (clearer for testing)
+  // Shuffle MC option order per task (re-shuffled on every restart)
+  TASKS.forEach(function(t){
+    if (t.type === 'mc' || t.type === 'audio_mc') {
+      var order = [];
+      for (var i = 0; i < t.options.length; i++) order.push(i);
+      for (var j = order.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var tmp = order[j]; order[j] = order[k]; order[k] = tmp;
+      }
+      t._order = order;
+      t._correctIdx = order.indexOf(t.correct);
+    }
+  });
   current = 0; firstTryCorrect = 0; perTypeStats = {};
   document.getElementById('start-screen').classList.add('hidden');
   document.getElementById('result-screen').classList.add('hidden');
@@ -502,12 +514,15 @@ function renderTask() {
 function renderMC(t, tc) {
   var oc = document.createElement('div');
   oc.className = 'options';
-  for (var i = 0; i < t.options.length; i++) {
-    (function(idx){
+  // t._order maps displayIdx -> originalOptionIdx (computed in startQuiz)
+  var order = t._order || (function(){ var a=[]; for(var i=0;i<t.options.length;i++) a.push(i); return a; })();
+  for (var i = 0; i < order.length; i++) {
+    (function(displayIdx){
+      var originalIdx = order[displayIdx];
       var btn = document.createElement('button');
       btn.className = 'option';
-      btn.innerHTML = t.options[idx];
-      btn.onclick = function(){ selectMC(t, idx, btn); };
+      btn.innerHTML = t.options[originalIdx];
+      btn.onclick = function(){ selectMC(t, displayIdx, btn); };
       oc.appendChild(btn);
     })(i);
   }
@@ -517,7 +532,8 @@ function renderMC(t, tc) {
 function selectMC(t, choice, btnEl) {
   if (answeredCorrect) return;
   if (wrongIdx[choice]) return;
-  if (choice === t.correct) {
+  var correctDisplayIdx = (typeof t._correctIdx === 'number') ? t._correctIdx : t.correct;
+  if (choice === correctDisplayIdx) {
     answeredCorrect = true;
     if (!attemptedWrong) {
       firstTryCorrect++;
@@ -562,27 +578,38 @@ function renderFreetext(t, tc) {
   tc.appendChild(area);
 }
 
+function matchKeyPhrase(input, kp) {
+  // Support '|' as OR-alternatives; return matched alt for display, or null
+  var alts = kp.split('|');
+  for (var i = 0; i < alts.length; i++) {
+    var a = alts[i].toLowerCase().trim();
+    if (a === '') continue;
+    if (input.indexOf(a) >= 0) return alts[i];
+    if (a.slice(-1) === 's' && input.indexOf(a.slice(0, -1)) >= 0) return alts[i];
+    if (input.indexOf(a.replace(/ /g, '-')) >= 0) return alts[i];
+  }
+  return null;
+}
+
 function submitFreetext(t) {
   if (answeredCorrect) return;
   var input = (document.getElementById('freetext-input').value || '').toLowerCase().trim();
   if (!input) { alert('Try writing a definition first.'); return; }
   var hits = [], misses = [];
   for (var i = 0; i < t.keyPhrases.length; i++) {
-    var kp = t.keyPhrases[i].toLowerCase();
-    // simple substring check; also tolerate plural/-s endings
-    if (input.indexOf(kp) >= 0 ||
-        (kp.slice(-1) === 's' && input.indexOf(kp.slice(0,-1)) >= 0) ||
-        input.indexOf(kp.replace(/ /g, '-')) >= 0) {
-      hits.push(t.keyPhrases[i]);
+    var matched = matchKeyPhrase(input, t.keyPhrases[i]);
+    if (matched !== null) {
+      hits.push(matched);
     } else {
-      misses.push(t.keyPhrases[i]);
+      // display first alt as canonical when missed
+      misses.push(t.keyPhrases[i].split('|')[0]);
     }
   }
   var coverage = hits.length / t.keyPhrases.length;
-  // Scoring rule for free-text: ≥75% of key phrases counts as "first-try correct"
-  // We only count it the first time the user submits (not via skip)
+  // Threshold can be overridden per-task (e.g., SVD requires 100% to force "rectangular")
+  var threshold = (typeof t.threshold === 'number') ? t.threshold : 0.75;
   if (!attemptedWrong) {
-    if (coverage >= 0.75) {
+    if (coverage >= threshold) {
       firstTryCorrect++;
       bumpStat(t.section, true);
     } else {

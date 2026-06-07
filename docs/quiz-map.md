@@ -9,7 +9,7 @@
 
 ## 🧮 Математика — Матвій (7 клас, іспанська школа, 1º ESO)
 
-**Учень:** син Олексія, навчається в іспанській школі (програма 1º ESO), мова навчання українська.
+**Учень:** син Олексія, навчається у **британському коледжі в Іспанії**, мова викладання **англійська** (з Києва, живе в Іспанії давно).
 **Слабкі місця:** не скорочує дроби до кінця · забуває виділяти цілу частину · плутається з дробами від часу.
 **Vault:** `/root/projects/quiz/vault/` ([plan.md](https://github.com/asemelinsky/quiz-kodomandry/blob/main/vault/plan.md), [methodology.md](https://github.com/asemelinsky/quiz-kodomandry/blob/main/vault/methodology.md), [lessons/](https://github.com/asemelinsky/quiz-kodomandry/tree/main/vault/lessons))
 
