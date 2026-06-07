@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Day 5 · Set Theory & Logic — English vocabulary for math interviews</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 60%, #06b6d4 100%);
+    min-height: 100vh; padding: 14px;
+    color: #0f172a; -webkit-tap-highlight-color: transparent;
+  }
+  .container {
+    background: #fff; border-radius: 18px; padding: 22px 18px 18px;
+    max-width: 680px; margin: 0 auto; box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+    position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background: linear-gradient(90deg, #1e3a8a, #3b82f6, #06b6d4); }
+
+  h1 { color: #1e3a8a; font-size: 1.45em; line-height: 1.2; margin: 6px 0 4px; }
+  .subtitle { color: #64748b; font-size: 0.92em; margin-bottom: 14px; }
+  .intro { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 12px 14px; border-radius: 10px; font-size: 0.96em; line-height: 1.5; margin: 12px 0; }
+  .intro ul { margin: 6px 0 0 18px; }
+  .intro li { margin: 3px 0; }
+
+  .btn {
+    border: none; padding: 13px 22px; font-size: 1em; font-weight: 700;
+    border-radius: 11px; cursor: pointer; font-family: inherit;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #fff;
+    box-shadow: 0 5px 15px rgba(30,58,138,0.35); transition: transform .12s, box-shadow .12s;
+    -webkit-appearance: none; appearance: none;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-block { display: block; width: 100%; margin-top: 12px; }
+  .btn-next { background: linear-gradient(135deg, #059669, #10b981); box-shadow: 0 5px 15px rgba(5,150,105,0.35); }
+  .btn-audio { background: linear-gradient(135deg, #7c3aed, #a855f7); box-shadow: 0 4px 12px rgba(124,58,237,0.3); padding: 11px 18px; font-size: 0.95em; }
+  .btn-ghost { background: transparent; color: #64748b; border: 2px solid #e2e8f0; box-shadow: none; padding: 11px 16px; }
+
+  .top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .section-badge { background: #1e3a8a; color: #fff; font-size: 0.78em; font-weight: 700; padding: 4px 10px; border-radius: 14px; }
+  .timer-badge { background: #eff6ff; color: #1e3a8a; font-weight: 700; font-size: 0.85em; padding: 4px 10px; border-radius: 10px; font-variant-numeric: tabular-nums; }
+  .progress-info { color: #475569; font-size: 0.85em; font-weight: 600; text-align: center; margin: 6px 0; }
+  .progress-bar { background: #e2e8f0; border-radius: 8px; height: 8px; overflow: hidden; margin-bottom: 14px; }
+  .progress-fill { background: linear-gradient(90deg, #1e3a8a, #06b6d4); height: 100%; transition: width .35s ease; }
+
+  .task-type { display: inline-block; background: #f1f5f9; color: #475569; font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 6px; margin-bottom: 8px; text-transform: uppercase; }
+  .prompt { font-size: 1.06em; line-height: 1.5; margin-bottom: 12px; color: #0f172a; }
+  .prompt b, .prompt strong { color: #1e3a8a; }
+  .prompt .blank-mark { font-family: "SF Mono","Menlo","Consolas",monospace; color: #4f46e5; font-weight: 700; letter-spacing: 1px; }
+  .cloze-sentence { font-size: 1.1em; line-height: 1.6; background: #f8fafc; padding: 12px 14px; border-radius: 10px; margin: 8px 0 14px; }
+
+  .options { display: grid; gap: 9px; }
+  .option {
+    background: #fff; border: 2px solid #e2e8f0; padding: 13px 14px; border-radius: 11px;
+    cursor: pointer; font-size: 0.98em; font-family: inherit; color: #0f172a;
+    text-align: left; transition: all .12s; -webkit-appearance: none; appearance: none;
+    line-height: 1.4;
+  }
+  .option:active { transform: translateY(1px); }
+  .option:disabled { cursor: not-allowed; }
+  .option.wrong { background: #fef2f2; border-color: #dc2626; color: #7f1d1d; opacity: 0.75; }
+  .option.correct { background: #f0fdf4; border-color: #16a34a; color: #14532d; font-weight: 700; }
+
+  .freetext-area textarea {
+    width: 100%; min-height: 100px; border: 2px solid #cbd5e1; border-radius: 11px;
+    padding: 11px 12px; font-family: inherit; font-size: 0.97em; line-height: 1.5;
+    color: #0f172a; resize: vertical; -webkit-appearance: none;
+  }
+  .freetext-area textarea:focus { outline: none; border-color: #3b82f6; }
+  .freetext-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .freetext-actions .btn { flex: 1; min-width: 130px; }
+
+  .keywords { margin-top: 10px; }
+  .kw { display: inline-block; padding: 4px 10px; border-radius: 14px; font-size: 0.85em; font-weight: 600; margin: 3px 3px 3px 0; }
+  .kw.hit { background: #f0fdf4; color: #14532d; border: 1px solid #bbf7d0; }
+  .kw.miss { background: #fef2f2; color: #7f1d1d; border: 1px solid #fecaca; }
+  .your-answer { background: #f8fafc; padding: 10px 12px; border-radius: 9px; font-style: italic; color: #475569; margin: 8px 0; font-size: 0.93em; line-height: 1.45; }
+  .model-answer { background: #f0fdfa; padding: 10px 12px; border-radius: 9px; font-size: 0.95em; line-height: 1.5; margin: 8px 0; border-left: 3px solid #14b8a6; }
+
+  .feedback { margin-top: 12px; padding: 12px 14px; border-radius: 11px; font-size: 0.96em; line-height: 1.5; animation: slideIn .22s ease; }
+  .feedback.hint { background: #fffbeb; color: #78350f; border-left: 4px solid #f59e0b; }
+  .feedback.explanation { background: #f0fdf4; color: #14532d; border-left: 4px solid #22c55e; }
+  .feedback-title { font-weight: 700; margin-bottom: 4px; font-size: 0.94em; }
+  .ru-hint { display: block; margin-top: 6px; color: #92400e; font-size: 0.9em; }
+  .ru-hint::before { content: '🇷🇺 '; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .next-area { margin-top: 14px; }
+
+  .audio-prompt { background: linear-gradient(135deg, #f5f3ff, #ede9fe); border: 2px dashed #a78bfa; padding: 14px; border-radius: 12px; text-align: center; margin: 8px 0 14px; }
+  .audio-prompt .label { font-size: 0.85em; color: #6d28d9; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px; }
+
+  .result-screen { text-align: center; padding: 6px 4px; }
+  .result-emoji { font-size: 3.6em; margin: 8px 0; }
+  .result-score { font-size: 3em; font-weight: 800; color: #1e3a8a; margin: 4px 0; }
+  .result-meta { display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 10px 0; color: #475569; }
+  .result-breakdown { background: #f8fafc; padding: 12px 14px; border-radius: 11px; margin: 14px 0; text-align: left; font-size: 0.93em; line-height: 1.6; }
+  .result-breakdown h3 { color: #1e3a8a; font-size: 0.92em; margin-bottom: 6px; font-weight: 700; }
+  .breakdown-row { display: flex; justify-content: space-between; padding: 3px 0; }
+  .motivation { background: #eff6ff; padding: 12px 14px; border-radius: 11px; color: #1e3a8a; font-style: italic; margin: 12px 0; }
+
+  .sources-overview { background: #f0fdfa; border-left: 4px solid #14b8a6; padding: 12px 14px; border-radius: 10px; margin: 14px 0 8px; font-size: 0.9em; line-height: 1.5; }
+  .sources-overview h4 { color: #047857; font-size: 0.95em; margin-bottom: 6px; font-weight: 700; }
+  .sources-overview ul { list-style: none; padding: 0; margin: 4px 0 0; }
+  .sources-overview li { padding: 2px 0; }
+  .sources-overview a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .sources-overview a:hover { text-decoration: underline; }
+  .sources-overview .src-note { font-size: 0.85em; color: #64748b; margin-top: 6px; font-style: italic; }
+
+  .task-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .task-header .task-type { margin-bottom: 0; }
+  .task-sources-btn { background: #ecfeff; color: #0891b2; border: 1px solid #67e8f9; padding: 3px 9px; border-radius: 6px; font-size: 0.78em; font-weight: 700; cursor: pointer; font-family: inherit; -webkit-appearance: none; appearance: none; transition: background 0.12s; }
+  .task-sources-btn:active { background: #cffafe; }
+  .task-sources-panel { background: #f0fdfa; border-left: 3px solid #14b8a6; padding: 8px 12px; border-radius: 8px; margin: 0 0 12px; font-size: 0.85em; line-height: 1.5; display: none; }
+  .task-sources-panel.open { display: block; }
+  .task-sources-panel ul { list-style: none; padding: 0; margin: 0; }
+  .task-sources-panel li { padding: 2px 0; }
+  .task-sources-panel a { color: #0891b2; text-decoration: none; word-break: break-all; }
+  .task-sources-panel a:hover { text-decoration: underline; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 480px) {
+    .container { padding: 18px 14px 14px; border-radius: 14px; }
+    h1 { font-size: 1.28em; }
+    .prompt { font-size: 1em; }
+    .option { padding: 12px; font-size: 0.95em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== START SCREEN ===== -->
+  <div id="start-screen">
+    <h1>🔤 Day 5 · Set Theory & Logic</h1>
+    <div class="subtitle">English vocabulary booster — math interview prep · B2/C1</div>
+    <div class="intro">
+      Welcome! Today we drill <b>set theory and mathematical logic</b> — the bedrock of every proof you'll write.<ul><li>📋 <b>20 tasks</b>: definitions · cloze · audio · free-writing · synonyms</li><li>🎯 Critical traps explicitly covered: <b>∅ vs {∅}</b>, <b>⊆ vs ⊊ vs ⊂</b> convention, <b>symmetric vs antisymmetric</b>, <b>quantifier order</b> (∀∃ vs ∃∀), <b>contrapositive vs converse vs inverse</b>, <b>preimage vs inverse function</b>, <b>tuple vs set</b></li><li>🎧 <b>Audio tasks</b> use your phone/tablet's voice (tap 🔊)</li><li>💡 Wrong → <b>hint in Russian</b>, try again. Point only for first-try.</li><li>✍️ 2 freetexts at threshold 1.0 (all keywords required).</li><li>⏱️ ~30-45 min.</li></ul>
+    </div>
+    <div id="start-sources" class="sources-overview"></div>
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Start</button>
+  </div>
+
+  <!-- ===== QUIZ SCREEN ===== -->
+  <div id="quiz-screen" class="hidden">
+    <div class="top-row">
+      <span class="section-badge" id="section-badge">—</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress-info">Question 1 of 20</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div id="task-container"></div>
+    <div id="feedback-container"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <!-- ===== RESULT SCREEN ===== -->
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1 id="result-title">Done!</h1>
+      <div class="result-score"><span id="result-percent">0</span>%</div>
+      <div class="result-meta">
+        <div>First-try correct: <b id="result-correct">0</b> of <b id="result-total">20</b></div>
+        <div>Time: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="result-breakdown">
+        <h3>By task type</h3>
+        <div id="result-breakdown-list"></div>
+      </div>
+      <div class="motivation" id="result-motivation"></div>
+      <button class="btn btn-block" onclick="restartQuiz()">🔄 Try again (new order)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ SOURCES (audit registry) ============
+// Backed by vault/authorities-en-math.md — Wikipedia + Halmos / Enderton / Rosen / Mendelson cross-referenced.
+var SOURCES = {
+  'wiki-set':            { name: 'Wikipedia: Set (mathematics)',                  url: 'https://en.wikipedia.org/wiki/Set_(mathematics)' },
+  'wiki-element':        { name: 'Wikipedia: Element (mathematics)',              url: 'https://en.wikipedia.org/wiki/Element_(mathematics)' },
+  'wiki-subset':         { name: 'Wikipedia: Subset',                             url: 'https://en.wikipedia.org/wiki/Subset' },
+  'wiki-emptyset':       { name: 'Wikipedia: Empty set',                          url: 'https://en.wikipedia.org/wiki/Empty_set' },
+  'wiki-powerset':       { name: 'Wikipedia: Power set',                          url: 'https://en.wikipedia.org/wiki/Power_set' },
+  'wiki-cardinality':    { name: 'Wikipedia: Cardinality',                        url: 'https://en.wikipedia.org/wiki/Cardinality' },
+  'wiki-symdiff':        { name: 'Wikipedia: Symmetric difference',               url: 'https://en.wikipedia.org/wiki/Symmetric_difference' },
+  'wiki-cartesian':      { name: 'Wikipedia: Cartesian product',                  url: 'https://en.wikipedia.org/wiki/Cartesian_product' },
+  'wiki-relation':       { name: 'Wikipedia: Binary relation',                    url: 'https://en.wikipedia.org/wiki/Binary_relation' },
+  'wiki-equivrel':       { name: 'Wikipedia: Equivalence relation',               url: 'https://en.wikipedia.org/wiki/Equivalence_relation' },
+  'wiki-poset':          { name: 'Wikipedia: Partially ordered set',              url: 'https://en.wikipedia.org/wiki/Partially_ordered_set' },
+  'wiki-function':       { name: 'Wikipedia: Function (mathematics)',             url: 'https://en.wikipedia.org/wiki/Function_(mathematics)' },
+  'wiki-image':          { name: 'Wikipedia: Image (mathematics)',                url: 'https://en.wikipedia.org/wiki/Image_(mathematics)' },
+  'wiki-injective':      { name: 'Wikipedia: Injective function',                 url: 'https://en.wikipedia.org/wiki/Injective_function' },
+  'wiki-surjective':     { name: 'Wikipedia: Surjective function',                url: 'https://en.wikipedia.org/wiki/Surjective_function' },
+  'wiki-bijection':      { name: 'Wikipedia: Bijection',                          url: 'https://en.wikipedia.org/wiki/Bijection' },
+  'wiki-inverse':        { name: 'Wikipedia: Inverse function',                   url: 'https://en.wikipedia.org/wiki/Inverse_function' },
+  'wiki-countable':      { name: 'Wikipedia: Countable set',                      url: 'https://en.wikipedia.org/wiki/Countable_set' },
+  'wiki-cantor-thm':     { name: "Wikipedia: Cantor's theorem",                   url: 'https://en.wikipedia.org/wiki/Cantor%27s_theorem' },
+  'wiki-quantifier':     { name: 'Wikipedia: Quantifier (logic)',                 url: 'https://en.wikipedia.org/wiki/Quantifier_(logic)' },
+  'wiki-contraposition': { name: 'Wikipedia: Contraposition',                     url: 'https://en.wikipedia.org/wiki/Contraposition' },
+  'wiki-setbuilder':     { name: 'Wikipedia: Set-builder notation',               url: 'https://en.wikipedia.org/wiki/Set-builder_notation' },
+  'wiki-tuple':          { name: 'Wikipedia: Tuple',                              url: 'https://en.wikipedia.org/wiki/Tuple' },
+  'halmos':              { name: 'Halmos, "Naive Set Theory" (Springer 1974)',    url: null },
+  'enderton-sets':       { name: 'Enderton, "Elements of Set Theory" (Academic Press 1977)', url: null },
+  'rosen-discrete':      { name: 'Rosen, "Discrete Mathematics and Its Applications" 8th ed (McGraw-Hill 2019)', url: null },
+  'mendelson-logic':     { name: 'Mendelson, "Introduction to Mathematical Logic" 6th ed (CRC 2015)', url: null }
+};
+var TASK_SOURCES = [
+  ['wiki-set', 'halmos'],
+  ['wiki-emptyset', 'halmos'],
+  ['wiki-subset', 'rosen-discrete', 'enderton-sets'],
+  ['wiki-powerset', 'halmos'],
+  ['wiki-cartesian', 'enderton-sets'],
+  ['wiki-equivrel', 'rosen-discrete'],
+  ['wiki-poset', 'rosen-discrete'],
+  ['wiki-function', 'enderton-sets'],
+  ['wiki-bijection', 'wiki-injective', 'wiki-surjective'],
+  ['wiki-quantifier', 'mendelson-logic'],
+  ['wiki-contraposition', 'rosen-discrete'],
+  ['wiki-symdiff'],
+  ['wiki-countable', 'enderton-sets'],
+  ['wiki-setbuilder', 'halmos'],
+  ['wiki-inverse', 'wiki-bijection'],
+  ['wiki-image'],
+  ['wiki-cantor-thm'],
+  ['wiki-tuple', 'enderton-sets'],
+  ['wiki-relation', 'wiki-cartesian'],
+  ['wiki-injective', 'wiki-surjective', 'wiki-bijection']
+];
+
+// ============ TASKS ============
+var TASKS = [
+  {
+    type: 'mc', section: 'Foundations',
+    prompt: 'A <b>set</b> is best characterized as:',
+    options: [
+      'A well-defined collection of distinct objects, with no order and no repetition',
+      'A finite ordered sequence of numbers',
+      'Any list of items, where order matters',
+      'A mapping that assigns each input to exactly one output'
+    ],
+    correct: 0,
+    hint: 'A <b>set</b> ignores both <b>order</b> and <b>repetition</b>: {1,2,3} = {3,2,1} = {1,1,2,3}. <span class="ru-hint">🇷🇺 Множество — это <b>коллекция различных объектов</b>, в которой <b>порядок и повторения не важны</b>. То что "с порядком" — это tuple. То что "input → output" — это function.</span>',
+    explain: 'A set is an unordered collection of distinct elements. Axiom of extensionality: A = B iff same members. Source: Halmos §1, Wikipedia.'
+  },
+  {
+    type: 'mc', section: 'Foundations',
+    prompt: 'What is the cardinality of <b>{∅}</b>?',
+    options: [
+      '1 — it is a singleton containing one element (the empty set)',
+      '0 — it is the empty set',
+      '2 — it contains ∅ and one more thing',
+      'Undefined — ∅ cannot be an element'
+    ],
+    correct: 0,
+    hint: 'Classic trap: <b>∅ ≠ {∅}</b>. The first has 0 elements; the second has <b>1 element</b>, which happens to be the empty set. <span class="ru-hint">🇷🇺 ∅ — пустое множество, |∅| = 0. {∅} — множество, единственный элемент которого — это <b>пустое множество</b>. Поэтому |{∅}| = 1. База ZFC: 0 := ∅, 1 := {∅}, 2 := {∅, {∅}}.</span>',
+    explain: '{∅} is a singleton whose single element is ∅. So |{∅}| = 1, while |∅| = 0. Also: P(∅) = {∅}, |P(∅)| = 1 = 2⁰ ✓. Source: Wikipedia Empty set; Halmos §3.'
+  },
+  {
+    type: 'mc', section: 'Foundations',
+    prompt: 'In the notation A ⊊ B, what does ⊊ denote?',
+    options: [
+      'A is a proper subset of B — every element of A is in B, but A ≠ B',
+      'A is a subset of B, possibly equal',
+      'A and B are disjoint sets',
+      'B is a proper subset of A'
+    ],
+    correct: 0,
+    hint: 'Convention: <b>⊆</b> = "subset (allowing equality)"; <b>⊊</b> = "proper / strict subset". <b>⚠ Notation warning:</b> Some authors (Halmos) write <b>⊂</b> inclusively (= ⊆); others (Enderton, Rosen) write <b>⊂</b> for strict (= ⊊). Always check the book\'s convention. <span class="ru-hint">🇷🇺 ⊊ — это <b>строгое</b> подмножество (A ⊆ B и A ≠ B). Аналогия: ⊆ ↔ ≤, ⊊ ↔ &lt;. Авторы расходятся в трактовке ⊂. В нашем квизе для строгого — ⊊.</span>',
+    explain: 'A ⊊ B means A ⊆ B and A ≠ B. The "improper subset" of B is B itself. Source: Wikipedia Subset; Enderton §2; Rosen §2.1.'
+  },
+  {
+    type: 'mc', section: 'Foundations',
+    prompt: 'For a finite set S with |S| = 5, what is |𝒫(S)| (the cardinality of the power set)?',
+    options: ['32', '25', '10', '120 (= 5!)'],
+    correct: 0,
+    hint: '<b>|𝒫(S)| = 2<sup>|S|</sup></b>. Intuition: each element is either in or out of a subset → 2 choices per element → 2ⁿ subsets total. <span class="ru-hint">🇷🇺 Мощность булеана — <b>2 в степени |S|</b>. Здесь 2⁵ = 32. Запомни через индикаторные функции: подмножество — это функция S → {0,1}. <b>Не путать</b> с числом перестановок (5!) или упорядоченных пар (5²).</span>',
+    explain: '|𝒫(S)| = 2ⁿ for |S| = n. Includes ∅ and S itself. So 2⁵ = 32. Cantor: |𝒫(S)| > |S| for any S. Source: Wikipedia Power set; Halmos §5.'
+  },
+  {
+    type: 'mc', section: 'Set operations',
+    prompt: 'The <b>Cartesian product</b> A × B is the set of:',
+    options: [
+      'All ordered pairs (a, b) with a ∈ A and b ∈ B',
+      'All elements that are in both A and B',
+      'All unordered pairs {a, b} with a ∈ A and b ∈ B',
+      'All functions from A to B'
+    ],
+    correct: 0,
+    hint: 'Key word: <b>ordered</b>. (a, b) ≠ (b, a) in general. Also: |A × B| = |A| · |B|. <span class="ru-hint">🇷🇺 Декартово произведение — множество <b>упорядоченных пар</b>. Порядок важен! (1,2) ≠ (2,1). Размер: умножение мощностей. <b>Не путать</b> с пересечением (вариант 2) или функциями (вариант 4).</span>',
+    explain: 'A × B = {(a, b) : a ∈ A ∧ b ∈ B}. Ordered, so A × B ≠ B × A in general. Used to define relations and functions formally. Source: Wikipedia Cartesian product.'
+  },
+  {
+    type: 'mc', section: 'Relations',
+    prompt: 'A relation ~ on X is an <b>equivalence relation</b> iff it is:',
+    options: [
+      'Reflexive, symmetric, and transitive',
+      'Reflexive, antisymmetric, and transitive',
+      'Symmetric and transitive only',
+      'Reflexive and total'
+    ],
+    correct: 0,
+    hint: 'Mnemonic: <b>R-S-T</b> (Reflexive, Symmetric, Transitive). Trap option 2 is <b>partial order</b> (antisymmetric instead of symmetric). <span class="ru-hint">🇷🇺 Эквивалентность — <b>R-S-T</b>. Разбивает множество на <b>классы эквивалентности</b>. <b>Не путать</b> с partial order: там <b>antisymmetric</b>, а не symmetric. Symmetric и antisymmetric — почти противоположные свойства!</span>',
+    explain: 'Equivalence ⇔ reflexive ∧ symmetric ∧ transitive. Induces a partition into equivalence classes. Examples: =, congruence mod n. Source: Wikipedia; Rosen §9.5.'
+  },
+  {
+    type: 'mc', section: 'Relations',
+    prompt: 'A <b>partial order</b> differs from an equivalence relation in that it requires:',
+    options: [
+      'Antisymmetric (a ≤ b ∧ b ≤ a ⇒ a = b) instead of symmetric',
+      'Symmetric instead of antisymmetric',
+      'No reflexivity',
+      'Totality — every pair must be comparable'
+    ],
+    correct: 0,
+    hint: '<b>Partial order = reflexive + antisymmetric + transitive.</b> Antisymmetric ≠ "not symmetric"; it means a ≤ b AND b ≤ a force a = b. <b>Totality</b> upgrades partial → <b>total order</b>. <span class="ru-hint">🇷🇺 Antisymmetric — это "если a ≤ b и b ≤ a, то a = b". Если ещё и любые два сравнимы — это <b>total order</b>. Пример: ⊆ на 𝒫(X) — partial, не total: {a} и {b} несравнимы.</span>',
+    explain: 'Partial order: reflexive + antisymmetric + transitive. Allows incomparable pairs. Example: ⊆ on 𝒫(X). Add totality → total order. Source: Wikipedia Poset.'
+  },
+  {
+    type: 'mc', section: 'Functions',
+    prompt: 'A binary relation R ⊆ X × Y is a <b>function</b> from X to Y when:',
+    options: [
+      'Every x ∈ X has exactly one y ∈ Y with (x, y) ∈ R',
+      'Every y ∈ Y has at least one x ∈ X with (x, y) ∈ R',
+      'R is symmetric',
+      'R is reflexive'
+    ],
+    correct: 0,
+    hint: 'A function needs <b>two</b> conditions: (1) <b>totality</b> — every input gets some output; (2) <b>uniqueness</b> — at most one output. Together: "exactly one". <span class="ru-hint">🇷🇺 Функция = отношение с двумя условиями: <b>каждый</b> вход имеет <b>ровно один</b> выход. Вариант 2 (каждый y имеет какой-то x) — это <b>surjectivity</b>, не определение функции.</span>',
+    explain: 'A function f : X → Y is a relation R ⊆ X × Y with ∀x ∈ X ∃!y ∈ Y, (x, y) ∈ R. Both totality and uniqueness required. Source: Enderton Ch.3.'
+  },
+  {
+    type: 'mc', section: 'Functions',
+    prompt: 'A function f : X → Y is <b>bijective</b> iff:',
+    options: [
+      'f is both injective (one-to-one) and surjective (onto)',
+      'f maps distinct inputs to distinct outputs (one-to-one)',
+      'Every y ∈ Y is hit by some x ∈ X (onto)',
+      'X and Y are finite sets'
+    ],
+    correct: 0,
+    hint: 'Bijective = injective + surjective. Equivalently: f has an <b>inverse</b> f⁻¹. <span class="ru-hint">🇷🇺 <b>Биекция = инъекция + сюръекция</b>. Только биекция имеет <b>обратную функцию</b>. Терминологическая ловушка: "one-to-one" = injective, "one-to-one correspondence" = bijective.</span>',
+    explain: 'Bijective ⇔ injective ∧ surjective ⇔ invertible. Two finite sets with bijection ⇒ same cardinality. Source: Wikipedia Bijection.'
+  },
+  {
+    type: 'mc', section: 'Logic',
+    promptHTML: 'Which statement is <b>different</b> from the others (not logically equivalent)? Domain: ℕ. Let P(x,y) mean "y = 2x".',
+    options: [
+      '∃y ∀x ∈ ℕ, P(x,y) — there exists one y working for all x',
+      '∀x ∈ ℕ ∃y, P(x,y) — for each x there exists y (which may depend on x)',
+      'Every natural number has a double',
+      'For each x, the value 2x is a natural number'
+    ],
+    correct: 0,
+    hint: 'Quantifier <b>order matters</b>. ∀x∃y means y is chosen <b>after</b> x (y can depend on x). ∃y∀x means a <b>single</b> y works for all x. <span class="ru-hint">🇷🇺 Порядок кванторов критичен! <b>∀x∃y</b> — для каждого x <b>свой</b> y. <b>∃y∀x</b> — <b>один</b> y подходит для всех x. Вариант 1 (∃y∀x) утверждает что есть <b>одно</b> число которое является удвоением каждого x — абсурд. Та же ловушка разделяет <i>continuous</i> от <i>uniformly continuous</i>.</span>',
+    explain: 'Option 1 (∃y∀x): "one y for all x" — false on ℕ. Options 2–4 are paraphrases of ∀x∃y. Order ∀∃ vs ∃∀ flips meaning. Same trap as continuity vs uniform continuity. Source: Wikipedia Quantifier; Mendelson §2.'
+  },
+  {
+    type: 'mc', section: 'Logic',
+    prompt: 'The <b>contrapositive</b> of "if it rains, the ground is wet" is:',
+    options: [
+      'If the ground is not wet, then it does not rain',
+      'If the ground is wet, then it rains',
+      'If it does not rain, then the ground is not wet',
+      'It rains and the ground is wet'
+    ],
+    correct: 0,
+    hint: '<b>Contrapositive</b> of P → Q is ¬Q → ¬P (swap AND negate). Logically equivalent to original! Option 2 is the <b>converse</b> (Q → P), option 3 is the <b>inverse</b> (¬P → ¬Q) — both NOT equivalent. <span class="ru-hint">🇷🇺 Contrapositive: <b>¬Q → ¬P</b>. Логически эквивалентно. Converse и inverse — НЕ эквивалентны! Это любимая ловушка в proof-задачах.</span>',
+    explain: 'Contrapositive of P → Q is ¬Q → ¬P (equivalent). Converse Q → P (NOT equivalent), inverse ¬P → ¬Q (NOT equivalent). Source: Wikipedia Contraposition.'
+  },
+  {
+    type: 'mc', section: 'Set operations · Cloze',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'The <b>symmetric difference</b> A △ B equals (A ∪ B) ∖ <span class="blank-mark">______</span>.',
+    options: ['(A ∩ B)', '(A ∖ B)', '(A × B)', '∅'],
+    correct: 0,
+    hint: 'A △ B = "in either A or B but <b>not both</b>" = (A ∪ B) ∖ (A ∩ B) = (A ∖ B) ∪ (B ∖ A). <span class="ru-hint">🇷🇺 Симметрическая разность — "XOR для множеств": в <b>одном</b>, но <b>не в обоих</b>. Часто появляется в теории вероятностей.</span>',
+    explain: 'A △ B = (A ∪ B) ∖ (A ∩ B). Equivalent: (A ∖ B) ∪ (B ∖ A). Acts like XOR. Source: Wikipedia Symmetric difference.'
+  },
+  {
+    type: 'mc', section: 'Cardinality · Cloze',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'A set is called <b><span class="blank-mark">______</span></b> if it is finite or there is a bijection with ℕ.',
+    options: ['countable', 'uncountable', 'partial', 'open'],
+    correct: 0,
+    hint: '<b>Countable</b> = finite OR bijection-with-ℕ. <b>⚠ Convention note:</b> some authors restrict to mean countably-infinite only. <span class="ru-hint">🇷🇺 Countable = "счётное" = либо конечное, либо есть биекция с ℕ. ℤ, ℚ — счётные. ℝ — несчётное (uncountable).</span>',
+    explain: 'Standard: countable = finite or |·| = |ℕ| = ℵ₀. Examples: ℕ, ℤ, ℚ countable; ℝ, 𝒫(ℕ) uncountable. Source: Wikipedia Countable set.'
+  },
+  {
+    type: 'mc', section: 'Foundations · Cloze',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'In set-builder notation, {x ∈ ℕ : x is even} means "the set of all x <span class="blank-mark">______</span> that x is a natural number and x is even".',
+    options: ['such', 'so', 'in order', 'except'],
+    correct: 0,
+    hint: 'The colon (or | bar) reads as "<b>such that</b>". {x : P(x)} = "the set of all x such that P(x) holds". <span class="ru-hint">🇷🇺 Двоеточие или | в записи {x : P(x)} читаются как "<b>such that</b>".</span>',
+    explain: 'Set-builder {x : P(x)} = "all x such that P(x)". Form {x ∈ A : P(x)} restricts to A — avoids Russell\'s paradox. Source: Wikipedia.'
+  },
+  {
+    type: 'mc', section: 'Functions · Cloze',
+    promptHTML: 'Fill in the blank:',
+    sentence: 'A function f : X → Y has an inverse function f⁻¹ : Y → X if and only if f is <span class="blank-mark">______</span>.',
+    options: ['bijective', 'injective', 'surjective', 'continuous'],
+    correct: 0,
+    hint: '<b>Inverse exists ⇔ bijective</b>. Injective alone gives only a left-inverse; surjective alone gives only a right-inverse. <span class="ru-hint">🇷🇺 Обратная функция существует <b>тогда и только тогда</b>, когда f — биекция.</span>',
+    explain: 'f invertible ⇔ f bijective. Then f⁻¹(f(x)) = x and f(f⁻¹(y)) = y. Source: Wikipedia Inverse function.'
+  },
+  {
+    type: 'audio_mc', section: 'Functions · Listening',
+    audioText: 'preimage',
+    promptHTML: 'Listen and choose the meaning:',
+    options: [
+      'The set of inputs x ∈ X whose function values f(x) lie in a chosen subset B ⊆ Y',
+      'The set of outputs f(x) for all x in the domain',
+      'The codomain Y of a function',
+      'The Cartesian product X × Y'
+    ],
+    correct: 0,
+    hint: '<b>Preimage</b> of B ⊆ Y under f is f⁻¹[B] = {x ∈ X : f(x) ∈ B}. <b>Does not require f to be invertible!</b> <span class="ru-hint">🇷🇺 Прообраз — это <b>множество входов</b>, чьи значения попадают в заданное B. <b>Не путать с обратной функцией!</b> f⁻¹[B] существует даже для не-биективных f. Опция 2 — это <b>image</b>, не preimage.</span>',
+    explain: 'f⁻¹[B] = {x ∈ X : f(x) ∈ B}. Always well-defined regardless of invertibility. Source: Wikipedia Image.'
+  },
+  {
+    type: 'audio_mc', section: 'Cardinality · Listening',
+    audioText: "Cantor's theorem",
+    promptHTML: 'Listen and choose the meaning:',
+    options: [
+      'For every set A, |𝒫(A)| > |A| — the power set is strictly larger',
+      'Every set is countable',
+      'ℝ has the same cardinality as ℕ',
+      'The empty set is a subset of every set'
+    ],
+    correct: 0,
+    hint: '<b>Cantor\'s theorem</b>: |A| &lt; |𝒫(A)| for ANY set A. Proved by diagonal argument. <span class="ru-hint">🇷🇺 <b>Теорема Кантора</b>: мощность булеана <b>строго больше</b> исходного множества. Следствие: |𝒫(ℕ)| > |ℕ|, ℝ ≅ 𝒫(ℕ) <b>несчётно</b>. Бесконечностей бесконечно много.</span>',
+    explain: "Cantor's theorem: |A| &lt; |𝒫(A)|. Proof by diagonal: assume bijection f: A → 𝒫(A), define B = {x : x ∉ f(x)}, derive contradiction. Implies uncountability of ℝ. Source: Wikipedia."
+  },
+  {
+    type: 'audio_mc', section: 'Foundations · Listening',
+    audioText: 'tuple',
+    promptHTML: 'Listen: how does this differ from a set?',
+    options: [
+      'A tuple is ordered and allows repeated elements; a set is unordered and has no repeats',
+      'A tuple has at most two elements; a set is unlimited',
+      'A tuple is always infinite; a set is always finite',
+      'There is no difference'
+    ],
+    correct: 0,
+    hint: 'Set: {1,2,2,3} = {1,2,3} = {3,2,1}. Tuple: (1,2,2,3) ≠ (1,2,3) and (1,2,3) ≠ (3,2,1). <span class="ru-hint">🇷🇺 Кортеж — <b>упорядоченный</b>, повторения <b>разрешены</b>. Множество — <b>неупорядоченный</b>, повторения <b>игнорируются</b>. (a,b) — упорядоченная пара, элемент A×B.</span>',
+    explain: 'Set: unordered, no repetition. Tuple: ordered, allows repetition. Ordered pair (a,b) ∈ A×B is the 2-tuple. Source: Wikipedia Tuple; Enderton §3.'
+  },
+  {
+    type: 'freetext', section: 'Relations · Free-text',
+    promptHTML: 'Explain what a <b>binary relation</b> from set A to set B is, formally.',
+    placeholder: 'A binary relation R from A to B is a subset of A × B ...',
+    modelAnswer: 'A binary relation R from A to B is a <b>subset</b> of the <b>Cartesian product</b> A × B. That is, R ⊆ A × B, so each element of R is an <b>ordered pair</b> (a, b) with a ∈ A and b ∈ B. We write a R b iff (a, b) ∈ R.',
+    keyPhrases: ['subset', 'Cartesian product|A × B|A×B', 'ordered pair'],
+    threshold: 1.0,
+    hint: '⚠️ 3 essentials (threshold 1.0): (1) <b>subset</b>; (2) <b>Cartesian product A × B</b>; (3) <b>ordered pairs</b>. <span class="ru-hint">🇷🇺 Минимально: бинарное отношение — это <b>подмножество декартова произведения</b>. Элементы — <b>упорядоченные пары</b>.</span>'
+  },
+  {
+    type: 'freetext', section: 'Functions · Free-text',
+    promptHTML: 'Define a <b>bijection</b> f : X → Y, listing both required properties.',
+    placeholder: 'A bijection f : X → Y is a function that is both ...',
+    modelAnswer: 'A <b>bijection</b> f : X → Y is a function that is both <b>injective</b> (one-to-one — distinct inputs give distinct outputs) <b>and surjective</b> (onto — every y ∈ Y equals f(x) for some x ∈ X). Equivalently, f has an <b>inverse</b> function f⁻¹ : Y → X.',
+    keyPhrases: ['injective|one-to-one|one to one', 'surjective|onto', 'inverse|invertible|bijective'],
+    threshold: 1.0,
+    hint: '⚠️ Bijection has <b>two</b> properties: <b>injective</b> + <b>surjective</b>. Mentioning "inverse exists" is also acceptable. <span class="ru-hint">🇷🇺 Биекция = inj + surj (или эквивалент: "обратная функция существует"). Только инъекция или только сюръекция — недостаточно.</span>'
+  }
+];
+
+// ============ STATE ============
+var current = 0;
+var firstTryCorrect = 0;
+var attemptedWrong = false;
+var answeredCorrect = false;
+var perTypeStats = {};
+var quizStart = null;
+var timerInt = null;
+var finalSec = null;
+var wrongIdx = {};
+var shuffled = []; // task index order
+
+// ============ HELPERS ============
+function fmtTime(sec) { var m = Math.floor(sec/60), s = sec%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function speak(text) {
+  if (!window.speechSynthesis) { alert('Sorry, your browser does not support speech synthesis.'); return; }
+  try { speechSynthesis.cancel(); } catch(e) {}
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = 0.85; u.pitch = 1.0;
+  speechSynthesis.speak(u);
+}
+function shuffle(a) { for (var i=a.length-1; i>0; i--) { var j = Math.floor(Math.random()*(i+1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+function startQuiz() {
+  shuffled = TASKS.map(function(_, i){ return i; });
+  // Shuffle MC option order per task (re-shuffled on every restart)
+  TASKS.forEach(function(t){
+    if (t.type === 'mc' || t.type === 'audio_mc') {
+      var order = [];
+      for (var i = 0; i < t.options.length; i++) order.push(i);
+      for (var j = order.length - 1; j > 0; j--) {
+        var k = Math.floor(Math.random() * (j + 1));
+        var tmp = order[j]; order[j] = order[k]; order[k] = tmp;
+      }
+      t._order = order;
+      t._correctIdx = order.indexOf(t.correct);
+    }
+  });
+  current = 0; firstTryCorrect = 0; perTypeStats = {};
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart = Date.now();
+  if (timerInt) clearInterval(timerInt);
+  timerInt = setInterval(updateTimer, 250);
+  updateTimer();
+  renderTask();
+}
+function updateTimer() {
+  if (quizStart === null) return;
+  document.getElementById('timer').textContent = '⏱️ ' + fmtTime(Math.floor((Date.now()-quizStart)/1000));
+}
+
+function renderTask() {
+  attemptedWrong = false;
+  answeredCorrect = false;
+  wrongIdx = {};
+
+  var idx = shuffled[current];
+  var t = TASKS[idx];
+  document.getElementById('section-badge').textContent = t.section;
+  document.getElementById('progress-info').textContent = 'Question ' + (current+1) + ' of ' + TASKS.length;
+  document.getElementById('progress-fill').style.width = (((current+1)/TASKS.length)*100) + '%';
+
+  var tc = document.getElementById('task-container');
+  tc.innerHTML = '';
+
+  // type label + 📖 sources button (per-task panel)
+  var headerRow = document.createElement('div');
+  headerRow.className = 'task-header';
+  var typeLabel = document.createElement('div');
+  typeLabel.className = 'task-type';
+  typeLabel.textContent = (t.type === 'mc' ? 'Multiple choice' :
+                          t.type === 'audio_mc' ? '🎧 Listen' :
+                          t.type === 'freetext' ? '✍️ Write' : t.type);
+  headerRow.appendChild(typeLabel);
+
+  var taskSources = (typeof TASK_SOURCES !== 'undefined' && TASK_SOURCES[idx]) || [];
+  var sPanel = null;
+  if (taskSources.length > 0) {
+    var sBtn = document.createElement('button');
+    sBtn.className = 'task-sources-btn';
+    sBtn.innerHTML = '📖 ' + taskSources.length + ' src';
+    sBtn.title = 'Tap to see sources backing this term';
+    sPanel = document.createElement('div');
+    sPanel.className = 'task-sources-panel';
+    var pHtml = '<ul>';
+    for (var sIdx = 0; sIdx < taskSources.length; sIdx++) {
+      var s = SOURCES[taskSources[sIdx]];
+      if (!s) continue;
+      if (s.url) {
+        pHtml += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+      } else {
+        pHtml += '<li>· ' + s.name + '</li>';
+      }
+    }
+    pHtml += '</ul>';
+    sPanel.innerHTML = pHtml;
+    sBtn.onclick = function() { sPanel.classList.toggle('open'); };
+    headerRow.appendChild(sBtn);
+  }
+  tc.appendChild(headerRow);
+  if (sPanel) tc.appendChild(sPanel);
+
+  // prompt
+  if (t.type === 'audio_mc') {
+    var ap = document.createElement('div');
+    ap.className = 'audio-prompt';
+    ap.innerHTML = '<div class="label">TAP TO LISTEN</div>';
+    var btn = document.createElement('button');
+    btn.className = 'btn btn-audio';
+    btn.innerHTML = '🔊 Play';
+    btn.onclick = function(){ speak(t.audioText); };
+    ap.appendChild(btn);
+    tc.appendChild(ap);
+    // auto-play once
+    setTimeout(function(){ speak(t.audioText); }, 250);
+  }
+
+  var pr = document.createElement('div');
+  pr.className = 'prompt';
+  pr.innerHTML = t.promptHTML || t.prompt || '';
+  tc.appendChild(pr);
+
+  if (t.sentence) {
+    var sn = document.createElement('div');
+    sn.className = 'cloze-sentence';
+    sn.innerHTML = t.sentence;
+    tc.appendChild(sn);
+  }
+
+  if (t.type === 'mc' || t.type === 'audio_mc') {
+    renderMC(t, tc);
+  } else if (t.type === 'freetext') {
+    renderFreetext(t, tc);
+  }
+
+  document.getElementById('feedback-container').innerHTML = '';
+  document.getElementById('next-area').innerHTML = '';
+}
+
+function renderMC(t, tc) {
+  var oc = document.createElement('div');
+  oc.className = 'options';
+  // t._order maps displayIdx -> originalOptionIdx (computed in startQuiz)
+  var order = t._order || (function(){ var a=[]; for(var i=0;i<t.options.length;i++) a.push(i); return a; })();
+  for (var i = 0; i < order.length; i++) {
+    (function(displayIdx){
+      var originalIdx = order[displayIdx];
+      var btn = document.createElement('button');
+      btn.className = 'option';
+      btn.innerHTML = t.options[originalIdx];
+      btn.onclick = function(){ selectMC(t, displayIdx, btn); };
+      oc.appendChild(btn);
+    })(i);
+  }
+  tc.appendChild(oc);
+}
+
+function selectMC(t, choice, btnEl) {
+  if (answeredCorrect) return;
+  if (wrongIdx[choice]) return;
+  var correctDisplayIdx = (typeof t._correctIdx === 'number') ? t._correctIdx : t.correct;
+  if (choice === correctDisplayIdx) {
+    answeredCorrect = true;
+    if (!attemptedWrong) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+    btnEl.classList.add('correct');
+    var opts = document.querySelectorAll('#task-container .option');
+    opts.forEach(function(o){ o.disabled = true; });
+    showExplanation(t);
+    showNextButton();
+  } else {
+    wrongIdx[choice] = true;
+    attemptedWrong = true;
+    btnEl.classList.add('wrong');
+    btnEl.disabled = true;
+    showHint(t);
+  }
+}
+
+function renderFreetext(t, tc) {
+  var area = document.createElement('div');
+  area.className = 'freetext-area';
+  var ta = document.createElement('textarea');
+  ta.placeholder = t.placeholder || 'Write your definition in English…';
+  ta.id = 'freetext-input';
+  area.appendChild(ta);
+  var actions = document.createElement('div');
+  actions.className = 'freetext-actions';
+  var submit = document.createElement('button');
+  submit.className = 'btn';
+  submit.innerHTML = '✅ Check my answer';
+  submit.onclick = function(){ submitFreetext(t); };
+  var skip = document.createElement('button');
+  skip.className = 'btn btn-ghost';
+  skip.innerHTML = 'Skip — show model';
+  skip.onclick = function(){ skipFreetext(t); };
+  actions.appendChild(submit);
+  actions.appendChild(skip);
+  area.appendChild(actions);
+  tc.appendChild(area);
+}
+
+function matchKeyPhrase(input, kp) {
+  // Support '|' as OR-alternatives; return matched alt for display, or null
+  var alts = kp.split('|');
+  for (var i = 0; i < alts.length; i++) {
+    var a = alts[i].toLowerCase().trim();
+    if (a === '') continue;
+    if (input.indexOf(a) >= 0) return alts[i];
+    if (a.slice(-1) === 's' && input.indexOf(a.slice(0, -1)) >= 0) return alts[i];
+    if (input.indexOf(a.replace(/ /g, '-')) >= 0) return alts[i];
+  }
+  return null;
+}
+
+function submitFreetext(t) {
+  if (answeredCorrect) return;
+  var input = (document.getElementById('freetext-input').value || '').toLowerCase().trim();
+  if (!input) { alert('Try writing a definition first.'); return; }
+  var hits = [], misses = [];
+  for (var i = 0; i < t.keyPhrases.length; i++) {
+    var matched = matchKeyPhrase(input, t.keyPhrases[i]);
+    if (matched !== null) {
+      hits.push(matched);
+    } else {
+      // display first alt as canonical when missed
+      misses.push(t.keyPhrases[i].split('|')[0]);
+    }
+  }
+  var coverage = hits.length / t.keyPhrases.length;
+  // Threshold can be overridden per-task (e.g., SVD requires 100% to force "rectangular")
+  var threshold = (typeof t.threshold === 'number') ? t.threshold : 0.75;
+  if (!attemptedWrong) {
+    if (coverage >= threshold) {
+      firstTryCorrect++;
+      bumpStat(t.section, true);
+    } else {
+      bumpStat(t.section, false);
+    }
+  } else {
+    bumpStat(t.section, false);
+  }
+  answeredCorrect = true;
+  renderFreetextResult(t, input, hits, misses, coverage);
+  showNextButton();
+}
+function skipFreetext(t) {
+  attemptedWrong = true;
+  bumpStat(t.section, false);
+  answeredCorrect = true;
+  renderFreetextResult(t, '', [], t.keyPhrases.slice(), 0);
+  showNextButton();
+}
+function renderFreetextResult(t, userInput, hits, misses, coverage) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '';
+
+  if (userInput) {
+    var ya = document.createElement('div');
+    ya.className = 'your-answer';
+    ya.innerHTML = '<b>Your answer:</b> ' + escapeHtml(userInput);
+    fb.appendChild(ya);
+  }
+
+  var pct = Math.round(coverage*100);
+  var ex = document.createElement('div');
+  ex.className = 'feedback explanation';
+  ex.innerHTML = '<div class="feedback-title">Key phrases coverage: ' + pct + '%</div>' +
+    '<div class="keywords">' +
+      hits.map(function(h){ return '<span class="kw hit">✓ ' + h + '</span>'; }).join('') +
+      misses.map(function(m){ return '<span class="kw miss">✗ ' + m + '</span>'; }).join('') +
+    '</div>' +
+    '<div class="model-answer"><b>Model answer:</b> ' + t.modelAnswer + '</div>';
+  fb.appendChild(ex);
+}
+
+function showHint(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback hint"><div class="feedback-title">💡 Hint</div><span class="ru-hint">' + t.hint + '</span></div>';
+}
+function showExplanation(t) {
+  var fb = document.getElementById('feedback-container');
+  fb.innerHTML = '<div class="feedback explanation"><div class="feedback-title">✅ Correct!</div>' + (t.explain || '') + '</div>';
+}
+function showNextButton() {
+  var na = document.getElementById('next-area');
+  na.innerHTML = '';
+  var btn = document.createElement('button');
+  btn.className = 'btn btn-next btn-block';
+  btn.textContent = (current+1 < TASKS.length) ? 'Next →' : '🏁 See result';
+  btn.onclick = nextTask;
+  na.appendChild(btn);
+}
+function nextTask() {
+  current++;
+  if (current < TASKS.length) renderTask();
+  else showResult();
+}
+
+function bumpStat(section, firstTry) {
+  if (!perTypeStats[section]) perTypeStats[section] = { total:0, firstTry:0 };
+  perTypeStats[section].total++;
+  if (firstTry) perTypeStats[section].firstTry++;
+}
+
+function escapeHtml(s) {
+  return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showResult() {
+  if (timerInt) { clearInterval(timerInt); timerInt = null; }
+  finalSec = Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct = Math.round((firstTryCorrect/TASKS.length)*100);
+  document.getElementById('result-percent').textContent = pct;
+  document.getElementById('result-correct').textContent = firstTryCorrect;
+  document.getElementById('result-total').textContent = TASKS.length;
+  document.getElementById('result-time').textContent = fmtTime(finalSec);
+  // emoji
+  var emoji = '🌱', motiv = '';
+  if (pct >= 90) { emoji = '🏆'; motiv = 'Outstanding! Vocabulary is interview-ready in this area. Time to drill the next domain.'; }
+  else if (pct >= 75) { emoji = '🌟'; motiv = 'Great work! A few terms still need active practice — re-run this quiz tomorrow.'; }
+  else if (pct >= 60) { emoji = '👍'; motiv = 'Solid foundation. Look at the missed terms — write them out by hand once. Replay in 2 days.'; }
+  else if (pct >= 40) { emoji = '💪'; motiv = 'Good start. Re-read explanations of missed terms, then replay tomorrow. Numbers stay fixed but order will shuffle on Day 1 — the LEARNING is what matters.'; }
+  else { emoji = '🌱'; motiv = 'Linear algebra vocabulary is dense — totally normal to score low first run. Re-read explanations, sleep, replay tomorrow. Each replay sinks it deeper.'; }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-motivation').textContent = motiv;
+  // breakdown
+  var bd = document.getElementById('result-breakdown-list');
+  bd.innerHTML = '';
+  for (var sec in perTypeStats) {
+    var st = perTypeStats[sec];
+    var row = document.createElement('div');
+    row.className = 'breakdown-row';
+    row.innerHTML = '<span>' + sec + '</span><span><b>' + st.firstTry + '/' + st.total + '</b></span>';
+    bd.appendChild(row);
+  }
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+}
+
+function renderStartSources() {
+  if (typeof TASK_SOURCES === 'undefined') return;
+  var used = {};
+  for (var i = 0; i < TASK_SOURCES.length; i++) {
+    for (var j = 0; j < TASK_SOURCES[i].length; j++) used[TASK_SOURCES[i][j]] = true;
+  }
+  var keys = Object.keys(used);
+  // sort wiki/wiktionary first, then standard-math-en, then textbooks
+  keys.sort(function(a, b) {
+    var rank = function(k){
+      if (k.indexOf('wiki') === 0) return 0;
+      if (k.indexOf('axler') === 0 || k.indexOf('strang') === 0) return 2;
+      return 1;
+    };
+    return rank(a) - rank(b);
+  });
+  var html = '<h4>📖 Sources used in D1 (' + keys.length + ')</h4><ul>';
+  for (var k = 0; k < keys.length; k++) {
+    var s = SOURCES[keys[k]];
+    if (!s) continue;
+    if (s.url) {
+      html += '<li>· <a href="' + s.url + '" target="_blank" rel="noopener">' + s.name + '</a></li>';
+    } else {
+      html += '<li>· ' + s.name + '</li>';
+    }
+  }
+  html += '</ul><div class="src-note">Each question also shows a 📖 button — tap to see which sources back that specific term.</div>';
+  var el = document.getElementById('start-sources');
+  if (el) el.innerHTML = html;
+}
+renderStartSources();
+</script>
+</body>
+</html>
