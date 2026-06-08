@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рівняння з невідомою — тренажер (4 клас) — SAMPLE для Франца</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+    background: linear-gradient(135deg, #7c3aed 0%, #ec4899 55%, #f59e0b 100%);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 14px; color: #1e293b;
+  }
+  .container {
+    background: #fff; border-radius: 20px; padding: 28px 24px 20px; max-width: 700px; width: 100%;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+  }
+  .container::before { content:''; position:absolute; top:0; left:0; right:0; height:7px;
+    background: linear-gradient(90deg, #7c3aed, #ec4899, #f59e0b); }
+  h1 { color: #7c3aed; font-size: 1.55em; margin-bottom: 6px; line-height: 1.2; }
+  .subtitle { color: #64748b; font-size: 0.95em; margin-bottom: 6px; }
+  .sample-note { background: #fef3c7; color: #92400e; padding: 8px 12px; border-radius: 8px; font-size: 0.85em; margin-bottom: 14px; border-left: 4px solid #f59e0b; }
+  .intro { background: #faf5ff; border-left: 5px solid #7c3aed; padding: 14px 16px; border-radius: 10px; font-size: 1em; line-height: 1.55; margin: 12px 0; }
+  .intro ul { margin: 6px 0 0 20px; }
+  .intro li { padding: 2px 0; }
+  .btn { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border: none;
+    padding: 14px 30px; font-size: 1.08em; border-radius: 12px; cursor: pointer; font-weight: 700; font-family: inherit;
+    box-shadow: 0 6px 18px rgba(124,58,237,0.4); transition: transform .15s, box-shadow .15s; -webkit-appearance: none; appearance: none; }
+  .btn:active { transform: translateY(1px); }
+  .btn-block { display: block; width: 100%; margin-top: 14px; }
+  .btn-next { background: linear-gradient(135deg, #16a34a, #22c55e); box-shadow: 0 6px 18px rgba(22,163,74,0.4); }
+  .topline { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+  .section-badge { background: #7c3aed; color: #fff; font-size: 0.82em; font-weight: 700; padding: 5px 12px; border-radius: 20px; }
+  .timer-badge { background: #faf5ff; color: #7c3aed; font-weight: 700; padding: 4px 12px; border-radius: 10px; font-size: 0.9em; font-variant-numeric: tabular-nums; }
+  .progress-info { text-align: center; color: #475569; font-size: 0.9em; font-weight: 600; margin-bottom: 8px; }
+  .progress-bar { background: #e2e8f0; border-radius: 10px; height: 10px; overflow: hidden; margin-bottom: 20px; }
+  .progress-fill { background: linear-gradient(90deg, #7c3aed, #ec4899); height: 100%; transition: width 0.4s ease; }
+  .question { font-size: 1.1em; line-height: 1.55; margin-bottom: 6px; color: #1e293b; }
+  .equation { text-align: center; font-size: 2.1em; margin: 22px 0 22px 0; color: #7c3aed; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 480px) { .options { grid-template-columns: 1fr; } .equation { font-size: 1.7em; } }
+  .option { background: white; border: 2px solid #cbd5e1; padding: 18px; border-radius: 12px; cursor: pointer; font-size: 1.4em; font-weight: 700; text-align: center; transition: all 0.15s; font-family: inherit; color: #1e293b; min-height: 64px; display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+  .option:hover:not(:disabled) { background: #faf5ff; border-color: #7c3aed; transform: translateY(-2px); }
+  .option:disabled { cursor: not-allowed; }
+  .option.wrong { background: #fef2f2; border-color: #dc2626; color: #991b1b; opacity: 0.7; }
+  .option.correct { background: #f0fdf4; border-color: #16a34a; color: #14532d; }
+  .feedback { margin-top: 16px; padding: 14px 16px; border-radius: 12px; font-size: 1em; line-height: 1.55; animation: slideIn 0.25s ease; }
+  .feedback.hint { background: #fffbeb; color: #78350f; border-left: 5px solid #f59e0b; }
+  .feedback.explanation { background: #f0fdf4; color: #14532d; border-left: 5px solid #22c55e; }
+  .feedback-title { font-weight: 700; margin-bottom: 4px; font-size: 0.95em; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .next-area { text-align: center; margin-top: 16px; }
+  .result-screen { text-align: center; }
+  .result-emoji { font-size: 4em; margin: 12px 0; }
+  .grade-badge { font-size: 4em; font-weight: 800; color: #7c3aed; margin: 8px 0; }
+  .result-meta { display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 8px 0; }
+  .motivation { font-style: italic; color: #7c3aed; margin: 16px 0; padding: 14px; background: #faf5ff; border-radius: 12px; font-size: 1.04em; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Start screen -->
+  <div id="start-screen">
+    <h1>🟣 Рівняння з невідомою — 4 клас</h1>
+    <div class="subtitle">Тренажер · 30 завдань · 3 блоки</div>
+    <div class="sample-note">📌 <b>Це SAMPLE-квіз для Франца</b>. Якщо рівень підходить — додамо 4 мови (RU/EN/DE), розширимо на 10 уроків плану.</div>
+    <div class="intro">
+      Привіт! Тут 30 рівнянь з однією невідомою (саме те, що ти зараз робиш у підручнику).
+      <ul>
+        <li>🔹 <b>Блок A:</b> прості рівняння (x + a = b, a · x = b, тощо)</li>
+        <li>🔹 <b>Блок B:</b> з дужками (a − (x − b) = c)</li>
+        <li>🔹 <b>Блок C:</b> невідомий у різних позиціях (x : a + b = c)</li>
+        <li>💡 Помилився — підкажу, можна спробувати ще. Бал — за відповідь з <b>1-ї спроби</b>.</li>
+        <li>🎲 Числа щоразу нові — можна переграти.</li>
+        <li>⏱️ ~25-35 хв.</li>
+      </ul>
+    </div>
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Почати</button>
+  </div>
+
+  <!-- Quiz screen -->
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge">Блок A</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress">Питання 1 з 30</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question" id="question-text">Розвʼяжи рівняння:</div>
+    <div class="equation" id="equation"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <!-- Result screen -->
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1 id="result-title">Готово!</h1>
+      <div class="grade-badge" id="result-grade">12</div>
+      <div class="result-meta">
+        <div>Правильно з 1-ї спроби: <b id="result-correct">0</b> з 30</div>
+        <div>Відсоток: <b id="result-percent">0</b>%</div>
+        <div>Час: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="motivation" id="motivation"></div>
+      <button class="btn btn-block" onclick="restart()">🔄 Ще раз (нові числа)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var TASKS = [{"block": "A", "variations": [{"eq": "x + 35 = 80", "ans": 45, "dist": [44, 115, 22]}, {"eq": "x + 42 = 95", "ans": 53, "dist": [52, 63, 43]}, {"eq": "x + 28 = 73", "ans": 45, "dist": [46, 44, 22]}], "hint": "Знайди невідомий доданок: x = b - a", "explain": "x = b - a. Зменшуване мінус відомий доданок."}, {"block": "A", "variations": [{"eq": "25 + x = 70", "ans": 45, "dist": [46, 90, 35]}, {"eq": "48 + x = 90", "ans": 42, "dist": [21, 43, 84]}, {"eq": "33 + x = 81", "ans": 48, "dist": [24, 96, 49]}], "hint": "Знайди невідомий доданок: x = b - a", "explain": "x = b - a."}, {"block": "A", "variations": [{"eq": "x − 18 = 24", "ans": 42, "dist": [52, 21, 84]}, {"eq": "x − 35 = 47", "ans": 82, "dist": [41, 81, 72]}, {"eq": "x − 56 = 29", "ans": 85, "dist": [75, 170, 84]}], "hint": "Знайди зменшуване: x = b + a", "explain": "x = b + a. Якщо x - a = b, то x = b + a."}, {"block": "A", "variations": [{"eq": "50 − x = 22", "ans": 28, "dist": [14, 56, 18]}, {"eq": "80 − x = 35", "ans": 45, "dist": [22, 46, 55]}, {"eq": "100 − x = 46", "ans": 54, "dist": [146, 64, 53]}], "hint": "Знайди відʼємник: x = a - b", "explain": "Якщо a - x = b, то x = a - b."}, {"block": "A", "variations": [{"eq": "x · 6 = 42", "ans": 7, "dist": [8, 252, 6]}, {"eq": "x · 8 = 56", "ans": 7, "dist": [64, 14, 8]}, {"eq": "x · 7 = 49", "ans": 7, "dist": [14, 17, 343]}], "hint": "Знайди невідомий множник: x = b : a", "explain": "x = b : a. Добуток ділимо на відомий множник."}, {"block": "A", "variations": [{"eq": "8 · x = 56", "ans": 7, "dist": [64, 17, 48]}, {"eq": "9 · x = 63", "ans": 7, "dist": [14, 567, 3]}, {"eq": "7 · x = 42", "ans": 6, "dist": [5, 35, 3]}], "hint": "Знайди невідомий множник: x = b : a", "explain": "x = b : a."}, {"block": "A", "variations": [{"eq": "x : 4 = 9", "ans": 36, "dist": [5, 26, 46]}, {"eq": "x : 6 = 8", "ans": 48, "dist": [47, 58, 2]}, {"eq": "x : 7 = 9", "ans": 63, "dist": [2, 16, 126]}], "hint": "Знайди ділене: x = b · a", "explain": "Якщо x : a = b, то x = b · a."}, {"block": "A", "variations": [{"eq": "72 : x = 8", "ans": 9, "dist": [8, 19, 64]}, {"eq": "96 : x = 12", "ans": 8, "dist": [84, 16, 18]}, {"eq": "84 : x = 7", "ans": 12, "dist": [13, 588, 2]}], "hint": "Знайди дільник: x = a : b", "explain": "Якщо a : x = b, то x = a : b."}, {"block": "A", "variations": [{"eq": "x + 248 = 510", "ans": 262, "dist": [524, 758, 263]}, {"eq": "x + 367 = 800", "ans": 433, "dist": [443, 434, 423]}, {"eq": "x + 495 = 1000", "ans": 505, "dist": [1010, 506, 1495]}], "hint": "x = b - a", "explain": "x = b - a, з більшими числами."}, {"block": "A", "variations": [{"eq": "800 − x = 327", "ans": 473, "dist": [236, 463, 472]}, {"eq": "1000 − x = 475", "ans": 525, "dist": [535, 1050, 1475]}, {"eq": "720 − x = 283", "ans": 437, "dist": [874, 438, 1003]}], "hint": "x = a - b", "explain": "x = a - b, з більшими числами."}, {"block": "B", "variations": [{"eq": "50 − (x − 12) = 20", "ans": 42, "dist": [21, 43, 52]}, {"eq": "80 − (x − 15) = 45", "ans": 50, "dist": [60, 49, 51]}, {"eq": "60 − (x − 8) = 30", "ans": 38, "dist": [90, 68, 480]}], "hint": "a − (x − b) = c → x − b = a − c → x = a − c + b", "explain": "x = a − c + b. Знайди різницю (x − b), потім додай b."}, {"block": "B", "variations": [{"eq": "60 − (15 + x) = 28", "ans": 17, "dist": [34, 75, 16]}, {"eq": "75 − (12 + x) = 40", "ans": 23, "dist": [13, 87, 46]}, {"eq": "85 − (20 + x) = 30", "ans": 35, "dist": [10, 105, 65]}], "hint": "a − (b + x) = c → b + x = a − c → x = a − c − b", "explain": "x = a − c − b. Знайди суму (b + x), віднявши c від a, потім відніми b."}, {"block": "B", "variations": [{"eq": "30 + (x − 8) = 45", "ans": 23, "dist": [22, 38, 75]}, {"eq": "25 + (x − 10) = 38", "ans": 23, "dist": [11, 46, 15]}, {"eq": "40 + (x − 12) = 55", "ans": 27, "dist": [37, 43, 480]}], "hint": "a + (x − b) = c → x − b = c − a → x = c − a + b", "explain": "x = c − a + b."}, {"block": "B", "variations": [{"eq": "25 + (40 − x) = 50", "ans": 15, "dist": [25, 5, 7]}, {"eq": "15 + (60 − x) = 55", "ans": 20, "dist": [45, 40, 21]}, {"eq": "20 + (45 − x) = 30", "ans": 35, "dist": [45, 70, 25]}], "hint": "a + (b − x) = c → b − x = c − a → x = b − c + a", "explain": "x = b − (c − a) = b − c + a."}, {"block": "B", "variations": [{"eq": "(x + 15) − 30 = 10", "ans": 25, "dist": [24, 50, 35]}, {"eq": "(x + 20) − 40 = 15", "ans": 35, "dist": [800, 60, 45]}, {"eq": "(x + 25) − 50 = 20", "ans": 45, "dist": [90, 44, 55]}], "hint": "(x + a) − b = c → x = c + b − a", "explain": "x = c + b − a."}, {"block": "B", "variations": [{"eq": "(50 − x) + 12 = 40", "ans": 22, "dist": [12, 600, 23]}, {"eq": "(60 − x) + 8 = 45", "ans": 23, "dist": [13, 33, 37]}, {"eq": "(70 − x) + 15 = 50", "ans": 35, "dist": [45, 34, 55]}], "hint": "(a − x) + b = c → a − x = c − b → x = a − c + b", "explain": "x = a − (c − b)."}, {"block": "B", "variations": [{"eq": "(x − 20) − 15 = 25", "ans": 60, "dist": [50, 59, 5]}, {"eq": "(x − 30) − 10 = 40", "ans": 80, "dist": [30, 300, 81]}, {"eq": "(x − 25) − 12 = 35", "ans": 72, "dist": [13, 300, 73]}], "hint": "(x − a) − b = c → x = c + b + a", "explain": "x = c + a + b."}, {"block": "B", "variations": [{"eq": "100 − (28 − x) = 82", "ans": 10, "dist": [5, 9, 11]}, {"eq": "150 − (40 − x) = 90", "ans": -20, "dist": [190, 50, 240]}, {"eq": "120 − (35 − x) = 75", "ans": -10, "dist": [155, 85, 195]}], "hint": "a − (b − x) = c → b − x = a − c → x = b − (a − c) = b − a + c", "explain": "x = b + c − a."}, {"block": "B", "variations": [{"eq": "(x + 15) + 5 = 60", "ans": 40, "dist": [55, 20, 45]}, {"eq": "(x + 20) + 10 = 80", "ans": 50, "dist": [60, 30, 49]}, {"eq": "(x + 25) + 15 = 90", "ans": 50, "dist": [115, 40, 25]}], "hint": "(x + a) + b = c → x = c − a − b", "explain": "x = c − a − b."}, {"block": "B", "variations": [{"eq": "(x − 20) − 15 = 25", "ans": 60, "dist": [120, 30, 10]}, {"eq": "(x − 30) − 10 = 40", "ans": 80, "dist": [81, 70, 79]}, {"eq": "(x − 25) − 12 = 35", "ans": 72, "dist": [73, 300, 144]}], "hint": "Те саме що (x−a)−b=c, x = c + a + b — drill", "explain": "x = c + a + b (повторення)."}, {"block": "C", "variations": [{"eq": "x : 5 + 12 = 20", "ans": 40, "dist": [8, 50, 17]}, {"eq": "x : 6 + 5 = 8", "ans": 18, "dist": [19, 9, 1]}, {"eq": "x : 4 + 7 = 15", "ans": 32, "dist": [28, 11, 33]}], "hint": "x:a + b = c → x:a = c − b → x = (c − b)·a", "explain": "x = (c − b) · a."}, {"block": "C", "variations": [{"eq": "x : 6 − 5 = 8", "ans": 78, "dist": [39, 1, 3]}, {"eq": "x : 4 − 3 = 9", "ans": 48, "dist": [6, 49, 12]}, {"eq": "x : 7 − 4 = 8", "ans": 84, "dist": [28, 11, 4]}], "hint": "x:a − b = c → x:a = c + b → x = (c + b)·a", "explain": "x = (c + b) · a."}, {"block": "C", "variations": [{"eq": "4 · x + 15 = 47", "ans": 8, "dist": [60, 19, 4]}, {"eq": "3 · x + 10 = 22", "ans": 4, "dist": [30, 12, 13]}, {"eq": "5 · x + 8 = 33", "ans": 5, "dist": [2, 3, 4]}], "hint": "a·x + b = c → a·x = c − b → x = (c − b):a", "explain": "x = (c − b) : a."}, {"block": "C", "variations": [{"eq": "7 · x − 10 = 32", "ans": 6, "dist": [12, 3, 7]}, {"eq": "6 · x − 8 = 28", "ans": 6, "dist": [14, 2, 5]}, {"eq": "4 · x − 12 = 20", "ans": 8, "dist": [48, 4, 9]}], "hint": "a·x − b = c → a·x = c + b → x = (c + b):a", "explain": "x = (c + b) : a."}, {"block": "C", "variations": [{"eq": "50 − x : 4 = 42", "ans": 32, "dist": [92, 54, 33]}, {"eq": "60 − x : 5 = 50", "ans": 50, "dist": [110, 51, 100]}, {"eq": "80 − x : 6 = 68", "ans": 72, "dist": [74, 480, 144]}], "hint": "a − x:b = c → x:b = a − c → x = (a − c)·b", "explain": "x = (a − c) · b."}, {"block": "C", "variations": [{"eq": "15 + x · 3 = 36", "ans": 7, "dist": [17, 51, 12]}, {"eq": "20 + x · 4 = 40", "ans": 5, "dist": [10, 15, 24]}, {"eq": "10 + x · 5 = 35", "ans": 5, "dist": [45, 2, 4]}], "hint": "a + x·b = c → x·b = c − a → x = (c − a):b", "explain": "x = (c − a) : b."}, {"block": "C", "variations": [{"eq": "60 : x + 5 = 17", "ans": 5, "dist": [300, 12, 6]}, {"eq": "48 : x + 4 = 16", "ans": 4, "dist": [8, 5, 44]}, {"eq": "72 : x + 6 = 18", "ans": 6, "dist": [78, 90, 7]}], "hint": "a:x + b = c → a:x = c − b → x = a:(c − b)", "explain": "x = a : (c − b)."}, {"block": "C", "variations": [{"eq": "48 : x − 3 = 9", "ans": 4, "dist": [57, 51, 5]}, {"eq": "60 : x − 4 = 11", "ans": 4, "dist": [14, 240, 8]}, {"eq": "72 : x − 5 = 11", "ans": 4, "dist": [5, 67, 6]}], "hint": "a:x − b = c → a:x = c + b → x = a:(c + b)", "explain": "x = a : (c + b)."}, {"block": "C", "variations": [{"eq": "(x + 5) · 3 = 21", "ans": 2, "dist": [15, 1, 12]}, {"eq": "(x + 8) · 4 = 32", "ans": 0, "dist": [32, 4, 1]}, {"eq": "(x + 6) · 5 = 35", "ans": 1, "dist": [30, 29, 2]}], "hint": "(x + a)·b = c → x + a = c:b → x = c:b − a", "explain": "x = c : b − a."}, {"block": "C", "variations": [{"eq": "(x − 8) · 4 = 16", "ans": 12, "dist": [4, 32, 2]}, {"eq": "(x − 10) · 3 = 21", "ans": 17, "dist": [34, 18, 30]}, {"eq": "(x − 12) · 5 = 40", "ans": 20, "dist": [19, 10, 40]}], "hint": "(x − a)·b = c → x − a = c:b → x = c:b + a", "explain": "x = c : b + a."}];
+
+var current = 0, firstTry = 0, attemptedWrong = false, answered = false, wrongIdx = {};
+var runtime = [], quizStart = null, timerInt = null, finalSec = null;
+
+function shuffle(a){ for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+
+function buildRuntime(){
+  runtime = [];
+  TASKS.forEach(function(t, idx){
+    var v = t.variations[Math.floor(Math.random() * t.variations.length)];
+    var options = [{n:v.ans, correct:true}];
+    v.dist.forEach(function(d){ options.push({n:d, correct:false}); });
+    shuffle(options);
+    var correctIdx = 0;
+    for(var i=0;i<options.length;i++) if(options[i].correct){ correctIdx = i; break; }
+    runtime.push({block: t.block, eq: v.eq, options: options, correctIdx: correctIdx, hint: t.hint, explain: t.explain});
+  });
+}
+
+function fmtTime(s){ var m=Math.floor(s/60),sec=s%60; return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec; }
+function updateTimer(){ if(quizStart===null) return; document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000)); }
+
+function startQuiz(){
+  buildRuntime();
+  current = 0; firstTry = 0;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart = Date.now();
+  if(timerInt) clearInterval(timerInt);
+  timerInt = setInterval(updateTimer, 250);
+  updateTimer();
+  renderQuestion();
+}
+
+function renderQuestion(){
+  attemptedWrong = false; answered = false; wrongIdx = {};
+  var rt = runtime[current];
+  document.getElementById('section-badge').textContent = 'Блок ' + rt.block;
+  document.getElementById('progress').textContent = 'Питання ' + (current+1) + ' з ' + runtime.length;
+  document.getElementById('progress-fill').style.width = (((current+1)/runtime.length)*100) + '%';
+  document.getElementById('equation').textContent = rt.eq;
+  var oc = document.getElementById('options'); oc.innerHTML = '';
+  rt.options.forEach(function(o, idx){
+    var btn = document.createElement('button');
+    btn.className = 'option';
+    btn.textContent = o.n;
+    btn.onclick = function(){ selectOption(idx, btn); };
+    oc.appendChild(btn);
+  });
+  document.getElementById('feedback').innerHTML = '';
+  document.getElementById('next-area').innerHTML = '';
+}
+
+function selectOption(idx, btn){
+  if(answered) return;
+  if(wrongIdx[idx]) return;
+  var rt = runtime[current];
+  if(idx === rt.correctIdx){
+    answered = true;
+    if(!attemptedWrong) firstTry++;
+    btn.classList.add('correct');
+    document.querySelectorAll('#options .option').forEach(function(b){ b.disabled = true; });
+    document.getElementById('feedback').innerHTML = '<div class="feedback explanation"><div class="feedback-title">✅ Правильно!</div>' + rt.explain + '</div>';
+    showNextBtn();
+  } else {
+    wrongIdx[idx] = true; attemptedWrong = true;
+    btn.classList.add('wrong'); btn.disabled = true;
+    document.getElementById('feedback').innerHTML = '<div class="feedback hint"><div class="feedback-title">💡 Підказка</div>' + rt.hint + '</div>';
+  }
+}
+
+function showNextBtn(){
+  var na = document.getElementById('next-area');
+  var b = document.createElement('button');
+  b.className = 'btn btn-next';
+  b.textContent = (current+1 < runtime.length) ? 'Далі →' : '🏁 Результат';
+  b.onclick = nextQuestion;
+  na.appendChild(b);
+}
+
+function nextQuestion(){ current++; if(current < runtime.length) renderQuestion(); else showResult(); }
+
+function getGrade(p){ if(p>=95)return 12; if(p>=88)return 11; if(p>=80)return 10; if(p>=73)return 9; if(p>=66)return 8; if(p>=59)return 7; if(p>=50)return 6; if(p>=41)return 5; if(p>=33)return 4; if(p>=25)return 3; if(p>=13)return 2; return 1; }
+
+function showResult(){
+  if(timerInt) clearInterval(timerInt);
+  finalSec = Math.floor((Date.now() - quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct = Math.round((firstTry/runtime.length)*100);
+  var grade = getGrade(pct);
+  document.getElementById('result-correct').textContent = firstTry;
+  document.getElementById('result-percent').textContent = pct;
+  document.getElementById('result-grade').textContent = grade;
+  document.getElementById('result-time').textContent = fmtTime(finalSec);
+  var emoji = '🌱', motiv = '';
+  if(grade === 12){ emoji = '🏆'; motiv = 'Бездоганно! Усі 30 з 1-ї спроби — рівняння тобі на автоматі! 🎯'; }
+  else if(grade >= 10){ emoji = '🌟'; motiv = 'Чудово! Майже все одразу. Ще трошки — й ідеал.'; }
+  else if(grade >= 8){ emoji = '👍'; motiv = 'Добре! Подивись де знадобились підказки і повтори ці типи.'; }
+  else if(grade >= 6){ emoji = '💪'; motiv = 'Непогано! Підказки спрацювали — прорепетируй слабкі типи.'; }
+  else if(grade >= 4){ emoji = '📚'; motiv = 'Є над чим попрацювати. Перечитай пояснення і запусти ще раз — числа будуть нові!'; }
+  else { emoji = '🌱'; motiv = 'Не здавайся! Кожен повтор — нові числа і нові кроки до автоматизму.'; }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('motivation').innerHTML = motiv;
+}
+
+function restart(){ document.getElementById('result-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden'); }
+</script>
+</body>
+</html>
