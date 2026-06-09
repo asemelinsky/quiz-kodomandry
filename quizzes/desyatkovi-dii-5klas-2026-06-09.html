@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дії з десятковими дробами — тренажер (5 клас)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+    background:linear-gradient(135deg,#0891b2 0%,#22c55e 55%,#eab308 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px;color:#1e293b}
+  .container{background:#fff;border-radius:20px;padding:28px 24px 20px;max-width:700px;width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,0.3);position:relative;overflow:hidden}
+  .container::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+    background:linear-gradient(90deg,#0891b2,#22c55e,#eab308)}
+  h1{color:#0891b2;font-size:1.55em;margin-bottom:6px;line-height:1.2}
+  .subtitle{color:#64748b;font-size:0.95em;margin-bottom:14px}
+  .intro{background:#ecfeff;border-left:5px solid #0891b2;padding:14px 16px;border-radius:10px;
+    font-size:1em;line-height:1.55;margin:12px 0}
+  .intro ul{margin:6px 0 0 20px}
+  .intro li{padding:2px 0}
+  .btn{background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff;border:none;
+    padding:14px 30px;font-size:1.08em;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;
+    box-shadow:0 6px 18px rgba(8,145,178,0.4);transition:transform .15s,box-shadow .15s;
+    -webkit-appearance:none;appearance:none}
+  .btn:active{transform:translateY(1px)}
+  .btn-block{display:block;width:100%;margin-top:14px}
+  .btn-next{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 6px 18px rgba(22,163,74,0.4)}
+  .topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+  .section-badge{background:#0891b2;color:#fff;font-size:0.82em;font-weight:700;padding:5px 12px;border-radius:20px}
+  .timer-badge{background:#ecfeff;color:#0891b2;font-weight:700;padding:4px 12px;border-radius:10px;
+    font-size:0.9em;font-variant-numeric:tabular-nums}
+  .progress-info{text-align:center;color:#475569;font-size:0.9em;font-weight:600;margin-bottom:8px}
+  .progress-bar{background:#e2e8f0;border-radius:10px;height:10px;overflow:hidden;margin-bottom:20px}
+  .progress-fill{background:linear-gradient(90deg,#0891b2,#22c55e);height:100%;transition:width 0.4s ease}
+  .question{font-size:1.1em;line-height:1.55;margin-bottom:6px;color:#1e293b}
+  .equation{text-align:center;font-size:2em;margin:22px 0;color:#0891b2;font-weight:700;
+    font-variant-numeric:tabular-nums;line-height:1.1}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.options{grid-template-columns:1fr}.equation{font-size:1.5em}}
+  .option{background:#fff;border:2px solid #cbd5e1;padding:18px;border-radius:12px;cursor:pointer;
+    font-size:1.4em;font-weight:700;text-align:center;transition:all 0.15s;font-family:inherit;
+    color:#1e293b;min-height:64px;display:flex;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums}
+  .option:hover:not(:disabled){background:#ecfeff;border-color:#0891b2;transform:translateY(-2px)}
+  .option:disabled{cursor:not-allowed}
+  .option.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b;opacity:0.7}
+  .option.correct{background:#f0fdf4;border-color:#16a34a;color:#14532d}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:12px;font-size:1em;line-height:1.55;
+    animation:slideIn 0.25s ease}
+  .feedback.hint{background:#fffbeb;color:#78350f;border-left:5px solid #f59e0b}
+  .feedback.explanation{background:#f0fdf4;color:#14532d;border-left:5px solid #22c55e}
+  .feedback-title{font-weight:700;margin-bottom:4px;font-size:0.95em}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .next-area{text-align:center;margin-top:16px}
+  .result-screen{text-align:center}
+  .result-emoji{font-size:4em;margin:12px 0}
+  .grade-badge{font-size:4em;font-weight:800;color:#0891b2;margin:8px 0}
+  .result-meta{display:flex;flex-direction:column;gap:6px;align-items:center;margin:8px 0}
+  .motivation{font-style:italic;color:#0891b2;margin:16px 0;padding:14px;background:#ecfeff;
+    border-radius:12px;font-size:1.04em}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="start-screen">
+    <h1>💧 Десяткові дроби — дії (5 клас)</h1>
+    <div class="subtitle">Тренажер · 30 завдань · 3 блоки</div>
+    <div class="intro">
+      Привіт! 30 прикладів з десятковими дробами.
+      <ul>
+        <li>🔹 <b>Блок A:</b> Додавання та віднімання (кома під комою!)</li>
+        <li>🔹 <b>Блок B:</b> Множення (включаючи × 10, × 100, × 1000)</li>
+        <li>🔹 <b>Блок C:</b> Ділення (включаючи : 10, : 100, : 1000 та ділення на десятковий)</li>
+        <li>💡 Помилився — підкажу метод, спробуєш ще. Бал — за відповідь з <b>1-ї спроби</b>.</li>
+        <li>🎲 Числа щоразу нові — можна переграти.</li>
+        <li>⏱️ ~25-35 хв.</li>
+      </ul>
+    </div>
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Почати</button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge">Блок A</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress">Питання 1 з 30</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question">Обчисли:</div>
+    <div class="equation" id="equation"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1 id="result-title">Готово!</h1>
+      <div class="grade-badge" id="result-grade">12</div>
+      <div class="result-meta">
+        <div>Правильно з 1-ї спроби: <b id="result-correct">0</b> з 30</div>
+        <div>Відсоток: <b id="result-percent">0</b>%</div>
+        <div>Час: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="motivation" id="motivation"></div>
+      <button class="btn btn-block" onclick="restart()">🔄 Ще раз (нові числа)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var TASKS = [{"block": "A", "variations": [{"eq": "2,5 + 1,3 = ?", "ans": "3,8", "dist": ["2,8", "38", "3,9"]}, {"eq": "3,7 + 2,4 = ?", "ans": "6,1", "dist": ["5,1", "7,1", "1,3"]}, {"eq": "5,6 + 1,8 = ?", "ans": "7,4", "dist": ["7,5", "8,4", "3,8"]}], "hint": "Додавай як цілі числа, потім постав кому на місце.", "explain": "Запиши числа стовпчиком — кома під комою. Потім додай як цілі."}, {"block": "A", "variations": [{"eq": "7,25 + 3,18 = ?", "ans": "10,43", "dist": ["10,53", "1,043", "4,07"]}, {"eq": "4,36 + 2,47 = ?", "ans": "6,83", "dist": ["683", "0,683", "6,73"]}, {"eq": "6,49 + 1,58 = ?", "ans": "8,07", "dist": ["7,97", "807", "0,807"]}], "hint": "Додавай як цілі — кома під комою.", "explain": "Кома під комою → додаємо цілі → ставимо кому."}, {"block": "A", "variations": [{"eq": "4,2 − 1,5 = ?", "ans": "2,7", "dist": ["2,8", "270", "27"]}, {"eq": "6,3 − 2,7 = ?", "ans": "3,6", "dist": ["0,36", "9", "4,6"]}, {"eq": "5,8 − 3,4 = ?", "ans": "2,4", "dist": ["0,024", "9,2", "2,3"]}], "hint": "Віднімай як цілі, поверни кому.", "explain": "Кома під комою → віднімаємо."}, {"block": "A", "variations": [{"eq": "10,5 − 4,8 = ?", "ans": "5,7", "dist": ["4,7", "570", "0,57"]}, {"eq": "12,7 − 5,9 = ?", "ans": "6,8", "dist": ["0,068", "7,8", "6,7"]}, {"eq": "15,3 − 7,6 = ?", "ans": "7,7", "dist": ["8,7", "6,7", "770"]}], "hint": "Віднімай як цілі.", "explain": "Кома під комою."}, {"block": "A", "variations": [{"eq": "12,85 − 4,39 = ?", "ans": "8,46", "dist": ["7,46", "9,46", "0,846"]}, {"eq": "20,43 − 5,67 = ?", "ans": "14,76", "dist": ["1476", "14,66", "147,6"]}, {"eq": "15,84 − 6,29 = ?", "ans": "9,55", "dist": ["95,5", "9,65", "9,45"]}], "hint": "Зрівняй кількість знаків після коми (якщо треба, припиши 0).", "explain": "Дописали 0 → відняли як цілі."}, {"block": "A", "variations": [{"eq": "15 − 8,45 = ?", "ans": "6,55", "dist": ["65,5", "6,45", "6,65"]}, {"eq": "20 − 7,36 = ?", "ans": "12,64", "dist": ["12,74", "1,264", "12,54"]}, {"eq": "30 − 12,58 = ?", "ans": "17,42", "dist": ["17,32", "0,1742", "174,2"]}], "hint": "⚠️ Допиши нулі до цілого: 15 = 15,00.", "explain": "15,00 − 8,45. Кома під комою."}, {"block": "A", "variations": [{"eq": "0,5 + 0,7 + 1,3 = ?", "ans": "2,5", "dist": ["25", "250", "2,4"]}, {"eq": "1,2 + 2,5 + 0,8 = ?", "ans": "4,5", "dist": ["4,4", "5,5", "450"]}, {"eq": "3,4 + 1,6 + 2,5 = ?", "ans": "7,5", "dist": ["75", "750", "7,6"]}], "hint": "Три числа — додавай по черзі.", "explain": "Спочатку перші два, потім + третє."}, {"block": "A", "variations": [{"eq": "0,05 + 0,07 = ?", "ans": "0,12", "dist": ["0,22", "0,02", "0,0012"]}, {"eq": "0,12 + 0,08 = ?", "ans": "0,2", "dist": ["20", "0,002", "0,1"]}, {"eq": "0,25 + 0,15 = ?", "ans": "0,4", "dist": ["40", "0,5", "1,4"]}], "hint": "Малі числа — обережно з нулями.", "explain": "Кома під комою; сотих + сотих."}, {"block": "A", "variations": [{"eq": "1 − 0,45 = ?", "ans": "0,55", "dist": ["0,45", "0,0055", "0,65"]}, {"eq": "1 − 0,28 = ?", "ans": "0,72", "dist": ["0,072", "1,28", "0,0072"]}, {"eq": "1 − 0,73 = ?", "ans": "0,27", "dist": ["1,27", "0,0027", "2,7"]}], "hint": "1 = 1,00 — допиши нулі!", "explain": "1,00 − 0,45 = 0,55."}, {"block": "A", "variations": [{"eq": "25,5 + 14,3 = ?", "ans": "39,8", "dist": ["39,7", "39,9", "40,8"]}, {"eq": "38,7 + 21,6 = ?", "ans": "60,3", "dist": ["60,4", "0,603", "6,03"]}, {"eq": "46,2 + 15,9 = ?", "ans": "62,1", "dist": ["61,1", "6,21", "0,621"]}], "hint": "Великі числа — кома під комою.", "explain": "Додаємо стовпчиком."}, {"block": "B", "variations": [{"eq": "1,5 · 4 = ?", "ans": "6", "dist": ["5", "0,6", "6,1"]}, {"eq": "2,5 · 6 = ?", "ans": "15", "dist": ["0,15", "15,1", "16"]}, {"eq": "3,2 · 5 = ?", "ans": "16", "dist": ["0,16", "1,6", "16,1"]}], "hint": "Множ як цілі; знаків після коми у відповіді = сума знаків у множників.", "explain": "Множ як цілі → перенеси кому на потрібну кількість знаків вліво."}, {"block": "B", "variations": [{"eq": "1,5 · 1,2 = ?", "ans": "1,8", "dist": ["180", "2,8", "0,18"]}, {"eq": "2,5 · 0,4 = ?", "ans": "1", "dist": ["2", "10", "2,9"]}, {"eq": "3,5 · 0,2 = ?", "ans": "0,7", "dist": ["1,7", "70", "0,6"]}], "hint": "Дріб × дріб: знаків після коми = сума знаків.", "explain": "1,5×1,2: 15×12=180, 2 знака після коми → 1,80 = 1,8."}, {"block": "B", "variations": [{"eq": "0,5 · 0,6 = ?", "ans": "0,3", "dist": ["0,4", "0,003", "1,3"]}, {"eq": "0,8 · 0,5 = ?", "ans": "0,4", "dist": ["0,04", "0,004", "4"]}, {"eq": "0,4 · 0,9 = ?", "ans": "0,36", "dist": ["3,6", "0,036", "0,46"]}], "hint": "0,5×0,6 → знаків після коми = 2.", "explain": "5×6=30, два знака → 0,30 = 0,3."}, {"block": "B", "variations": [{"eq": "3,5 · 10 = ?", "ans": "35", "dist": ["3,5", "3500", "36"]}, {"eq": "4,7 · 10 = ?", "ans": "47", "dist": ["4700", "46", "47,1"]}, {"eq": "2,8 · 10 = ?", "ans": "28", "dist": ["2800", "280", "27"]}], "hint": "× 10 → кома пересувається вправо на 1 знак.", "explain": "Кома вправо на 1 знак."}, {"block": "B", "variations": [{"eq": "4,7 · 100 = ?", "ans": "470", "dist": ["469", "469,9", "471"]}, {"eq": "2,5 · 100 = ?", "ans": "250", "dist": ["2,5", "250,1", "25"]}, {"eq": "0,85 · 100 = ?", "ans": "85", "dist": ["0,85", "8500", "850"]}], "hint": "× 100 → кома пересувається вправо на 2 знаки.", "explain": "Кома вправо на 2 знаки."}, {"block": "B", "variations": [{"eq": "0,5 · 1000 = ?", "ans": "500", "dist": ["499,9", "50", "499"]}, {"eq": "0,25 · 1000 = ?", "ans": "250", "dist": ["2,5", "2500", "249,9"]}, {"eq": "1,2 · 1000 = ?", "ans": "1200", "dist": ["1199,9", "120000", "120"]}], "hint": "× 1000 → кома пересувається вправо на 3 знаки. Якщо знаків мало — допиши нулі.", "explain": "Кома вправо на 3 знаки (нулі — додай)."}, {"block": "B", "variations": [{"eq": "0,15 · 8 = ?", "ans": "1,2", "dist": ["120", "0,012", "1,1"]}, {"eq": "0,25 · 6 = ?", "ans": "1,5", "dist": ["15", "1,4", "0,015"]}, {"eq": "0,35 · 4 = ?", "ans": "1,4", "dist": ["4,35", "0,014", "140"]}], "hint": "Множ як цілі, перенеси кому.", "explain": "15×8=120, 2 знака → 1,20 = 1,2."}, {"block": "B", "variations": [{"eq": "2,5 · 0,04 = ?", "ans": "0,1", "dist": ["0,001", "2,54", "10"]}, {"eq": "1,5 · 0,06 = ?", "ans": "0,09", "dist": ["0,9", "1,56", "0,009"]}, {"eq": "0,8 · 0,05 = ?", "ans": "0,04", "dist": ["0,4", "0,14", "0,0004"]}], "hint": "⚠️ 3 знака після коми у відповіді (2+1=3).", "explain": "25×4=100, 3 знака після коми → 0,100 = 0,1."}, {"block": "B", "variations": [{"eq": "12,5 · 4 = ?", "ans": "50", "dist": ["5000", "49,9", "5"]}, {"eq": "15,5 · 6 = ?", "ans": "93", "dist": ["930", "0,93", "9,3"]}, {"eq": "22,5 · 4 = ?", "ans": "90", "dist": ["9", "26,5", "89,9"]}], "hint": "Великі числа з 1 знаком.", "explain": "125×4=500, 1 знак → 50,0 = 50."}, {"block": "B", "variations": [{"eq": "0,125 · 8 = ?", "ans": "1", "dist": ["0,01", "8,125", "0,9"]}, {"eq": "0,625 · 4 = ?", "ans": "2,5", "dist": ["4,625", "0,025", "1,5"]}, {"eq": "0,375 · 8 = ?", "ans": "3", "dist": ["0,03", "30", "2"]}], "hint": "Тисячні × ціле.", "explain": "Множ як цілі, 3 знака після коми."}, {"block": "C", "variations": [{"eq": "6,4 : 2 = ?", "ans": "3,2", "dist": ["12,8", "3,1", "3,3"]}, {"eq": "9,0 : 3 = ?", "ans": "3", "dist": ["2,9", "4", "300"]}, {"eq": "4,5 : 5 = ?", "ans": "0,9", "dist": ["9", "1", "90"]}], "hint": "Ділення цілої частини, потім знесли + дробову.", "explain": "Ділимо цілу, кома у відповіді на тому ж місці."}, {"block": "C", "variations": [{"eq": "7,2 : 4 = ?", "ans": "1,8", "dist": ["0,18", "0,018", "180"]}, {"eq": "8,4 : 3 = ?", "ans": "2,8", "dist": ["2,9", "28", "1,8"]}, {"eq": "9,6 : 6 = ?", "ans": "1,6", "dist": ["16", "1,7", "57,6"]}], "hint": "Ділимо як цілі, кома — на своєму місці.", "explain": "Кома у відповіді — над комою у діленому."}, {"block": "C", "variations": [{"eq": "8,7 : 10 = ?", "ans": "0,87", "dist": ["0,087", "8,7", "0,77"]}, {"eq": "45 : 10 = ?", "ans": "4,5", "dist": ["3,5", "4,6", "0,045"]}, {"eq": "12,5 : 10 = ?", "ans": "1,25", "dist": ["2,25", "1,35", "1,15"]}], "hint": "÷ 10 → кома вліво на 1 знак.", "explain": "Кома вліво на 1 знак."}, {"block": "C", "variations": [{"eq": "45 : 100 = ?", "ans": "0,45", "dist": ["0,55", "0,045", "1,45"]}, {"eq": "12,5 : 100 = ?", "ans": "0,125", "dist": ["12,5", "0,025", "1,25"]}, {"eq": "250 : 100 = ?", "ans": "2,5", "dist": ["25", "2,6", "3,5"]}], "hint": "÷ 100 → кома вліво на 2 знаки.", "explain": "Кома вліво на 2 знаки."}, {"block": "C", "variations": [{"eq": "250 : 1000 = ?", "ans": "0,25", "dist": ["0,0025", "25", "1,25"]}, {"eq": "500 : 1000 = ?", "ans": "0,5", "dist": ["0,6", "50", "0,005"]}, {"eq": "1500 : 1000 = ?", "ans": "1,5", "dist": ["2,5", "0,15", "1,4"]}], "hint": "÷ 1000 → кома вліво на 3 знаки.", "explain": "Кома вліво на 3 знаки."}, {"block": "C", "variations": [{"eq": "7,5 : 0,5 = ?", "ans": "15", "dist": ["16", "1,5", "150"]}, {"eq": "6,4 : 0,4 = ?", "ans": "16", "dist": ["1,6", "0,16", "1600"]}, {"eq": "9,6 : 0,8 = ?", "ans": "12", "dist": ["0,12", "13", "11,9"]}], "hint": "⚠️ Дільник — десятковий. Помнож обидва на 10, потім ділиш.", "explain": "7,5÷0,5 = 75÷5 = 15."}, {"block": "C", "variations": [{"eq": "3,6 : 0,6 = ?", "ans": "6", "dist": ["5,9", "0,06", "7"]}, {"eq": "4,8 : 0,4 = ?", "ans": "12", "dist": ["1200", "120", "11"]}, {"eq": "5,6 : 0,7 = ?", "ans": "8", "dist": ["0,8", "800", "7,9"]}], "hint": "Помнож обидва числа на 10.", "explain": "36÷6 = 6."}, {"block": "C", "variations": [{"eq": "0,4 : 0,02 = ?", "ans": "20", "dist": ["20,1", "21", "2"]}, {"eq": "0,6 : 0,03 = ?", "ans": "20", "dist": ["2", "2000", "0,2"]}, {"eq": "0,9 : 0,05 = ?", "ans": "18", "dist": ["1,8", "18,1", "180"]}], "hint": "⚠️ Помнож обидва на 100.", "explain": "0,4÷0,02 = 40÷2 = 20."}, {"block": "C", "variations": [{"eq": "15,6 : 4 = ?", "ans": "3,9", "dist": ["39", "4", "390"]}, {"eq": "21,6 : 6 = ?", "ans": "3,6", "dist": ["3,7", "36", "129,6"]}, {"eq": "25,5 : 5 = ?", "ans": "5,1", "dist": ["5", "0,051", "51"]}], "hint": "Ділимо стовпчиком.", "explain": "Кома вгору."}, {"block": "C", "variations": [{"eq": "0,81 : 9 = ?", "ans": "0,09", "dist": ["1,09", "7,29", "0,0009"]}, {"eq": "0,64 : 8 = ?", "ans": "0,08", "dist": ["5,12", "8", "0,18"]}, {"eq": "0,49 : 7 = ?", "ans": "0,07", "dist": ["0,7", "0,0007", "7"]}], "hint": "Сотих ділимо.", "explain": "81÷9=9, кома → 0,09."}];
+var current=0, firstTry=0, attemptedWrong=false, answered=false, wrongIdx={};
+var runtime=[], quizStart=null, timerInt=null, finalSec=null;
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function buildRuntime(){
+  runtime=[];
+  TASKS.forEach(function(t){
+    var v=t.variations[Math.floor(Math.random()*t.variations.length)];
+    var options=[{n:v.ans,correct:true}];
+    v.dist.forEach(function(d){options.push({n:d,correct:false});});
+    shuffle(options);
+    var ci=0; for(var i=0;i<options.length;i++) if(options[i].correct){ci=i;break;}
+    runtime.push({block:t.block,eq:v.eq,options:options,correctIdx:ci,hint:t.hint,explain:t.explain});
+  });
+}
+
+function fmtTime(s){var m=Math.floor(s/60),sec=s%60;return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+function updateTimer(){if(quizStart===null)return;document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000));}
+
+function startQuiz(){
+  buildRuntime(); current=0; firstTry=0;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now(); if(timerInt) clearInterval(timerInt);
+  timerInt=setInterval(updateTimer,250); updateTimer(); renderQuestion();
+}
+
+function renderQuestion(){
+  attemptedWrong=false; answered=false; wrongIdx={};
+  var rt=runtime[current];
+  document.getElementById('section-badge').textContent='Блок '+rt.block;
+  document.getElementById('progress').textContent='Питання '+(current+1)+' з '+runtime.length;
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('equation').textContent=rt.eq;
+  var oc=document.getElementById('options'); oc.innerHTML='';
+  rt.options.forEach(function(o,idx){
+    var btn=document.createElement('button');
+    btn.className='option'; btn.textContent=o.n;
+    btn.onclick=function(){selectOption(idx,btn);};
+    oc.appendChild(btn);
+  });
+  document.getElementById('feedback').innerHTML='';
+  document.getElementById('next-area').innerHTML='';
+}
+
+function selectOption(idx,btn){
+  if(answered) return;
+  if(wrongIdx[idx]) return;
+  var rt=runtime[current];
+  if(idx===rt.correctIdx){
+    answered=true;
+    if(!attemptedWrong) firstTry++;
+    btn.classList.add('correct');
+    document.querySelectorAll('#options .option').forEach(function(b){b.disabled=true;});
+    document.getElementById('feedback').innerHTML='<div class="feedback explanation"><div class="feedback-title">✅ Правильно!</div>'+rt.explain+'</div>';
+    showNextBtn();
+  } else {
+    wrongIdx[idx]=true; attemptedWrong=true;
+    btn.classList.add('wrong'); btn.disabled=true;
+    document.getElementById('feedback').innerHTML='<div class="feedback hint"><div class="feedback-title">💡 Підказка</div>'+rt.hint+'</div>';
+  }
+}
+
+function showNextBtn(){
+  var na=document.getElementById('next-area');
+  var b=document.createElement('button');
+  b.className='btn btn-next';
+  b.textContent=(current+1<runtime.length)?'Далі →':'🏁 Результат';
+  b.onclick=nextQuestion;
+  na.appendChild(b);
+}
+
+function nextQuestion(){current++;if(current<runtime.length)renderQuestion();else showResult();}
+
+function getGrade(p){if(p>=95)return 12;if(p>=88)return 11;if(p>=80)return 10;if(p>=73)return 9;if(p>=66)return 8;if(p>=59)return 7;if(p>=50)return 6;if(p>=41)return 5;if(p>=33)return 4;if(p>=25)return 3;if(p>=13)return 2;return 1;}
+
+function showResult(){
+  if(timerInt) clearInterval(timerInt);
+  finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct=Math.round((firstTry/runtime.length)*100);
+  var grade=getGrade(pct);
+  document.getElementById('result-correct').textContent=firstTry;
+  document.getElementById('result-percent').textContent=pct;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-time').textContent=fmtTime(finalSec);
+  var emoji='🌱', motiv='';
+  if(grade===12){emoji='🏆';motiv='Бездоганно! Усі 30 з 1-ї спроби — десяткові дроби тобі на автоматі! 🎯';}
+  else if(grade>=10){emoji='🌟';motiv='Чудово! Майже все одразу. Ще трошки — й ідеал.';}
+  else if(grade>=8){emoji='👍';motiv='Добре! Подивись де знадобились підказки і повтори ці типи.';}
+  else if(grade>=6){emoji='💪';motiv='Непогано! Підказки спрацювали — прорепетируй слабкі типи ще раз.';}
+  else if(grade>=4){emoji='📚';motiv='Є над чим попрацювати. Перечитай пояснення і запусти ще раз — числа будуть нові!';}
+  else{emoji='🌱';motiv='Не здавайся! Головне правило: при додаванні/відніманні — кома під комою. При множенні — знаків після коми у відповіді = сума знаків.';}
+  document.getElementById('result-emoji').textContent=emoji;
+  document.getElementById('motivation').innerHTML=motiv;
+}
+
+function restart(){document.getElementById('result-screen').classList.add('hidden');document.getElementById('start-screen').classList.remove('hidden');}
+</script>
+</body>
+</html>
