@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 8 Math Overview — British School (Sample)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+    background:linear-gradient(135deg,#1e40af 0%,#7c3aed 55%,#dc2626 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px;color:#1e293b}
+  .container{background:#fff;border-radius:20px;padding:28px 24px 20px;max-width:700px;width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,0.3);position:relative;overflow:hidden}
+  .container::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+    background:linear-gradient(90deg,#1e40af,#7c3aed,#dc2626)}
+  h1{color:#1e40af;font-size:1.5em;margin-bottom:6px;line-height:1.2}
+  .subtitle{color:#64748b;font-size:0.95em;margin-bottom:6px}
+  .sample-note{background:#fef3c7;color:#92400e;padding:8px 12px;border-radius:8px;
+    font-size:0.85em;margin-bottom:14px;border-left:4px solid #f59e0b}
+  .intro{background:#eff6ff;border-left:5px solid #1e40af;padding:14px 16px;border-radius:10px;
+    font-size:1em;line-height:1.55;margin:12px 0}
+  .intro ul{margin:6px 0 0 20px}
+  .intro li{padding:2px 0}
+  .btn{background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;border:none;
+    padding:14px 30px;font-size:1.08em;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;
+    box-shadow:0 6px 18px rgba(30,64,175,0.4);transition:transform .15s,box-shadow .15s;
+    -webkit-appearance:none;appearance:none}
+  .btn:active{transform:translateY(1px)}
+  .btn-block{display:block;width:100%;margin-top:14px}
+  .btn-next{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 6px 18px rgba(22,163,74,0.4)}
+  .topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+  .section-badge{background:#1e40af;color:#fff;font-size:0.82em;font-weight:700;padding:5px 12px;border-radius:20px}
+  .timer-badge{background:#eff6ff;color:#1e40af;font-weight:700;padding:4px 12px;border-radius:10px;
+    font-size:0.9em;font-variant-numeric:tabular-nums}
+  .progress-info{text-align:center;color:#475569;font-size:0.9em;font-weight:600;margin-bottom:8px}
+  .progress-bar{background:#e2e8f0;border-radius:10px;height:10px;overflow:hidden;margin-bottom:20px}
+  .progress-fill{background:linear-gradient(90deg,#1e40af,#7c3aed);height:100%;transition:width 0.4s ease}
+  .question{font-size:1em;line-height:1.55;margin-bottom:6px;color:#64748b}
+  .equation{text-align:center;font-size:1.4em;margin:18px 0;color:#1e40af;font-weight:700;
+    line-height:1.3;padding:0 8px}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.options{grid-template-columns:1fr}.equation{font-size:1.15em}}
+  .option{background:#fff;border:2px solid #cbd5e1;padding:16px;border-radius:12px;cursor:pointer;
+    font-size:1.2em;font-weight:700;text-align:center;transition:all 0.15s;font-family:inherit;
+    color:#1e293b;min-height:56px;display:flex;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums;word-break:break-word}
+  .option:hover:not(:disabled){background:#eff6ff;border-color:#1e40af;transform:translateY(-2px)}
+  .option:disabled{cursor:not-allowed}
+  .option.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b;opacity:0.7}
+  .option.correct{background:#f0fdf4;border-color:#16a34a;color:#14532d}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:12px;font-size:1em;line-height:1.55;
+    animation:slideIn 0.25s ease}
+  .feedback.hint{background:#fffbeb;color:#78350f;border-left:5px solid #f59e0b}
+  .feedback.explanation{background:#f0fdf4;color:#14532d;border-left:5px solid #22c55e}
+  .feedback-title{font-weight:700;margin-bottom:4px;font-size:0.95em}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .next-area{text-align:center;margin-top:16px}
+  .result-screen{text-align:center}
+  .result-emoji{font-size:4em;margin:12px 0}
+  .grade-badge{font-size:4em;font-weight:800;color:#1e40af;margin:8px 0}
+  .result-meta{display:flex;flex-direction:column;gap:6px;align-items:center;margin:8px 0}
+  .motivation{font-style:italic;color:#1e40af;margin:16px 0;padding:14px;background:#eff6ff;
+    border-radius:12px;font-size:1em}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="start-screen">
+    <h1>🇬🇧 Year 8 Math Overview</h1>
+    <div class="subtitle">Mixed topics quiz · 30 questions · 3 sections</div>
+    <div class="sample-note">📌 <b>Sample quiz for Дені (Year 8, British school)</b>. Mixed topics across the GCSE foundations.</div>
+    <div class="intro">
+      Welcome! 30 mixed math questions covering core Year 8 topics:
+      <ul>
+        <li>🔵 <b>Section 1 — Algebra:</b> linear equations, expanding brackets, substitution, simplification</li>
+        <li>🟣 <b>Section 2 — Geometry &amp; measures:</b> Pythagoras' theorem, areas, volumes, angles</li>
+        <li>🔴 <b>Section 3 — Numbers, percentages, statistics:</b> %, mean/median/mode/range, standard form, ratio</li>
+        <li>💡 Wrong answer → hint, try again. A point only for first-try correct.</li>
+        <li>🎲 Numbers change every run.</li>
+        <li>⏱️ ~30-40 min.</li>
+      </ul>
+    </div>
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Start</button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge">Algebra</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress">Question 1 of 30</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question">Solve:</div>
+    <div class="equation" id="equation"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1>Done!</h1>
+      <div class="grade-badge" id="result-grade">12</div>
+      <div class="result-meta">
+        <div>First-try correct: <b id="result-correct">0</b> of 30</div>
+        <div>Score: <b id="result-percent">0</b>%</div>
+        <div>Time: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="motivation" id="motivation"></div>
+      <button class="btn btn-block" onclick="restart()">🔄 Try again (new numbers)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var TASKS = [{"block": "Algebra", "variations": [{"eq": "2x + 5 = 17, x = ?", "ans": "6", "dist": ["4", "5", "8"]}, {"eq": "3x + 4 = 22, x = ?", "ans": "6", "dist": ["4", "5", "8"]}, {"eq": "5x + 2 = 27, x = ?", "ans": "5", "dist": ["4", "10", "3"]}], "hint": "Solve ax + b = c → x = (c − b) / a", "explain": "Subtract b from both sides, then divide by a."}, {"block": "Algebra", "variations": [{"eq": "3x − 7 = 14, x = ?", "ans": "7", "dist": ["5", "9", "14"]}, {"eq": "4x − 5 = 19, x = ?", "ans": "6", "dist": ["4", "5", "8"]}, {"eq": "2x − 9 = 7, x = ?", "ans": "8", "dist": ["4", "9", "10"]}], "hint": "Solve ax − b = c → x = (c + b) / a", "explain": "Add b to both sides, then divide by a."}, {"block": "Algebra", "variations": [{"eq": "x ÷ 4 + 3 = 8, x = ?", "ans": "20", "dist": ["21", "19", "10"]}, {"eq": "x ÷ 5 + 2 = 10, x = ?", "ans": "40", "dist": ["80", "39", "42"]}, {"eq": "x ÷ 3 + 4 = 9, x = ?", "ans": "15", "dist": ["14", "17", "16"]}], "hint": "x/a + b = c → x = (c − b) · a", "explain": "Subtract b, then multiply by a."}, {"block": "Algebra", "variations": [{"eq": "5x + 3 = 2x + 9, x = ?", "ans": "2", "dist": ["0", "1", "4"]}, {"eq": "4x + 1 = 2x + 7, x = ?", "ans": "3", "dist": ["1", "4", "5"]}, {"eq": "6x + 2 = 3x + 11, x = ?", "ans": "3", "dist": ["1", "4", "5"]}], "hint": "ax + b = cx + d → (a−c)x = d − b → x = (d − b)/(a − c)", "explain": "Collect x on one side; constants on the other."}, {"block": "Algebra", "variations": [{"eq": "Expand: 3(x + 4) = ?", "ans": "3x + 12", "dist": ["3x − 12", "3x + 13", "3x + 11"]}, {"eq": "Expand: 2(x + 5) = ?", "ans": "2x + 10", "dist": ["2x − 10", "2x + 11", "2x + 9"]}, {"eq": "Expand: 4(x + 3) = ?", "ans": "4x + 12", "dist": ["4x − 12", "4x + 13", "4x + 11"]}], "hint": "k(x + n) = kx + kn", "explain": "Multiply k by both terms in the brackets."}, {"block": "Algebra", "variations": [{"eq": "Expand: 2(x − 3) = ?", "ans": "2x − 6", "dist": ["2x + 6", "2x − 7", "2x − 5"]}, {"eq": "Expand: 3(x − 4) = ?", "ans": "3x − 12", "dist": ["3x + 12", "3x − 13", "3x − 11"]}, {"eq": "Expand: 5(x − 2) = ?", "ans": "5x − 10", "dist": ["5x + 10", "5x − 11", "5x − 9"]}], "hint": "k(x − n) = kx − kn", "explain": "Distribute k; the sign in front of n stays negative."}, {"block": "Algebra", "variations": [{"eq": "If a = 3, find 2a + 5", "ans": "11", "dist": ["5", "9", "10"]}, {"eq": "If a = 4, find 3a + 1", "ans": "13", "dist": ["26", "14", "11"]}, {"eq": "If a = 5, find 1a + 7", "ans": "12", "dist": ["13", "24", "14"]}], "hint": "Substitute a into ka + b", "explain": "Replace a with its value, then evaluate."}, {"block": "Algebra", "variations": [{"eq": "If a = 3, find a² + 3", "ans": "12", "dist": ["13", "24", "14"]}, {"eq": "If a = 4, find a² + 2", "ans": "18", "dist": ["9", "17", "19"]}, {"eq": "If a = 2, find a² + 5", "ans": "9", "dist": ["4", "8", "10"]}], "hint": "Substitute a into a² + n", "explain": "Square a first (order of operations), then add n."}, {"block": "Algebra", "variations": [{"eq": "4(x − 2) = 12, x = ?", "ans": "5", "dist": ["4", "10", "3"]}, {"eq": "3(x − 1) = 9, x = ?", "ans": "4", "dist": ["5", "8", "3"]}, {"eq": "5(x − 3) = 10, x = ?", "ans": "5", "dist": ["4", "10", "3"]}], "hint": "a(x − b) = c → x − b = c/a → x = c/a + b", "explain": "Divide both sides by a first, then add b."}, {"block": "Algebra", "variations": [{"eq": "Simplify: 3x + 5 − x + 2", "ans": "2x + 7", "dist": ["2x − 7", "2x + 8", "2x + 6"]}, {"eq": "Simplify: 4x + 3 − x + 1", "ans": "3x + 4", "dist": ["3x − 4", "3x + 5", "3x + 3"]}, {"eq": "Simplify: 2x + 7 − x + 3", "ans": "1x + 10", "dist": ["1x − 10", "1x + 11", "1x + 9"]}], "hint": "Combine like terms: ax + b − x + c = (a−1)x + (b+c)", "explain": "Group the x-terms; group the constants."}, {"block": "Geometry", "variations": [{"eq": "Right Δ legs 3, 4. Hypotenuse = ?", "ans": "5", "dist": ["4", "10", "12"]}, {"eq": "Right Δ legs 5, 12. Hypotenuse = ?", "ans": "13", "dist": ["26", "14", "17"]}, {"eq": "Right Δ legs 8, 15. Hypotenuse = ?", "ans": "17", "dist": ["8", "34", "23"]}], "hint": "c² = a² + b² → c = √(a² + b²)", "explain": "Square the two legs, add, then take the square root."}, {"block": "Geometry", "variations": [{"eq": "Right Δ hypotenuse 13, one leg 5. Other leg = ?", "ans": "12", "dist": ["13", "24", "14"]}, {"eq": "Right Δ hypotenuse 10, one leg 6. Other leg = ?", "ans": "8", "dist": ["4", "9", "10"]}, {"eq": "Right Δ hypotenuse 17, one leg 8. Other leg = ?", "ans": "15", "dist": ["14", "17", "25"]}], "hint": "b² = c² − a² → b = √(c² − a²)", "explain": "Square c and a, subtract, take the square root."}, {"block": "Geometry", "variations": [{"eq": "Area of triangle: base = 8, height = 6. Area = ?", "ans": "24", "dist": ["26", "48", "25"]}, {"eq": "Area of triangle: base = 10, height = 7. Area = ?", "ans": "35", "dist": ["33", "37", "17"]}, {"eq": "Area of triangle: base = 12, height = 5. Area = ?", "ans": "30", "dist": ["31", "28", "32"]}], "hint": "Area = ½ × base × height", "explain": "Multiply base × height ÷ 2."}, {"block": "Geometry", "variations": [{"eq": "Area of circle, r = 5. (π ≈ 3.14). Area = ?", "ans": "78.5", "dist": ["39", "80.5", "76.5"]}, {"eq": "Area of circle, r = 7. (π ≈ 3.14). Area = ?", "ans": "153.86", "dist": ["43.96", "152.86", "76"]}, {"eq": "Area of circle, r = 10. (π ≈ 3.14). Area = ?", "ans": "314", "dist": ["312", "315", "313"]}], "hint": "Area = πr² (use π ≈ 3.14)", "explain": "Square the radius, multiply by π ≈ 3.14."}, {"block": "Geometry", "variations": [{"eq": "Circumference of circle, r = 7. (π ≈ 3.14). C = ?", "ans": "43.96", "dist": ["153.86", "21", "87.92"]}, {"eq": "Circumference of circle, r = 5. (π ≈ 3.14). C = ?", "ans": "31.4", "dist": ["29.4", "33.4", "32.4"]}, {"eq": "Circumference of circle, r = 10. (π ≈ 3.14). C = ?", "ans": "62.8", "dist": ["31", "61.8", "64.8"]}], "hint": "Circumference = 2πr (use π ≈ 3.14)", "explain": "2 × π × radius."}, {"block": "Geometry", "variations": [{"eq": "Volume of cube, side = 4. V = ?", "ans": "64", "dist": ["128", "63", "62"]}, {"eq": "Volume of cube, side = 5. V = ?", "ans": "125", "dist": ["123", "124", "126"]}, {"eq": "Volume of cube, side = 3. V = ?", "ans": "27", "dist": ["26", "9", "28"]}], "hint": "Volume = s³", "explain": "Cube the side length."}, {"block": "Geometry", "variations": [{"eq": "Cuboid 3 × 4 × 5. Volume = ?", "ans": "60", "dist": ["59", "62", "61"]}, {"eq": "Cuboid 2 × 5 × 6. Volume = ?", "ans": "60", "dist": ["59", "62", "61"]}, {"eq": "Cuboid 4 × 3 × 7. Volume = ?", "ans": "84", "dist": ["82", "86", "168"]}], "hint": "Volume = l × w × h", "explain": "Multiply all three dimensions."}, {"block": "Geometry", "variations": [{"eq": "Surface area of cube, side = 3. SA = ?", "ans": "54", "dist": ["55", "9", "52"]}, {"eq": "Surface area of cube, side = 4. SA = ?", "ans": "96", "dist": ["48", "64", "94"]}, {"eq": "Surface area of cube, side = 5. SA = ?", "ans": "150", "dist": ["125", "151", "152"]}], "hint": "Surface area = 6s²", "explain": "Square the side, multiply by 6 (number of faces)."}, {"block": "Geometry", "variations": [{"eq": "Triangle: two angles 60° and 80°. Third angle = ?", "ans": "40", "dist": ["80", "39", "42"]}, {"eq": "Triangle: two angles 45° and 55°. Third angle = ?", "ans": "80", "dist": ["82", "78", "79"]}, {"eq": "Triangle: two angles 30° and 90°. Third angle = ?", "ans": "60", "dist": ["59", "62", "61"]}], "hint": "Sum of angles in a triangle = 180°", "explain": "180 − sum of the two known angles."}, {"block": "Geometry", "variations": [{"eq": "Rectangle 8 × 5. Area = ?", "ans": "40", "dist": ["80", "39", "42"]}, {"eq": "Rectangle 12 × 7. Area = ?", "ans": "84", "dist": ["82", "86", "168"]}, {"eq": "Rectangle 15 × 6. Area = ?", "ans": "90", "dist": ["89", "88", "45"]}], "hint": "Area of rectangle = length × width", "explain": "Multiply length by width."}, {"block": "Numbers", "variations": [{"eq": "20% of 80 = ?", "ans": "16", "dist": ["17", "14", "32"]}, {"eq": "25% of 60 = ?", "ans": "15", "dist": ["14", "17", "35"]}, {"eq": "30% of 90 = ?", "ans": "27", "dist": ["26", "54", "28"]}], "hint": "p% of n = (p/100) × n", "explain": "Divide p by 100, then multiply by n."}, {"block": "Numbers", "variations": [{"eq": "Increase 50 by 20% = ?", "ans": "60", "dist": ["59", "62", "61"]}, {"eq": "Increase 80 by 15% = ?", "ans": "92", "dist": ["93", "184", "94"]}, {"eq": "Increase 60 by 10% = ?", "ans": "66", "dist": ["64", "33", "67"]}], "hint": "Increase: n + (p/100)·n = n(1 + p/100)", "explain": "Find p% of n, then add to n."}, {"block": "Numbers", "variations": [{"eq": "Decrease 60 by 25% = ?", "ans": "45", "dist": ["43", "44", "46"]}, {"eq": "Decrease 100 by 30% = ?", "ans": "70", "dist": ["69", "71", "35"]}, {"eq": "Decrease 80 by 15% = ?", "ans": "68", "dist": ["69", "67", "34"]}], "hint": "Decrease: n − (p/100)·n", "explain": "Find p% of n, then subtract from n."}, {"block": "Numbers", "variations": [{"eq": "Mean of {4, 8, 10, 14} = ?", "ans": "9", "dist": ["4", "8", "10"]}, {"eq": "Mean of {3, 5, 7, 9} = ?", "ans": "6", "dist": ["4", "5", "24"]}, {"eq": "Mean of {10, 15, 20, 25, 30} = ?", "ans": "20", "dist": ["5", "21", "19"]}], "hint": "Mean = sum / count", "explain": "Add all numbers, divide by how many there are."}, {"block": "Numbers", "variations": [{"eq": "Median of {3, 7, 9, 12, 15} = ?", "ans": "9", "dist": ["4", "5", "8"]}, {"eq": "Median of {1, 4, 6, 8, 10} = ?", "ans": "6", "dist": ["4", "5", "8"]}, {"eq": "Median of {2, 5, 7, 11, 13, 17, 19} = ?", "ans": "11", "dist": ["74", "5", "9"]}], "hint": "Median = middle value when sorted", "explain": "Sort first; pick the middle. (Odd count → exact middle.)"}, {"block": "Numbers", "variations": [{"eq": "Mode of {5, 3, 5, 7, 5, 9} = ?", "ans": "5", "dist": ["4", "34", "10"]}, {"eq": "Mode of {2, 4, 4, 4, 5, 6} = ?", "ans": "4", "dist": ["5", "25", "8"]}, {"eq": "Mode of {1, 3, 3, 5, 7, 3} = ?", "ans": "3", "dist": ["1", "4", "5"]}], "hint": "Mode = most frequent value", "explain": "Count how many times each value appears; pick the one with the most."}, {"block": "Numbers", "variations": [{"eq": "Range of {12, 5, 18, 7, 25} = ?", "ans": "20", "dist": ["5", "21", "67"]}, {"eq": "Range of {3, 9, 1, 15, 8} = ?", "ans": "14", "dist": ["5", "28", "16"]}, {"eq": "Range of {4, 11, 2, 17, 9} = ?", "ans": "15", "dist": ["43", "5", "14"]}], "hint": "Range = max − min", "explain": "Find the largest, find the smallest, subtract."}, {"block": "Numbers", "variations": [{"eq": "Write 6700 in standard form", "ans": "6.7 × 10^3", "dist": ["6.7 × 10^4", "6.7 × 10^2", "6.7 × 10^(−3)"]}, {"eq": "Write 45000 in standard form", "ans": "4.5 × 10^4", "dist": ["5.5 × 10^4", "3.5 × 10^4", "4.5 × 10^(−4)"]}, {"eq": "Write 125000 in standard form", "ans": "1.25 × 10^5", "dist": ["1.26 × 10^5", "1.24 × 10^5", "1.25 × 10^(−5)"]}], "hint": "Standard form: A × 10^n with 1 ≤ A < 10", "explain": "Move the decimal point so the number is between 1 and 10; n = number of places moved."}, {"block": "Numbers", "variations": [{"eq": "Write 0.045 in standard form", "ans": "4.5 × 10^(−2)", "dist": ["4.5 × 10^(−3)", "4.5 × 10^(−1)", "4.5 × 10^2"]}, {"eq": "Write 0.0025 in standard form", "ans": "2.5 × 10^(−3)", "dist": ["2.5 × 10^(−4)", "2.5 × 10^(−2)", "2.5 × 10^3"]}, {"eq": "Write 0.0008 in standard form", "ans": "8 × 10^(−4)", "dist": ["8 × 10^(−5)", "8 × 10^(−3)", "8 × 10^4"]}], "hint": "Standard form: A × 10^(−n)", "explain": "Move decimal right so the number is between 1 and 10; n is negative."}, {"block": "Numbers", "variations": [{"eq": "Split 40 in ratio 3:5. Smaller part = ?", "ans": "15", "dist": ["14", "17", "16"]}, {"eq": "Split 36 in ratio 2:7. Smaller part = ?", "ans": "8", "dist": ["4", "9", "10"]}, {"eq": "Split 28 in ratio 4:3. Smaller part = ?", "ans": "16", "dist": ["17", "14", "32"]}], "hint": "a:b of total T → smaller part = T · a/(a+b)", "explain": "Divide T by (a+b) to get one share; multiply by a."}];
+var current=0, firstTry=0, attemptedWrong=false, answered=false, wrongIdx={};
+var runtime=[], quizStart=null, timerInt=null, finalSec=null;
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function buildRuntime(){
+  runtime=[];
+  TASKS.forEach(function(t){
+    var v=t.variations[Math.floor(Math.random()*t.variations.length)];
+    var options=[{n:v.ans,correct:true}];
+    v.dist.forEach(function(d){options.push({n:d,correct:false});});
+    shuffle(options);
+    var ci=0; for(var i=0;i<options.length;i++) if(options[i].correct){ci=i;break;}
+    runtime.push({block:t.block,eq:v.eq,options:options,correctIdx:ci,hint:t.hint,explain:t.explain});
+  });
+}
+
+function fmtTime(s){var m=Math.floor(s/60),sec=s%60;return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+function updateTimer(){if(quizStart===null)return;document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000));}
+
+function startQuiz(){
+  buildRuntime(); current=0; firstTry=0;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now(); if(timerInt) clearInterval(timerInt);
+  timerInt=setInterval(updateTimer,250); updateTimer(); renderQuestion();
+}
+
+function renderQuestion(){
+  attemptedWrong=false; answered=false; wrongIdx={};
+  var rt=runtime[current];
+  document.getElementById('section-badge').textContent=rt.block;
+  document.getElementById('progress').textContent='Question '+(current+1)+' of '+runtime.length;
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('equation').textContent=rt.eq;
+  var oc=document.getElementById('options'); oc.innerHTML='';
+  rt.options.forEach(function(o,idx){
+    var btn=document.createElement('button');
+    btn.className='option'; btn.textContent=o.n;
+    btn.onclick=function(){selectOption(idx,btn);};
+    oc.appendChild(btn);
+  });
+  document.getElementById('feedback').innerHTML='';
+  document.getElementById('next-area').innerHTML='';
+}
+
+function selectOption(idx,btn){
+  if(answered) return;
+  if(wrongIdx[idx]) return;
+  var rt=runtime[current];
+  if(idx===rt.correctIdx){
+    answered=true;
+    if(!attemptedWrong) firstTry++;
+    btn.classList.add('correct');
+    document.querySelectorAll('#options .option').forEach(function(b){b.disabled=true;});
+    document.getElementById('feedback').innerHTML='<div class="feedback explanation"><div class="feedback-title">✅ Correct!</div>'+rt.explain+'</div>';
+    showNextBtn();
+  } else {
+    wrongIdx[idx]=true; attemptedWrong=true;
+    btn.classList.add('wrong'); btn.disabled=true;
+    document.getElementById('feedback').innerHTML='<div class="feedback hint"><div class="feedback-title">💡 Hint</div>'+rt.hint+'</div>';
+  }
+}
+
+function showNextBtn(){
+  var na=document.getElementById('next-area');
+  var b=document.createElement('button');
+  b.className='btn btn-next';
+  b.textContent=(current+1<runtime.length)?'Next →':'🏁 Result';
+  b.onclick=nextQuestion;
+  na.appendChild(b);
+}
+
+function nextQuestion(){current++;if(current<runtime.length)renderQuestion();else showResult();}
+
+function getGrade(p){if(p>=95)return 12;if(p>=88)return 11;if(p>=80)return 10;if(p>=73)return 9;if(p>=66)return 8;if(p>=59)return 7;if(p>=50)return 6;if(p>=41)return 5;if(p>=33)return 4;if(p>=25)return 3;if(p>=13)return 2;return 1;}
+
+function showResult(){
+  if(timerInt) clearInterval(timerInt);
+  finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct=Math.round((firstTry/runtime.length)*100);
+  var grade=getGrade(pct);
+  document.getElementById('result-correct').textContent=firstTry;
+  document.getElementById('result-percent').textContent=pct;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-time').textContent=fmtTime(finalSec);
+  var emoji='🌱', motiv='';
+  if(grade===12){emoji='🏆';motiv='Flawless! All 30 on first try — Year 8 math is solid.';}
+  else if(grade>=10){emoji='🌟';motiv='Great work! Almost all first try.';}
+  else if(grade>=8){emoji='👍';motiv='Solid. Review where hints were needed.';}
+  else if(grade>=6){emoji='💪';motiv='Not bad! Practise weak topics and retry.';}
+  else if(grade>=4){emoji='📚';motiv='Re-read explanations, then run again — numbers change!';}
+  else{emoji='🌱';motiv='Don\'t give up. Each retry gets fresh numbers.';}
+  document.getElementById('result-emoji').textContent=emoji;
+  document.getElementById('motivation').innerHTML=motiv;
+}
+
+function restart(){document.getElementById('result-screen').classList.add('hidden');document.getElementById('start-screen').classList.remove('hidden');}
+</script>
+</body>
+</html>
