@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Negative Numbers & Signs — ADVANCED Drill (Y7)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+    background:linear-gradient(135deg,#1e1b4b 0%,#4c1d95 50%,#7c2d12 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px;color:#1e293b}
+  .container{background:#fff;border-radius:20px;padding:28px 24px 20px;max-width:700px;width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,0.35);position:relative;overflow:hidden}
+  .container::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+    background:linear-gradient(90deg,#1e1b4b,#4c1d95,#7c2d12)}
+  h1{color:#4c1d95;font-size:1.5em;margin-bottom:6px;line-height:1.2}
+  .subtitle{color:#64748b;font-size:0.95em;margin-bottom:6px}
+  .exam-note{background:#f5f3ff;color:#4c1d95;padding:10px 14px;border-radius:8px;font-size:0.9em;
+    margin-bottom:14px;border-left:5px solid #7c3aed;font-weight:600}
+  .intro{background:#faf5ff;border-left:5px solid #7c3aed;padding:14px 16px;border-radius:10px;
+    font-size:0.98em;line-height:1.55;margin:12px 0}
+  .intro ul{margin:6px 0 0 20px}
+  .intro li{padding:2px 0}
+  .btn{background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;border:none;
+    padding:14px 30px;font-size:1.08em;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;
+    box-shadow:0 6px 18px rgba(76,29,149,0.45);transition:transform .15s,box-shadow .15s;
+    -webkit-appearance:none;appearance:none}
+  .btn:active{transform:translateY(1px)}
+  .btn-block{display:block;width:100%;margin-top:14px}
+  .btn-next{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 6px 18px rgba(22,163,74,0.4)}
+  .topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+  .section-badge{background:#4c1d95;color:#fff;font-size:0.82em;font-weight:700;padding:5px 12px;border-radius:20px}
+  .timer-badge{background:#f5f3ff;color:#4c1d95;font-weight:700;padding:4px 12px;border-radius:10px;
+    font-size:0.9em;font-variant-numeric:tabular-nums}
+  .progress-info{text-align:center;color:#475569;font-size:0.9em;font-weight:600;margin-bottom:8px}
+  .progress-bar{background:#e2e8f0;border-radius:10px;height:10px;overflow:hidden;margin-bottom:20px}
+  .progress-fill{background:linear-gradient(90deg,#4c1d95,#dc2626);height:100%;transition:width 0.4s ease}
+  .question{font-size:1em;line-height:1.55;margin-bottom:6px;color:#64748b}
+  .equation{text-align:center;font-size:1.5em;margin:20px 0;color:#4c1d95;font-weight:700;line-height:1.25;
+    font-variant-numeric:tabular-nums;padding:0 4px}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.options{grid-template-columns:1fr}.equation{font-size:1.2em}}
+  .option{background:#fff;border:2px solid #cbd5e1;padding:18px;border-radius:12px;cursor:pointer;
+    font-size:1.4em;font-weight:700;text-align:center;transition:all 0.15s;font-family:inherit;
+    color:#1e293b;min-height:60px;display:flex;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums}
+  .option:hover:not(:disabled){background:#faf5ff;border-color:#7c3aed;transform:translateY(-2px)}
+  .option:disabled{cursor:not-allowed}
+  .option.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b;opacity:0.7}
+  .option.correct{background:#f0fdf4;border-color:#16a34a;color:#14532d}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:12px;font-size:1em;line-height:1.55;
+    animation:slideIn 0.25s ease}
+  .feedback.hint{background:#fffbeb;color:#78350f;border-left:5px solid #f59e0b}
+  .feedback.explanation{background:#f0fdf4;color:#14532d;border-left:5px solid #22c55e}
+  .feedback-title{font-weight:700;margin-bottom:4px;font-size:0.95em}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .next-area{text-align:center;margin-top:16px}
+  .result-screen{text-align:center}
+  .result-emoji{font-size:4em;margin:12px 0}
+  .grade-badge{font-size:4em;font-weight:800;color:#4c1d95;margin:8px 0}
+  .result-meta{display:flex;flex-direction:column;gap:6px;align-items:center;margin:8px 0}
+  .motivation{font-style:italic;color:#4c1d95;margin:16px 0;padding:14px;background:#faf5ff;
+    border-radius:12px;font-size:1em}
+  .topic-tag{display:inline-block;background:#f5f3ff;color:#5b21b6;font-weight:700;padding:6px 14px;border-radius:20px;font-size:0.9em;margin:8px 0;border:2px solid #ddd6fe}
+  .theory{margin:14px 0;border-radius:10px;background:#faf5ff;border:2px solid #ddd6fe;overflow:hidden}
+  .theory summary{cursor:pointer;padding:12px 14px;background:linear-gradient(90deg,#ddd6fe,#c4b5fd);font-weight:600;color:#4c1d95;font-size:0.98em;list-style:none}
+  .theory summary::-webkit-details-marker{display:none}
+  .theory summary::before{content:'▸ ';font-size:0.9em;display:inline-block;transition:transform .2s}
+  .theory[open] summary::before{transform:rotate(90deg)}
+  .theory-body{padding:14px;display:flex;flex-direction:column;gap:14px}
+  .theory-section{background:#fff;border-radius:8px;padding:12px;border-left:4px solid #7c3aed}
+  .theory-title{font-weight:700;color:#4c1d95;font-size:1.02em;margin-bottom:8px}
+  .example{padding:5px 0;font-family:Consolas,Monaco,monospace;font-size:0.98em;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;line-height:1.4}
+  .ex-lhs{font-weight:600;color:#1e293b}
+  .ex-rhs{font-weight:700;color:#5b21b6}
+  .ex-note{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#64748b;font-size:0.85em;font-style:italic}
+  .rule-note{margin-top:8px;padding:8px 10px;background:#fef3c7;border-radius:6px;font-size:0.92em;color:#713f12}
+  .r-pos{color:#16a34a;font-weight:700}
+  .r-neg{color:#dc2626;font-weight:700}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="start-screen">
+    <h1>🟣 Negatives & Signs — ADVANCED Drill</h1>
+    <div class="subtitle">Year 7 · 30 harder questions · decimals · nested brackets · equations</div>
+    <div class="exam-note">🔥 Уже пройшов простіший варіант? Тепер складніше: десяткові, вкладені дужки, рівняння з негативними коефіцієнтами.</div>
+    <div class="intro">
+      30 problems, harder than the basic drill:
+      <ul>
+        <li>🟪 <b>Block A — Decimals &amp; powers:</b> negative decimals, three-factor products, (−a)², (−a)³, (−a)⁴ — even vs odd powers.</li>
+        <li>🟦 <b>Block B — Nested brackets:</b> 3-level brackets, distribution, substitution. Multi-step sign tracking.</li>
+        <li>🟥 <b>Block C — Equations with negatives:</b> solving −ax + b = c, −(x − a) = b, multi-step with distribution. Sign flips when dividing.</li>
+        <li>💡 Get it wrong → hint with method, try again. Score only for first try.</li>
+        <li>🎲 Numbers change every run.</li>
+      </ul>
+    </div>
+
+    <details class="theory" open>
+      <summary>📘 Quick theory (advanced) — read before you start</summary>
+      <div class="theory-body">
+
+        <div class="theory-section">
+          <div class="theory-title">1️⃣ Powers of negative numbers</div>
+          <div class="example"><span class="ex-lhs">(−a)²</span>=<span class="ex-rhs r-pos">+a²</span><span class="ex-note">even power → POSITIVE</span></div>
+          <div class="example"><span class="ex-lhs">(−a)³</span>=<span class="ex-rhs r-neg">−a³</span><span class="ex-note">odd power → keeps minus</span></div>
+          <div class="example"><span class="ex-lhs">(−a)⁴</span>=<span class="ex-rhs r-pos">+a⁴</span><span class="ex-note">even → POSITIVE</span></div>
+          <div class="example"><span class="ex-lhs">−a²</span>=<span class="ex-rhs r-neg">−a²</span><span class="ex-note">square 3 first, THEN negate</span></div>
+          <div class="rule-note">💡 <b>Even power of (−a) → positive.</b> <b>Odd power → keeps the sign.</b></div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">2️⃣ Multiple negatives multiplied</div>
+          <div class="example"><span class="ex-lhs">(−2) × (−3)</span>=<span class="ex-rhs r-pos">+6</span><span class="ex-note">2 negatives → +</span></div>
+          <div class="example"><span class="ex-lhs">(−2) × (−3) × (−4)</span>=<span class="ex-rhs r-neg">−24</span><span class="ex-note">3 negatives → −</span></div>
+          <div class="example"><span class="ex-lhs">(−2) × (−3) × (−4) × (−1)</span>=<span class="ex-rhs r-pos">+24</span><span class="ex-note">4 negatives → +</span></div>
+          <div class="rule-note">💡 <b>Count the negatives.</b> Even → positive. Odd → negative.</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">3️⃣ Nested brackets — innermost first</div>
+          <div class="example"><span class="ex-lhs">8 − [3 − (5 − 9)]</span>=<span class="ex-rhs">8 − [3 − (−4)] = 8 − 7 = 1</span></div>
+          <div class="example"><span class="ex-lhs">−2 × [5 − (7 − 9)]</span>=<span class="ex-rhs">−2 × [5 − (−2)] = −2 × 7 = −14</span></div>
+          <div class="rule-note">💡 Work inside-out. Don\'t skip layers. Re-write after each bracket.</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">4️⃣ Distribution with a negative</div>
+          <div class="example"><span class="ex-lhs">−3 × (2x − 5)</span>=<span class="ex-rhs">−6x + 15</span><span class="ex-note">multiply BOTH terms, flip signs</span></div>
+          <div class="example"><span class="ex-lhs">−(x − 4)</span>=<span class="ex-rhs">−x + 4</span><span class="ex-note">= 4 − x</span></div>
+          <div class="example"><span class="ex-lhs">a − b(x − c)</span>=<span class="ex-rhs">a − bx + bc</span><span class="ex-note">distribute −b carefully</span></div>
+          <div class="rule-note">💡 Minus distributes too. <b>Every</b> term inside brackets gets multiplied.</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">5️⃣ Equations with negative coefficients</div>
+          <div class="example"><span class="ex-lhs">−3x + 5 = 14</span>→<span class="ex-rhs">−3x = 9</span><span class="ex-note">move +5 across as −5</span></div>
+          <div class="example"><span>then:</span><span>−3x = 9</span>→<span class="ex-rhs">x = 9 ÷ (−3) = −3</span><span class="ex-note">divide by negative</span></div>
+          <div class="example"><span class="ex-lhs">−(x − 4) = 9</span>→<span class="ex-rhs">−x + 4 = 9 → x = −5</span><span class="ex-note">open brackets first</span></div>
+          <div class="rule-note">💡 Dividing both sides by a <b>negative</b> doesn\'t flip the &quot;=&quot; sign (no inequalities here) — but the sign of x changes carefully. Just do the arithmetic.</div>
+        </div>
+
+      </div>
+    </details>
+
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Start advanced drill</button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge">Block A</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress">Question 1 of 30</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question">Calculate / solve:</div>
+    <div class="equation" id="equation"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1>Done!</h1>
+      <div class="topic-tag">📚 Negative Numbers &amp; Sign Tracking — ADVANCED · Year 7 Revision</div>
+      <div class="grade-badge" id="result-grade">12</div>
+      <div class="result-meta">
+        <div>First-try correct: <b id="result-correct">0</b> of 30</div>
+        <div>Score: <b id="result-percent">0</b>%</div>
+        <div>Time: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="motivation" id="motivation"></div>
+      <button class="btn btn-block" onclick="restart()">🔄 Drill again (new numbers)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var TASKS = [{"block": "A", "variations": [{"eq": "(-2.5) + 3.7 = ?", "ans": "1.2", "dist": ["0.2", "6.2", "3.2"]}, {"eq": "(-4.2) + 1.5 = ?", "ans": "-2.7", "dist": ["2.7", "-5.4", "-4.7"]}, {"eq": "(-6.4) + 2.8 = ?", "ans": "-3.6", "dist": ["-8.6", "-7.2", "-4.6"]}], "hint": "Add to a negative: find difference, sign of bigger absolute.", "explain": "Subtract smaller |x| from bigger; sign goes with the bigger."}, {"block": "A", "variations": [{"eq": "(-4.8) − 2.5 = ?", "ans": "-7.3", "dist": ["-12.3", "-5.3", "7.3"]}, {"eq": "(-3.6) − 1.4 = ?", "ans": "-5", "dist": ["-3", "-6", "-4"]}, {"eq": "(-7.2) − 2.8 = ?", "ans": "-10", "dist": ["10", "-5", "-11"]}], "hint": "Negative minus positive — moves further left.", "explain": "Negative − positive = more negative."}, {"block": "A", "variations": [{"eq": "(-2.5) × (-4) = ?", "ans": "10", "dist": ["5", "11", "9"]}, {"eq": "(-1.5) × (-6) = ?", "ans": "9", "dist": ["18", "8", "4"]}, {"eq": "(-3.5) × (-2) = ?", "ans": "7", "dist": ["5", "14", "12"]}], "hint": "(−) × (−) = (+). Multiply the absolute values.", "explain": "Same signs → positive."}, {"block": "A", "variations": [{"eq": "(-3.6) ÷ (-0.6) = ?", "ans": "6", "dist": ["12", "11", "-6"]}, {"eq": "(-4.8) ÷ (-0.8) = ?", "ans": "6", "dist": ["5", "1", "8"]}, {"eq": "(-7.2) ÷ (-0.9) = ?", "ans": "8", "dist": ["6", "10", "13"]}], "hint": "(−) ÷ (−) = (+). To divide by 0.6: × 10 both → divide whole.", "explain": "Same signs → positive."}, {"block": "A", "variations": [{"eq": "(−3)² + (−3)³ = ?", "ans": "-18", "dist": ["-36", "-20", "-17"]}, {"eq": "(−4)² + (−4)³ = ?", "ans": "-48", "dist": ["-47", "-50", "48"]}, {"eq": "(−2)² + (−2)³ = ?", "ans": "-4", "dist": ["-3", "4", "1"]}], "hint": "(−a)² = +a²; (−a)³ = −a³. Compute each, then add.", "explain": "Even power → positive; odd power → keeps the minus."}, {"block": "A", "variations": [{"eq": "(-2.4) × 5 = ?", "ans": "-12", "dist": ["-11", "-10", "-17"]}, {"eq": "(-3.5) × 4 = ?", "ans": "-14", "dist": ["14", "-28", "-15"]}, {"eq": "(-1.8) × 6 = ?", "ans": "-10.8", "dist": ["-8.8", "-12.8", "10.8"]}], "hint": "Negative × Positive = NEGATIVE.", "explain": "Different signs → negative."}, {"block": "A", "variations": [{"eq": "10.5 ÷ (-3) = ?", "ans": "-3.5", "dist": ["-2.5", "1.5", "-5.5"]}, {"eq": "12.6 ÷ (-3) = ?", "ans": "-4.2", "dist": ["0.8", "-8.4", "-5.2"]}, {"eq": "8.4 ÷ (-2) = ?", "ans": "-4.2", "dist": ["-3.2", "-8.4", "-9.2"]}], "hint": "Positive ÷ Negative = NEGATIVE.", "explain": "Different signs → negative."}, {"block": "A", "variations": [{"eq": "(−2) × (−3) × (−5) = ?", "ans": "-30", "dist": ["-60", "-31", "-32"]}, {"eq": "(−4) × (−2) × (−3) = ?", "ans": "-24", "dist": ["-29", "-23", "-19"]}, {"eq": "(−5) × (−3) × (−2) = ?", "ans": "-30", "dist": ["-29", "-25", "-35"]}], "hint": "Count negatives: 3 (odd) → result NEGATIVE.", "explain": "Odd # negatives → negative; even → positive."}, {"block": "A", "variations": [{"eq": "(−3)⁴ = ?", "ans": "81", "dist": ["86", "80", "-81"]}, {"eq": "(−2)⁴ = ?", "ans": "16", "dist": ["11", "17", "21"]}, {"eq": "(−4)⁴ = ?", "ans": "256", "dist": ["-256", "255", "251"]}], "hint": "Even power of negative is ALWAYS POSITIVE.", "explain": "(−a)^even = +a^even."}, {"block": "A", "variations": [{"eq": "8 − 2 × 4 + 3 = ?", "ans": "3", "dist": ["4", "1", "6"]}, {"eq": "12 − 3 × 5 + 2 = ?", "ans": "-1", "dist": ["-3", "-6", "-2"]}, {"eq": "10 − 2 × 3 + 4 = ?", "ans": "8", "dist": ["6", "16", "10"]}], "hint": "Order: × first, then + −, left to right.", "explain": "Multiply b × c first, then a − (that) + d."}, {"block": "B", "variations": [{"eq": "−2 × [5 − (7 − 9)] = ?", "ans": "-14", "dist": ["-16", "-15", "-12"]}, {"eq": "−3 × [4 − (6 − 8)] = ?", "ans": "-18", "dist": ["18", "-13", "-16"]}, {"eq": "−2 × [6 − (8 − 11)] = ?", "ans": "-18", "dist": ["-23", "-20", "18"]}], "hint": "Innermost bracket first → outer → multiply by leading factor.", "explain": "Compute (c−d), then b − (that), then −a × [result]."}, {"block": "B", "variations": [{"eq": "8 − [3 − (5 − 9)] = ?", "ans": "1", "dist": ["0", "6", "3"]}, {"eq": "10 − [4 − (7 − 11)] = ?", "ans": "2", "dist": ["-3", "0", "4"]}, {"eq": "12 − [5 − (8 − 13)] = ?", "ans": "2", "dist": ["4", "7", "-3"]}], "hint": "Innermost first; carry sign through each layer.", "explain": "Start with (c−d). Substitute → b − ( ). Substitute → a − [ ]."}, {"block": "B", "variations": [{"eq": "−3 × (2x − 5), x = 4", "ans": "-9", "dist": ["9", "-10", "-14"]}, {"eq": "−2 × (3x − 4), x = 5", "ans": "-22", "dist": ["-24", "-17", "-20"]}, {"eq": "−4 × (2x − 3), x = 3", "ans": "-12", "dist": ["-14", "-17", "-10"]}], "hint": "Substitute x into the bracket first, then multiply.", "explain": "Replace x → compute bracket → multiply by −k."}, {"block": "B", "variations": [{"eq": "−[−(7 − 3)] − 2 = ?", "ans": "2", "dist": ["3", "-3", "0"]}, {"eq": "−[−(8 − 4)] − 3 = ?", "ans": "1", "dist": ["-1", "6", "-4"]}, {"eq": "−[−(9 − 5)] − 4 = ?", "ans": "0", "dist": ["-2", "1", "-1"]}], "hint": "−[−(a−b)] = (a−b). Two minuses cancel.", "explain": "Outer minus cancels inner minus → just (a − b) − c."}, {"block": "B", "variations": [{"eq": "(−2)² × (7 − 3) = ?", "ans": "16", "dist": ["15", "32", "18"]}, {"eq": "(−3)² × (5 − 2) = ?", "ans": "27", "dist": ["28", "26", "25"]}, {"eq": "(−4)² × (6 − 2) = ?", "ans": "64", "dist": ["66", "69", "62"]}], "hint": "(−a)² is positive a². Multiply by (b − c).", "explain": "Square first: +a². Then a² × (b − c)."}, {"block": "B", "variations": [{"eq": "3 × (8 − 2 × 3) = ?", "ans": "6", "dist": ["7", "-6", "1"]}, {"eq": "2 × (10 − 3 × 2) = ?", "ans": "8", "dist": ["16", "9", "7"]}, {"eq": "4 × (9 − 2 × 3) = ?", "ans": "12", "dist": ["10", "-12", "17"]}], "hint": "Multiply BEFORE subtract inside bracket; then outer ×.", "explain": "Inside: c × d, then b − (that). Then a × [bracket]."}, {"block": "B", "variations": [{"eq": "6 − (−2)² × 1 = ?", "ans": "2", "dist": ["0", "3", "4"]}, {"eq": "5 − (−3)² × 1 = ?", "ans": "-4", "dist": ["-3", "-8", "-9"]}, {"eq": "8 − (−2)² × 2 = ?", "ans": "0", "dist": ["-2", "1", "-1"]}], "hint": "(−b)² is +b². Multiply by c, then subtract from a.", "explain": "Square gives positive; multiply; subtract from a."}, {"block": "B", "variations": [{"eq": "−[5 − 3 × 2] = ?", "ans": "1", "dist": ["6", "3", "0"]}, {"eq": "−[8 − 4 × 2] = ?", "ans": "0", "dist": ["-2", "1", "-1"]}, {"eq": "−[10 − 3 × 3] = ?", "ans": "-1", "dist": ["-6", "0", "1"]}], "hint": "Outer minus flips ALL inner signs: −[a − bc] = −a + bc.", "explain": "Compute b × c first; then flip signs of bracket."}, {"block": "B", "variations": [{"eq": "(−2)³ − 5 = ?", "ans": "-13", "dist": ["-12", "-18", "-14"]}, {"eq": "(−3)³ − 4 = ?", "ans": "-31", "dist": ["-29", "31", "-62"]}, {"eq": "(−2)³ − 7 = ?", "ans": "-15", "dist": ["-20", "-16", "-14"]}], "hint": "(−a)³ is NEGATIVE: −a³. Then subtract b.", "explain": "Cube keeps the minus: (−a)³ = −a³. Then − b."}, {"block": "B", "variations": [{"eq": "10 − [3 + (5 − 8)] = ?", "ans": "10", "dist": ["11", "8", "9"]}, {"eq": "12 − [4 + (6 − 9)] = ?", "ans": "11", "dist": ["12", "-11", "10"]}, {"eq": "15 − [5 + (7 − 10)] = ?", "ans": "13", "dist": ["11", "12", "-13"]}], "hint": "Innermost → middle → outer. One step at a time.", "explain": "Compute (c−d), then b + (that), then a − [whole]."}, {"block": "C", "variations": [{"eq": "−3x + 5 = 14, x = ?", "ans": "-3", "dist": ["-5", "-6", "3"]}, {"eq": "−2x + 7 = 13, x = ?", "ans": "-3", "dist": ["-6", "-8", "-4"]}, {"eq": "−4x + 3 = 19, x = ?", "ans": "-4", "dist": ["-6", "-9", "-8"]}], "hint": "−ax + b = c. Subtract b. Divide by −a (sign flips).", "explain": "x = (c − b) ÷ (−a). Watch the sign of the divisor."}, {"block": "C", "variations": [{"eq": "7 − 2x = -5, x = ?", "ans": "6", "dist": ["-6", "12", "1"]}, {"eq": "10 − 3x = -2, x = ?", "ans": "4", "dist": ["6", "-4", "2"]}, {"eq": "9 − 4x = -7, x = ?", "ans": "4", "dist": ["3", "9", "2"]}], "hint": "a − bx = c. Subtract a both sides: −bx = c − a.", "explain": "x = (a − c) ÷ b."}, {"block": "C", "variations": [{"eq": "−4(x − 2) = 12, x = ?", "ans": "-1", "dist": ["-2", "1", "4"]}, {"eq": "−3(x − 5) = 9, x = ?", "ans": "2", "dist": ["3", "4", "1"]}, {"eq": "−5(x − 3) = 15, x = ?", "ans": "0", "dist": ["1", "2", "-2"]}], "hint": "−a(x − b) = c. Divide by −a (sign flips), then add b.", "explain": "x = c ÷ (−a) + b."}, {"block": "C", "variations": [{"eq": "−2x + 7 = −3x + 12, x = ?", "ans": "-5", "dist": ["0", "-3", "-6"]}, {"eq": "−4x + 5 = −5x + 10, x = ?", "ans": "-5", "dist": ["-4", "0", "-6"]}, {"eq": "−3x + 4 = −6x + 16, x = ?", "ans": "-4", "dist": ["-2", "-5", "-8"]}], "hint": "−ax + b = −cx + d. Get x to one side: (c − a)x = d − b.", "explain": "x = (d − b) ÷ (c − a). Sign of denominator matters."}, {"block": "C", "variations": [{"eq": "−(x − 4) = 5, x = ?", "ans": "-1", "dist": ["-6", "0", "1"]}, {"eq": "−(x − 6) = 2, x = ?", "ans": "4", "dist": ["3", "6", "9"]}, {"eq": "−(x − 8) = 3, x = ?", "ans": "5", "dist": ["7", "4", "-5"]}], "hint": "−(x − a) = b → −x + a = b → x = a − b.", "explain": "Open brackets (flip signs); then isolate x."}, {"block": "C", "variations": [{"eq": "2x − 3 = −x + 6, x = ?", "ans": "3", "dist": ["-3", "5", "6"]}, {"eq": "3x − 4 = −x + 8, x = ?", "ans": "3", "dist": ["2", "8", "1"]}, {"eq": "4x − 5 = −x + 9, x = ?", "ans": "2.8", "dist": ["7.8", "-2.8", "4.8"]}], "hint": "ax − b = −x + c → ax + x = c + b → (a+1)x = c+b.", "explain": "x = (b + c) ÷ (a + 1)."}, {"block": "C", "variations": [{"eq": "−3(x + 2) = -9, x = ?", "ans": "1", "dist": ["0", "3", "-4"]}, {"eq": "−2(x + 4) = -8, x = ?", "ans": "0", "dist": ["2", "-2", "-1"]}, {"eq": "−5(x + 3) = -15, x = ?", "ans": "0", "dist": ["-2", "1", "2"]}], "hint": "−a(x + b) = c → x + b = c ÷ (−a) → x = c÷(−a) − b.", "explain": "Divide both sides by −a (sign flips on c); then subtract b."}, {"block": "C", "variations": [{"eq": "5 − 3(x − 1) = −7, x = ?", "ans": "5", "dist": ["0", "4", "-5"]}, {"eq": "4 − 2(x − 1) = −6, x = ?", "ans": "6", "dist": ["1", "7", "11"]}, {"eq": "6 − 3(x − 2) = −9, x = ?", "ans": "7", "dist": ["-7", "6", "12"]}], "hint": "a − b(x − c) = −d. Expand: a − bx + bc = −d. Get bx alone.", "explain": "bx = a + bc + d → x = (a + bc + d) ÷ b."}, {"block": "C", "variations": [{"eq": "−(x − 10) = 3, x = ?", "ans": "7", "dist": ["6", "14", "2"]}, {"eq": "−(x − 12) = 5, x = ?", "ans": "7", "dist": ["6", "-7", "12"]}, {"eq": "−(x − 15) = 7, x = ?", "ans": "8", "dist": ["-8", "6", "16"]}], "hint": "(extra variation) −(x − a) = b → x = a − b.", "explain": "Open brackets; then move b across."}, {"block": "C", "variations": [{"eq": "2x − 5 = −x + 7, x = ?", "ans": "4", "dist": ["3", "6", "2"]}, {"eq": "3x − 6 = −x + 10, x = ?", "ans": "4", "dist": ["-1", "9", "5"]}, {"eq": "4x − 3 = −x + 7, x = ?", "ans": "2", "dist": ["3", "-3", "1"]}], "hint": "(extra variation) ax − b = −x + c → x = (b+c)/(a+1).", "explain": "Combine x-terms; combine constants; divide."}];
+var current=0, firstTry=0, attemptedWrong=false, answered=false, wrongIdx={};
+var runtime=[], quizStart=null, timerInt=null, finalSec=null;
+
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+function buildRuntime(){runtime=[];TASKS.forEach(function(t){
+  var v=t.variations[Math.floor(Math.random()*t.variations.length)];
+  var options=[{n:v.ans,correct:true}];
+  v.dist.forEach(function(d){options.push({n:d,correct:false});});
+  shuffle(options);
+  var ci=0;for(var i=0;i<options.length;i++)if(options[i].correct){ci=i;break;}
+  runtime.push({block:t.block,eq:v.eq,options:options,correctIdx:ci,hint:t.hint,explain:t.explain});
+});}
+
+function fmtTime(s){var m=Math.floor(s/60),sec=s%60;return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+function updateTimer(){if(quizStart===null)return;document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000));}
+
+function startQuiz(){buildRuntime();current=0;firstTry=0;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now();if(timerInt)clearInterval(timerInt);
+  timerInt=setInterval(updateTimer,250);updateTimer();renderQuestion();}
+
+function renderQuestion(){attemptedWrong=false;answered=false;wrongIdx={};
+  var rt=runtime[current];
+  document.getElementById('section-badge').textContent='Block '+rt.block;
+  document.getElementById('progress').textContent='Question '+(current+1)+' of '+runtime.length;
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('equation').textContent=rt.eq;
+  var oc=document.getElementById('options');oc.innerHTML='';
+  rt.options.forEach(function(o,idx){var btn=document.createElement('button');btn.className='option';btn.textContent=o.n;btn.onclick=function(){selectOption(idx,btn);};oc.appendChild(btn);});
+  document.getElementById('feedback').innerHTML='';document.getElementById('next-area').innerHTML='';}
+
+function selectOption(idx,btn){if(answered)return;if(wrongIdx[idx])return;
+  var rt=runtime[current];
+  if(idx===rt.correctIdx){answered=true;if(!attemptedWrong)firstTry++;
+    btn.classList.add('correct');
+    document.querySelectorAll('#options .option').forEach(function(b){b.disabled=true;});
+    document.getElementById('feedback').innerHTML='<div class="feedback explanation"><div class="feedback-title">✅ Correct!</div>'+rt.explain+'</div>';
+    showNextBtn();
+  }else{wrongIdx[idx]=true;attemptedWrong=true;btn.classList.add('wrong');btn.disabled=true;
+    document.getElementById('feedback').innerHTML='<div class="feedback hint"><div class="feedback-title">💡 Hint</div>'+rt.hint+'</div>';}}
+
+function showNextBtn(){var na=document.getElementById('next-area');var b=document.createElement('button');b.className='btn btn-next';b.textContent=(current+1<runtime.length)?'Next →':'🏁 Result';b.onclick=nextQuestion;na.appendChild(b);}
+function nextQuestion(){current++;if(current<runtime.length)renderQuestion();else showResult();}
+function getGrade(p){if(p>=95)return 12;if(p>=88)return 11;if(p>=80)return 10;if(p>=73)return 9;if(p>=66)return 8;if(p>=59)return 7;if(p>=50)return 6;if(p>=41)return 5;if(p>=33)return 4;if(p>=25)return 3;if(p>=13)return 2;return 1;}
+
+function showResult(){if(timerInt)clearInterval(timerInt);finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct=Math.round((firstTry/runtime.length)*100);var grade=getGrade(pct);
+  document.getElementById('result-correct').textContent=firstTry;
+  document.getElementById('result-percent').textContent=pct;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-time').textContent=fmtTime(finalSec);
+  var emoji='🌱',motiv='';
+  if(grade===12){emoji='🏆';motiv='Perfect on the ADVANCED drill — fully ready.';}
+  else if(grade>=10){emoji='🌟';motiv='Great. The hard ones are nearly automatic now.';}
+  else if(grade>=8){emoji='👍';motiv='Solid. Replay focusing on Block B (nested brackets) and Block C (equations).';}
+  else if(grade>=6){emoji='💪';motiv='Tough drill — that\'s the point. Replay slowly, write each step.';}
+  else if(grade>=4){emoji='📚';motiv='Re-read theory: powers, distribution, equation sign flips. Then retry.';}
+  else{emoji='🧠';motiv='Slow down. Inside brackets first. Write each layer on paper.';}
+  document.getElementById('result-emoji').textContent=emoji;
+  document.getElementById('motivation').innerHTML=motiv;}
+
+function restart(){document.getElementById('result-screen').classList.add('hidden');document.getElementById('start-screen').classList.remove('hidden');}
+</script>
+</body>
+</html>
