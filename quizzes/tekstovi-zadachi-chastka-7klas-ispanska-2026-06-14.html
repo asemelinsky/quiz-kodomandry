@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L4 — Текстові задачі на частку (7 клас)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+    background:linear-gradient(135deg,#831843 0%,#be185d 50%,#f59e0b 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px;color:#1e293b}
+  .container{background:#fff;border-radius:20px;padding:28px 24px 20px;max-width:760px;width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,0.3);position:relative;overflow:hidden}
+  .container::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+    background:linear-gradient(90deg,#831843,#be185d,#f59e0b)}
+  h1{color:#831843;font-size:1.5em;margin-bottom:6px;line-height:1.2}
+  .subtitle{color:#64748b;font-size:0.95em;margin-bottom:6px}
+  .intro{background:#fdf2f8;border-left:5px solid #be185d;padding:14px 16px;border-radius:10px;
+    font-size:0.98em;line-height:1.55;margin:12px 0}
+  .intro ul{margin:6px 0 0 20px}
+  .intro li{padding:2px 0}
+  .btn{background:linear-gradient(135deg,#831843,#be185d);color:#fff;border:none;
+    padding:14px 30px;font-size:1.08em;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;
+    box-shadow:0 6px 18px rgba(190,24,93,0.4);transition:transform .15s,box-shadow .15s;
+    -webkit-appearance:none;appearance:none}
+  .btn:active{transform:translateY(1px)}
+  .btn-block{display:block;width:100%;margin-top:14px}
+  .btn-next{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 6px 18px rgba(22,163,74,0.4)}
+  .topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+  .section-badge{background:#831843;color:#fff;font-size:0.82em;font-weight:700;padding:5px 12px;border-radius:20px}
+  .timer-badge{background:#fdf2f8;color:#831843;font-weight:700;padding:4px 12px;border-radius:10px;
+    font-size:0.9em;font-variant-numeric:tabular-nums}
+  .progress-info{text-align:center;color:#475569;font-size:0.9em;font-weight:600;margin-bottom:8px}
+  .progress-bar{background:#e2e8f0;border-radius:10px;height:10px;overflow:hidden;margin-bottom:20px}
+  .progress-fill{background:linear-gradient(90deg,#be185d,#f59e0b);height:100%;transition:width 0.4s ease}
+  .question{font-size:1em;line-height:1.55;margin-bottom:6px;color:#64748b}
+  .equation{font-size:1.15em;margin:18px 0;color:#831843;font-weight:600;line-height:1.4;
+    padding:14px 16px;background:#fdf2f8;border-radius:10px;border-left:4px solid #be185d}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.options{grid-template-columns:1fr}.equation{font-size:1em}}
+  .option{background:#fff;border:2px solid #cbd5e1;padding:18px;border-radius:12px;cursor:pointer;
+    font-size:1.3em;font-weight:700;text-align:center;transition:all 0.15s;font-family:inherit;
+    color:#1e293b;min-height:60px;display:flex;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums}
+  .option:hover:not(:disabled){background:#fdf2f8;border-color:#be185d;transform:translateY(-2px)}
+  .option:disabled{cursor:not-allowed}
+  .option.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b;opacity:0.7}
+  .option.correct{background:#f0fdf4;border-color:#16a34a;color:#14532d}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:12px;font-size:1em;line-height:1.55;
+    animation:slideIn 0.25s ease}
+  .feedback.hint{background:#fffbeb;color:#78350f;border-left:5px solid #f59e0b}
+  .feedback.explanation{background:#f0fdf4;color:#14532d;border-left:5px solid #22c55e}
+  .feedback-title{font-weight:700;margin-bottom:4px;font-size:0.95em}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .next-area{text-align:center;margin-top:16px}
+  .result-screen{text-align:center}
+  .result-emoji{font-size:4em;margin:12px 0}
+  .grade-badge{font-size:4em;font-weight:800;color:#831843;margin:8px 0}
+  .result-meta{display:flex;flex-direction:column;gap:6px;align-items:center;margin:8px 0}
+  .motivation{font-style:italic;color:#831843;margin:16px 0;padding:14px;background:#fdf2f8;border-radius:12px}
+  .topic-tag{display:inline-block;background:#fdf2f8;color:#831843;font-weight:700;padding:6px 14px;border-radius:20px;font-size:0.9em;margin:8px 0;border:2px solid #fbcfe8}
+  .theory{margin:14px 0;border-radius:10px;background:#fdf2f8;border:2px solid #fbcfe8;overflow:hidden}
+  .theory summary{cursor:pointer;padding:12px 14px;background:linear-gradient(90deg,#fbcfe8,#f9a8d4);font-weight:600;color:#831843;font-size:0.98em;list-style:none}
+  .theory summary::-webkit-details-marker{display:none}
+  .theory summary::before{content:'▸ ';font-size:0.9em;display:inline-block;transition:transform .2s}
+  .theory[open] summary::before{transform:rotate(90deg)}
+  .theory-body{padding:14px;display:flex;flex-direction:column;gap:12px}
+  .theory-section{background:#fff;border-radius:8px;padding:12px;border-left:4px solid #be185d}
+  .theory-title{font-weight:700;color:#831843;font-size:1.02em;margin-bottom:8px}
+  .rule-note{margin-top:8px;padding:8px 10px;background:#fefce8;border-radius:6px;font-size:0.92em;color:#713f12}
+  .example{padding:5px 0;font-size:0.95em;line-height:1.5}
+  .example b{color:#831843}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="start-screen">
+    <h1>🌸 L4 — Текстові задачі на частку</h1>
+    <div class="subtitle">7 клас · 30 задач · 3 блоки × 10 · ¾, ⅖, ⅔, ⅓...</div>
+    <div class="intro">
+      30 задач на дроби як «частку від чогось». Це фундамент для відсотків у L5:
+      <ul>
+        <li>🟪 <b>Block A — Частина від цілого:</b> «У класі 28, ¾ — дівчата → ?» (просто помножити).</li>
+        <li>🌸 <b>Block B — Залишок:</b> «¼ з'їв → скільки залишилось?» (відняти або (1−дріб)·N).</li>
+        <li>🌅 <b>Block C — Знайти ціле:</b> ⟵ обернена задача! «¾ класу = 24 → скільки усього?»</li>
+        <li>💡 Неправильно → підказка з методом, спробуй ще. Бал тільки за з 1-го разу.</li>
+        <li>🎲 Числа змінюються щоразу — можна переграти.</li>
+      </ul>
+    </div>
+
+    <details class="theory" open>
+      <summary>📘 Коротка теорія — три типи задач на частку</summary>
+      <div class="theory-body">
+
+        <div class="theory-section">
+          <div class="theory-title">1️⃣ Знайти ЧАСТИНУ від цілого</div>
+          <div class="example">Питання: «¾ від 28 = ?»</div>
+          <div class="example"><b>Формула:</b> частина = ціле × (чисельник / знаменник).</div>
+          <div class="example">Або в 2 кроки: <b>28 ÷ 4 = 7</b> (це ¼), потім <b>7 × 3 = 21</b>.</div>
+          <div class="rule-note">💡 Знаменник каже «на скільки поділити». Чисельник каже «скільки таких частин узяти».</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">2️⃣ Знайти ЗАЛИШОК</div>
+          <div class="example">Питання: «з'їв ¼ від 24, скільки залишилось?»</div>
+          <div class="example"><b>Спосіб 1:</b> залишок = ціле − частина. Знайди ¼·24 = 6, тоді 24 − 6 = 18.</div>
+          <div class="example"><b>Спосіб 2:</b> (1 − дріб) × ціле. (1 − ¼) = ¾. ¾·24 = 18.</div>
+          <div class="rule-note">💡 Спосіб 2 швидший: одразу множ.</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">3️⃣ Знайти ЦІЛЕ за відомою частиною (ОБЕРНЕНА!)</div>
+          <div class="example">Питання: «¾ класу — це 24 учні. Скільки усього?»</div>
+          <div class="example"><b>Метод:</b> знайди одну частку (поділи на чисельник), потім помнож на знаменник.</div>
+          <div class="example"><b>Кроки:</b> 24 ÷ 3 = 8 (це ¼). 8 × 4 = <b>32</b>.</div>
+          <div class="example"><b>Або одразу:</b> ціле = частина × (знаменник / чисельник) = 24 × 4/3 = 32.</div>
+          <div class="rule-note">⚠️ Найчастіша помилка: тут НЕ помножити на дріб! Тут ДІЛИМО на дріб (або множимо на ОБЕРНЕНИЙ дріб).</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">4️⃣ Як зрозуміти який тип задачі?</div>
+          <div class="example"><b>Дано ЦІЛЕ + дріб «від»:</b> питають частину → тип 1. (¾ <i>від</i> 28)</div>
+          <div class="example"><b>Дано ЦІЛЕ + «використав/витратив»:</b> питають залишок → тип 2.</div>
+          <div class="example"><b>Дано ЧАСТИНУ (число) + дріб «це»:</b> питають ЦІЛЕ → тип 3. (⅔ <i>це</i> 6 → ціле?)</div>
+        </div>
+
+      </div>
+    </details>
+
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Почати</button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge">Блок A</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress">Запитання 1 з 30</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question">Розв\'яжи задачу:</div>
+    <div class="equation" id="equation"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1>Готово!</h1>
+      <div class="topic-tag">📚 L4 · Текстові задачі на частку · 7 клас</div>
+      <div class="grade-badge" id="result-grade">12</div>
+      <div class="result-meta">
+        <div>Правильно з 1-ї спроби: <b id="result-correct">0</b> з 30</div>
+        <div>Результат: <b id="result-percent">0</b>%</div>
+        <div>Час: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="motivation" id="motivation"></div>
+      <button class="btn btn-block" onclick="restart()">🔄 Пройти ще раз (нові числа)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var TASKS = [{"block": "A", "variations": [{"eq": "У класі 28 учнів. ¾ — дівчата. Скільки дівчат?", "ans": "21", "dist": ["26", "16", "20"]}, {"eq": "У класі 32 учні. ¾ — дівчата. Скільки дівчат?", "ans": "24", "dist": ["12", "29", "19"]}, {"eq": "У класі 36 учнів. ¾ — дівчата. Скільки дівчат?", "ans": "27", "dist": ["25", "54", "37"]}], "hint": "Частина від числа = число × (чисельник / знаменник). Якщо ¾ від 28: 28 × 3 ÷ 4.", "explain": "28 × 3 = 84. 84 ÷ 4 = 21. Або: 28 ÷ 4 = 7 (це ¼), потім 7 × 3 = 21."}, {"block": "A", "variations": [{"eq": "На полицях 60 книг. ⅖ — підручники. Скільки підручників?", "ans": "24", "dist": ["26", "48", "34"]}, {"eq": "На полицях 50 книг. ⅖ — підручники. Скільки підручників?", "ans": "20", "dist": ["10", "22", "25"]}, {"eq": "На полицях 45 книг. ⅖ — підручники. Скільки підручників?", "ans": "18", "dist": ["17", "8", "9"]}], "hint": "⅖ від N = N ÷ 5 × 2.", "explain": "60 ÷ 5 = 12 (одна п'ята). 12 × 2 = 24."}, {"block": "A", "variations": [{"eq": "На фермі 90 курей. ⅓ — півні. Скільки півнів?", "ans": "30", "dist": ["40", "32", "60"]}, {"eq": "На фермі 75 курей. ⅓ — півні. Скільки півнів?", "ans": "25", "dist": ["35", "23", "30"]}, {"eq": "На фермі 60 курей. ⅓ — півні. Скільки півнів?", "ans": "20", "dist": ["30", "40", "25"]}], "hint": "⅓ від N = N ÷ 3.", "explain": "90 ÷ 3 = 30. Це і є ⅓."}, {"block": "A", "variations": [{"eq": "800 грн зарплати. ¼ — на продукти. Скільки?", "ans": "200", "dist": ["202", "201", "195"]}, {"eq": "1200 грн зарплати. ¼ — на продукти. Скільки?", "ans": "300", "dist": ["305", "600", "295"]}, {"eq": "600 грн зарплати. ¼ — на продукти. Скільки?", "ans": "150", "dist": ["152", "145", "140"]}], "hint": "¼ від N = N ÷ 4.", "explain": "800 ÷ 4 = 200. Це ¼ від 800."}, {"block": "A", "variations": [{"eq": "Дорога 480 км. ⅗ пройдено. Скільки км пройдено?", "ans": "288", "dist": ["287", "144", "298"]}, {"eq": "Дорога 400 км. ⅗ пройдено. Скільки км пройдено?", "ans": "240", "dist": ["230", "238", "239"]}, {"eq": "Дорога 350 км. ⅗ пройдено. Скільки км пройдено?", "ans": "210", "dist": ["208", "200", "215"]}], "hint": "⅗ від N = N ÷ 5 × 3.", "explain": "480 ÷ 5 = 96 (¹⁄₅). 96 × 3 = 288."}, {"block": "A", "variations": [{"eq": "У саду 56 дерев. ⅛ — груші. Скільки груш?", "ans": "7", "dist": ["5", "8", "3.5"]}, {"eq": "У саду 64 дерева. ⅛ — груші. Скільки груш?", "ans": "8", "dist": ["13", "9", "3"]}, {"eq": "У саду 80 дерев. ⅛ — груші. Скільки груш?", "ans": "10", "dist": ["15", "8", "5"]}], "hint": "⅛ від N = N ÷ 8.", "explain": "56 ÷ 8 = 7. Це ⅛."}, {"block": "A", "variations": [{"eq": "Сума 1200 грн. ⅙ — на проїзд. Скільки на проїзд?", "ans": "200", "dist": ["190", "100", "210"]}, {"eq": "Сума 900 грн. ⅙ — на проїзд. Скільки на проїзд?", "ans": "150", "dist": ["160", "149", "152"]}, {"eq": "Сума 1800 грн. ⅙ — на проїзд. Скільки на проїзд?", "ans": "300", "dist": ["290", "302", "295"]}], "hint": "⅙ від N = N ÷ 6.", "explain": "1200 ÷ 6 = 200."}, {"block": "A", "variations": [{"eq": "У книзі 320 сторінок. ⅘ прочитано. Скільки прочитано?", "ans": "256", "dist": ["266", "512", "128"]}, {"eq": "У книзі 250 сторінок. ⅘ прочитано. Скільки прочитано?", "ans": "200", "dist": ["205", "199", "190"]}, {"eq": "У книзі 400 сторінок. ⅘ прочитано. Скільки прочитано?", "ans": "320", "dist": ["330", "318", "160"]}], "hint": "⅘ від N = N ÷ 5 × 4.", "explain": "320 ÷ 5 = 64. 64 × 4 = 256."}, {"block": "A", "variations": [{"eq": "У коробці 72 цукерки. ⅔ — шоколадні. Скільки шоколадних?", "ans": "48", "dist": ["38", "46", "43"]}, {"eq": "У коробці 90 цукерок. ⅔ — шоколадні. Скільки шоколадних?", "ans": "60", "dist": ["50", "55", "30"]}, {"eq": "У коробці 45 цукерок. ⅔ — шоколадні. Скільки шоколадних?", "ans": "30", "dist": ["15", "31", "29"]}], "hint": "⅔ від N = N ÷ 3 × 2.", "explain": "72 ÷ 3 = 24. 24 × 2 = 48."}, {"block": "A", "variations": [{"eq": "У супі 150 г солі. ⅖ — морська. Скільки морської (г)?", "ans": "60", "dist": ["58", "65", "61"]}, {"eq": "У супі 200 г солі. ⅖ — морська. Скільки морської (г)?", "ans": "80", "dist": ["75", "90", "81"]}, {"eq": "У супі 175 г солі. ⅖ — морська. Скільки морської (г)?", "ans": "70", "dist": ["69", "71", "75"]}], "hint": "⅖ від N = N ÷ 5 × 2.", "explain": "150 ÷ 5 = 30. 30 × 2 = 60."}, {"block": "B", "variations": [{"eq": "32 учні. ⅜ захворіли. Скільки прийшли?", "ans": "20", "dist": ["21", "30", "19"]}, {"eq": "40 учнів. ⅜ захворіли. Скільки прийшли?", "ans": "25", "dist": ["15", "35", "50"]}, {"eq": "24 учні. ⅜ захворіли. Скільки прийшли?", "ans": "15", "dist": ["20", "17", "13"]}], "hint": "Залишок = ціле − частина. Або (1 − дріб) × ціле.", "explain": "Захворіли = ⅜ × 32 = 12. Залишилось = 32 − 12 = 20. Або: прийшли = ⅝ × 32 = 20."}, {"block": "B", "variations": [{"eq": "100 грн. ⅗ витратив. Скільки залишилось?", "ans": "40", "dist": ["20", "30", "39"]}, {"eq": "150 грн. ⅗ витратив. Скільки залишилось?", "ans": "60", "dist": ["55", "61", "62"]}, {"eq": "200 грн. ⅗ витратив. Скільки залишилось?", "ans": "80", "dist": ["40", "81", "160"]}], "hint": "Залишилось = (1 − дріб) × ціле. (1 − ⅗) = ⅖.", "explain": "⅖ від 100 = 40. Або: 100 − (⅗ × 100) = 100 − 60 = 40."}, {"block": "B", "variations": [{"eq": "24 яблука. ¼ з'їв. Скільки залишилось?", "ans": "18", "dist": ["28", "8", "9"]}, {"eq": "32 яблука. ¼ з'їв. Скільки залишилось?", "ans": "24", "dist": ["14", "34", "29"]}, {"eq": "40 яблук. ¼ з'їв. Скільки залишилось?", "ans": "30", "dist": ["31", "32", "25"]}], "hint": "(1 − ¼) = ¾. Залишок = ¾ × ціле.", "explain": "¾ × 24 = 18. Або: 24 − ¼·24 = 24 − 6 = 18."}, {"block": "B", "variations": [{"eq": "48 тістечок. ⅔ продали. Скільки залишилось?", "ans": "16", "dist": ["11", "17", "26"]}, {"eq": "60 тістечок. ⅔ продали. Скільки залишилось?", "ans": "20", "dist": ["40", "25", "30"]}, {"eq": "36 тістечок. ⅔ продали. Скільки залишилось?", "ans": "12", "dist": ["17", "22", "2"]}], "hint": "(1 − ⅔) = ⅓. Залишок = ⅓ × ціле.", "explain": "⅓ від 48 = 16. Або: 48 − ⅔·48 = 48 − 32 = 16."}, {"block": "B", "variations": [{"eq": "60 м тканини. ⅖ використали. Скільки залишилось (м)?", "ans": "36", "dist": ["72", "18", "26"]}, {"eq": "45 м тканини. ⅖ використали. Скільки залишилось (м)?", "ans": "27", "dist": ["54", "28", "25"]}, {"eq": "80 м тканини. ⅖ використали. Скільки залишилось (м)?", "ans": "48", "dist": ["50", "24", "38"]}], "hint": "(1 − ⅖) = ⅗. Залишок = ⅗ × ціле.", "explain": "⅗ × 60 = 36. Або: 60 − ⅖·60 = 60 − 24 = 36."}, {"block": "B", "variations": [{"eq": "120 голок. ⅙ зламались. Скільки цілих?", "ans": "100", "dist": ["95", "101", "200"]}, {"eq": "90 голок. ⅙ зламались. Скільки цілих?", "ans": "75", "dist": ["73", "80", "77"]}, {"eq": "180 голок. ⅙ зламались. Скільки цілих?", "ans": "150", "dist": ["145", "152", "140"]}], "hint": "(1 − ⅙) = ⅚. Залишок = ⅚ × ціле.", "explain": "⅚ × 120 = 100. Або: 120 − ⅙·120 = 120 − 20 = 100."}, {"block": "B", "variations": [{"eq": "200 сторінок. ¾ прочитав. Скільки залишилось?", "ans": "50", "dist": ["45", "55", "40"]}, {"eq": "160 сторінок. ¾ прочитав. Скільки залишилось?", "ans": "40", "dist": ["80", "50", "42"]}, {"eq": "240 сторінок. ¾ прочитав. Скільки залишилось?", "ans": "60", "dist": ["62", "30", "58"]}], "hint": "(1 − ¾) = ¼. Залишок = ¼ × ціле.", "explain": "¼ × 200 = 50. Або: 200 − ¾·200 = 200 − 150 = 50."}, {"block": "B", "variations": [{"eq": "50 учнів. ⅖ пішли на екскурсію. Скільки залишились у школі?", "ans": "30", "dist": ["60", "40", "31"]}, {"eq": "35 учнів. ⅖ пішли на екскурсію. Скільки залишились у школі?", "ans": "21", "dist": ["31", "11", "42"]}, {"eq": "45 учнів. ⅖ пішли на екскурсію. Скільки залишились у школі?", "ans": "27", "dist": ["28", "17", "29"]}], "hint": "(1 − ⅖) = ⅗. Залишок = ⅗ × ціле.", "explain": "⅗ × 50 = 30. Або: 50 − ⅖·50 = 50 − 20 = 30."}, {"block": "B", "variations": [{"eq": "30 учнів класу. ⅗ — хлопці. Скільки дівчат?", "ans": "12", "dist": ["17", "2", "22"]}, {"eq": "45 учнів класу. ⅗ — хлопці. Скільки дівчат?", "ans": "18", "dist": ["8", "20", "23"]}, {"eq": "60 учнів класу. ⅗ — хлопці. Скільки дівчат?", "ans": "24", "dist": ["12", "48", "25"]}], "hint": "(1 − ⅗) = ⅖. Дівчат = ⅖ × ціле.", "explain": "⅖ × 30 = 12. Або: 30 − ⅗·30 = 30 − 18 = 12."}, {"block": "B", "variations": [{"eq": "84 яйця. ⅔ продали. Скільки залишилось?", "ans": "28", "dist": ["30", "26", "56"]}, {"eq": "48 яєць. ⅔ продали. Скільки залишилось?", "ans": "16", "dist": ["8", "17", "21"]}, {"eq": "60 яєць. ⅔ продали. Скільки залишилось?", "ans": "20", "dist": ["15", "21", "30"]}], "hint": "(1 − ⅔) = ⅓. Залишок = ⅓ × ціле.", "explain": "⅓ × 84 = 28. Або: 84 − ⅔·84 = 84 − 56 = 28."}, {"block": "C", "variations": [{"eq": "¾ класу — це 24 учні. Скільки усього учнів?", "ans": "32", "dist": ["42", "33", "22"]}, {"eq": "¾ класу — це 18 учнів. Скільки усього учнів?", "ans": "24", "dist": ["14", "29", "19"]}, {"eq": "¾ класу — це 27 учнів. Скільки усього учнів?", "ans": "36", "dist": ["34", "18", "46"]}], "hint": "Знайти ціле за частиною: ціле = частина ÷ дріб = частина × (знаменник / чисельник).", "explain": "Якщо ¾ = 24, то ¼ = 24 ÷ 3 = 8, а ціле = 8 × 4 = 32."}, {"block": "C", "variations": [{"eq": "⅖ суми — це 80 грн. Яка уся сума?", "ans": "200", "dist": ["210", "198", "195"]}, {"eq": "⅖ суми — це 60 грн. Яка уся сума?", "ans": "150", "dist": ["300", "145", "160"]}, {"eq": "⅖ суми — це 100 грн. Яка уся сума?", "ans": "250", "dist": ["255", "125", "249"]}], "hint": "Якщо ⅖ = 80, то ⅕ = 80 ÷ 2 = 40, ціле = 40 × 5 = 200.", "explain": "⅖ означає 2 частини з 5. Знайди одну (поділи на 2), потім помнож на 5."}, {"block": "C", "variations": [{"eq": "⅓ книги — це 45 сторінок. Скільки усього сторінок?", "ans": "135", "dist": ["136", "67.5", "133"]}, {"eq": "⅓ книги — це 60 сторінок. Скільки усього сторінок?", "ans": "180", "dist": ["190", "178", "182"]}, {"eq": "⅓ книги — це 30 сторінок. Скільки усього сторінок?", "ans": "90", "dist": ["180", "80", "100"]}], "hint": "Якщо ⅓ = 45, то ціле = 45 × 3.", "explain": "⅓ — це третина. Помножте на 3, щоб отримати ціле."}, {"block": "C", "variations": [{"eq": "⅗ дороги — це 90 км. Яка уся довжина дороги?", "ans": "150", "dist": ["149", "145", "300"]}, {"eq": "⅗ дороги — це 60 км. Яка уся довжина дороги?", "ans": "100", "dist": ["105", "101", "95"]}, {"eq": "⅗ дороги — це 120 км. Яка уся довжина дороги?", "ans": "200", "dist": ["210", "201", "198"]}], "hint": "Якщо ⅗ = 90, то ⅕ = 30, ціле = 150.", "explain": "⅗ це 3 частини з 5. Одна частина = 90 ÷ 3 = 30. Ціле = 30 × 5 = 150."}, {"block": "C", "variations": [{"eq": "⅛ цукерок — це 6 шт. Скільки усього цукерок?", "ans": "48", "dist": ["58", "53", "50"]}, {"eq": "⅛ цукерок — це 5 шт. Скільки усього цукерок?", "ans": "40", "dist": ["50", "30", "42"]}, {"eq": "⅛ цукерок — це 10 шт. Скільки усього цукерок?", "ans": "80", "dist": ["82", "79", "78"]}], "hint": "Якщо ⅛ = 6, то ціле = 6 × 8 = 48.", "explain": "⅛ — це одна восьма. Помнож на 8."}, {"block": "C", "variations": [{"eq": "⅙ грошей — це 50 грн. Скільки усього грошей?", "ans": "300", "dist": ["299", "298", "310"]}, {"eq": "⅙ грошей — це 80 грн. Скільки усього грошей?", "ans": "480", "dist": ["960", "482", "490"]}, {"eq": "⅙ грошей — це 120 грн. Скільки усього грошей?", "ans": "720", "dist": ["1440", "725", "722"]}], "hint": "Якщо ⅙ = 50, то ціле = 50 × 6 = 300.", "explain": "⅙ — це одна шоста. Помнож на 6."}, {"block": "C", "variations": [{"eq": "¼ дерев — це 12 шт. Скільки усього дерев?", "ans": "48", "dist": ["47", "46", "58"]}, {"eq": "¼ дерев — це 15 шт. Скільки усього дерев?", "ans": "60", "dist": ["55", "62", "50"]}, {"eq": "¼ дерев — це 20 шт. Скільки усього дерев?", "ans": "80", "dist": ["81", "40", "85"]}], "hint": "Якщо ¼ = 12, то ціле = 12 × 4 = 48.", "explain": "¼ — це одна четверта. Помнож на 4."}, {"block": "C", "variations": [{"eq": "⅘ зошитів — це 32 шт. Скільки усього зошитів?", "ans": "40", "dist": ["42", "20", "39"]}, {"eq": "⅘ зошитів — це 24 шт. Скільки усього зошитів?", "ans": "30", "dist": ["31", "29", "60"]}, {"eq": "⅘ зошитів — це 48 шт. Скільки усього зошитів?", "ans": "60", "dist": ["61", "59", "30"]}], "hint": "Якщо ⅘ = 32, то ⅕ = 32 ÷ 4 = 8, ціле = 8 × 5 = 40.", "explain": "⅘ це 4 частини з 5. Одна частина = 32 ÷ 4 = 8. Ціле = 8 × 5 = 40."}, {"block": "C", "variations": [{"eq": "⅔ робочого дня — це 6 годин. Скільки годин увесь день?", "ans": "9", "dist": ["10", "14", "11"]}, {"eq": "⅔ робочого дня — це 8 годин. Скільки годин увесь день?", "ans": "12", "dist": ["24", "7", "22"]}, {"eq": "⅔ робочого дня — це 4 години. Скільки годин увесь день?", "ans": "6", "dist": ["1", "3", "8"]}], "hint": "Якщо ⅔ = 6 год, то ⅓ = 3 год, ціле = 9 год.", "explain": "⅔ це 2 частини з 3. Одна частина = 6 ÷ 2 = 3. Ціле = 3 × 3 = 9."}, {"block": "C", "variations": [{"eq": "⅖ ціни — це 14 грн. Яка уся ціна?", "ans": "35", "dist": ["17.5", "36", "33"]}, {"eq": "⅖ ціни — це 18 грн. Яка уся ціна?", "ans": "45", "dist": ["46", "47", "35"]}, {"eq": "⅖ ціни — це 24 грн. Яка уся ціна?", "ans": "60", "dist": ["59", "58", "65"]}], "hint": "Якщо ⅖ = 14, то ⅕ = 7, ціле = 35.", "explain": "⅖ це 2 частини з 5. Одна частина = 14 ÷ 2 = 7. Ціле = 7 × 5 = 35."}];
+var current=0, firstTry=0, attemptedWrong=false, answered=false, wrongIdx={};
+var runtime=[], quizStart=null, timerInt=null, finalSec=null;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function buildRuntime(){runtime=[];TASKS.forEach(function(t){
+  var v=t.variations[Math.floor(Math.random()*t.variations.length)];
+  var options=[{n:v.ans,correct:true}]; v.dist.forEach(function(d){options.push({n:d,correct:false});});
+  shuffle(options); var ci=0;for(var i=0;i<options.length;i++)if(options[i].correct){ci=i;break;}
+  runtime.push({block:t.block,eq:v.eq,options:options,correctIdx:ci,hint:t.hint,explain:t.explain});});}
+function fmtTime(s){var m=Math.floor(s/60),sec=s%60;return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+function updateTimer(){if(quizStart===null)return;document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000));}
+function startQuiz(){buildRuntime();current=0;firstTry=0;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now();if(timerInt)clearInterval(timerInt);
+  timerInt=setInterval(updateTimer,250);updateTimer();renderQuestion();}
+function renderQuestion(){attemptedWrong=false;answered=false;wrongIdx={};
+  var rt=runtime[current];
+  document.getElementById('section-badge').textContent='Блок '+rt.block;
+  document.getElementById('progress').textContent='Запитання '+(current+1)+' з '+runtime.length;
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('equation').textContent=rt.eq;
+  var oc=document.getElementById('options');oc.innerHTML='';
+  rt.options.forEach(function(o,idx){var btn=document.createElement('button');btn.className='option';btn.textContent=o.n;btn.onclick=function(){selectOption(idx,btn);};oc.appendChild(btn);});
+  document.getElementById('feedback').innerHTML='';document.getElementById('next-area').innerHTML='';}
+function selectOption(idx,btn){if(answered)return;if(wrongIdx[idx])return;
+  var rt=runtime[current];
+  if(idx===rt.correctIdx){answered=true;if(!attemptedWrong)firstTry++;
+    btn.classList.add('correct');
+    document.querySelectorAll('#options .option').forEach(function(b){b.disabled=true;});
+    document.getElementById('feedback').innerHTML='<div class="feedback explanation"><div class="feedback-title">✅ Правильно!</div>'+rt.explain+'</div>';
+    showNextBtn();
+  }else{wrongIdx[idx]=true;attemptedWrong=true;btn.classList.add('wrong');btn.disabled=true;
+    document.getElementById('feedback').innerHTML='<div class="feedback hint"><div class="feedback-title">💡 Підказка</div>'+rt.hint+'</div>';}}
+function showNextBtn(){var na=document.getElementById('next-area');var b=document.createElement('button');b.className='btn btn-next';b.textContent=(current+1<runtime.length)?'Далі →':'🏁 Результат';b.onclick=nextQuestion;na.appendChild(b);}
+function nextQuestion(){current++;if(current<runtime.length)renderQuestion();else showResult();}
+function getGrade(p){if(p>=95)return 12;if(p>=88)return 11;if(p>=80)return 10;if(p>=73)return 9;if(p>=66)return 8;if(p>=59)return 7;if(p>=50)return 6;if(p>=41)return 5;if(p>=33)return 4;if(p>=25)return 3;if(p>=13)return 2;return 1;}
+function showResult(){if(timerInt)clearInterval(timerInt);finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct=Math.round((firstTry/runtime.length)*100);var grade=getGrade(pct);
+  document.getElementById('result-correct').textContent=firstTry;
+  document.getElementById('result-percent').textContent=pct;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-time').textContent=fmtTime(finalSec);
+  var emoji='🌱',motiv='';
+  if(grade===12){emoji='🏆';motiv='Бездоганно! Частки від цілого — на автоматі.';}
+  else if(grade>=10){emoji='🌟';motiv='Чудово! Майже все з 1-ї спроби.';}
+  else if(grade>=8){emoji='👍';motiv='Добре. Зверни увагу на блок C (обернена задача).';}
+  else if(grade>=6){emoji='💪';motiv='Непогано. Перечитай типи задач у теорії.';}
+  else if(grade>=4){emoji='📚';motiv='Перечитай теорію. Особливо різницю між «¾ від 28» і «¾ — це 28».';}
+  else{emoji='🧠';motiv='Без поспіху. Малюй смужку, поділи на частини. Числа щоразу нові — переграй.';}
+  document.getElementById('result-emoji').textContent=emoji;document.getElementById('motivation').innerHTML=motiv;}
+function restart(){document.getElementById('result-screen').classList.add('hidden');document.getElementById('start-screen').classList.remove('hidden');}
+</script>
+</body>
+</html>

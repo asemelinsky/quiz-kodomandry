@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L3 — Пропорції та правило трьох (7 клас)</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;
+    background:linear-gradient(135deg,#0c4a6e 0%,#0891b2 50%,#10b981 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:14px;color:#1e293b}
+  .container{background:#fff;border-radius:20px;padding:28px 24px 20px;max-width:760px;width:100%;
+    box-shadow:0 18px 50px rgba(0,0,0,0.3);position:relative;overflow:hidden}
+  .container::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+    background:linear-gradient(90deg,#0c4a6e,#0891b2,#10b981)}
+  h1{color:#0c4a6e;font-size:1.5em;margin-bottom:6px;line-height:1.2}
+  .subtitle{color:#64748b;font-size:0.95em;margin-bottom:6px}
+  .intro{background:#ecfeff;border-left:5px solid #0891b2;padding:14px 16px;border-radius:10px;
+    font-size:0.98em;line-height:1.55;margin:12px 0}
+  .intro ul{margin:6px 0 0 20px}
+  .intro li{padding:2px 0}
+  .btn{background:linear-gradient(135deg,#0c4a6e,#0891b2);color:#fff;border:none;
+    padding:14px 30px;font-size:1.08em;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;
+    box-shadow:0 6px 18px rgba(8,145,178,0.4);transition:transform .15s,box-shadow .15s;
+    -webkit-appearance:none;appearance:none}
+  .btn:active{transform:translateY(1px)}
+  .btn-block{display:block;width:100%;margin-top:14px}
+  .btn-next{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 6px 18px rgba(22,163,74,0.4)}
+  .topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:8px}
+  .section-badge{background:#0c4a6e;color:#fff;font-size:0.82em;font-weight:700;padding:5px 12px;border-radius:20px}
+  .timer-badge{background:#ecfeff;color:#0c4a6e;font-weight:700;padding:4px 12px;border-radius:10px;
+    font-size:0.9em;font-variant-numeric:tabular-nums}
+  .progress-info{text-align:center;color:#475569;font-size:0.9em;font-weight:600;margin-bottom:8px}
+  .progress-bar{background:#e2e8f0;border-radius:10px;height:10px;overflow:hidden;margin-bottom:20px}
+  .progress-fill{background:linear-gradient(90deg,#0891b2,#10b981);height:100%;transition:width 0.4s ease}
+  .question{font-size:1em;line-height:1.55;margin-bottom:6px;color:#64748b}
+  .equation{font-size:1.15em;margin:18px 0;color:#0c4a6e;font-weight:600;line-height:1.4;
+    padding:14px 16px;background:#f0f9ff;border-radius:10px;border-left:4px solid #0891b2}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:480px){.options{grid-template-columns:1fr}.equation{font-size:1em}}
+  .option{background:#fff;border:2px solid #cbd5e1;padding:18px;border-radius:12px;cursor:pointer;
+    font-size:1.3em;font-weight:700;text-align:center;transition:all 0.15s;font-family:inherit;
+    color:#1e293b;min-height:60px;display:flex;align-items:center;justify-content:center;
+    font-variant-numeric:tabular-nums}
+  .option:hover:not(:disabled){background:#ecfeff;border-color:#0891b2;transform:translateY(-2px)}
+  .option:disabled{cursor:not-allowed}
+  .option.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b;opacity:0.7}
+  .option.correct{background:#f0fdf4;border-color:#16a34a;color:#14532d}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:12px;font-size:1em;line-height:1.55;
+    animation:slideIn 0.25s ease}
+  .feedback.hint{background:#fffbeb;color:#78350f;border-left:5px solid #f59e0b}
+  .feedback.explanation{background:#f0fdf4;color:#14532d;border-left:5px solid #22c55e}
+  .feedback-title{font-weight:700;margin-bottom:4px;font-size:0.95em}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .next-area{text-align:center;margin-top:16px}
+  .result-screen{text-align:center}
+  .result-emoji{font-size:4em;margin:12px 0}
+  .grade-badge{font-size:4em;font-weight:800;color:#0c4a6e;margin:8px 0}
+  .result-meta{display:flex;flex-direction:column;gap:6px;align-items:center;margin:8px 0}
+  .motivation{font-style:italic;color:#0c4a6e;margin:16px 0;padding:14px;background:#ecfeff;border-radius:12px}
+  .topic-tag{display:inline-block;background:#ecfeff;color:#0c4a6e;font-weight:700;padding:6px 14px;border-radius:20px;font-size:0.9em;margin:8px 0;border:2px solid #a5f3fc}
+  .theory{margin:14px 0;border-radius:10px;background:#ecfeff;border:2px solid #a5f3fc;overflow:hidden}
+  .theory summary{cursor:pointer;padding:12px 14px;background:linear-gradient(90deg,#a5f3fc,#67e8f9);font-weight:600;color:#0c4a6e;font-size:0.98em;list-style:none}
+  .theory summary::-webkit-details-marker{display:none}
+  .theory summary::before{content:'▸ ';font-size:0.9em;display:inline-block;transition:transform .2s}
+  .theory[open] summary::before{transform:rotate(90deg)}
+  .theory-body{padding:14px;display:flex;flex-direction:column;gap:12px}
+  .theory-section{background:#fff;border-radius:8px;padding:12px;border-left:4px solid #0891b2}
+  .theory-title{font-weight:700;color:#0c4a6e;font-size:1.02em;margin-bottom:8px}
+  .rule-note{margin-top:8px;padding:8px 10px;background:#fefce8;border-radius:6px;font-size:0.92em;color:#713f12}
+  .example{padding:5px 0;font-size:0.95em;line-height:1.5}
+  .example b{color:#0c4a6e}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div id="start-screen">
+    <h1>🔵 L3 — Пропорції та правило трьох</h1>
+    <div class="subtitle">7 клас · 30 задач · 3 блоки × 10 · regla de tres</div>
+    <div class="intro">
+      30 задач на пропорції — фундамент для відсотків, рецептів, карт, швидкості та задач на роботу:
+      <ul>
+        <li>🟦 <b>Block A — Пряма пропорція (regla de tres simple):</b> «більше → більше» (ціна, продуктивність, конвертація одиниць).</li>
+        <li>🟢 <b>Block B — Обернена пропорція:</b> «більше → менше» (робітники × дні, швидкість × час, насоси × години).</li>
+        <li>🌊 <b>Block C — Відношення та масштаб:</b> карти, рецепти, поділ у відношенні a:b:c.</li>
+        <li>💡 Неправильно → підказка з методом, спробуй ще. Бал тільки за з 1-го разу.</li>
+        <li>🎲 Числа змінюються щоразу — можна переграти.</li>
+      </ul>
+    </div>
+
+    <details class="theory" open>
+      <summary>📘 Коротка теорія — як працюють пропорції</summary>
+      <div class="theory-body">
+
+        <div class="theory-section">
+          <div class="theory-title">1️⃣ Пряма пропорція (regla de tres simple directa)</div>
+          <div class="example">Чим більше — тим більше. Якщо <b>3 яблука = 12 грн</b>, то <b>1 яблуко = 4 грн</b>, тому <b>5 яблук = 20 грн</b>.</div>
+          <div class="example">Формула «хрест-навхрест»: <b>a → b</b> та <b>c → x</b> → <b>x = (b · c) / a</b>.</div>
+          <div class="example">Приклад: <b>3 → 12</b>, <b>5 → ?</b> → <b>x = (12 · 5) / 3 = 20</b>.</div>
+          <div class="rule-note">💡 Перевірка: якщо більше — результат БІЛЬШИЙ. Якщо менше — менший. Не плутати з оберненою!</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">2️⃣ Обернена пропорція (regla de tres inversa)</div>
+          <div class="example">Більше робітників — МЕНШЕ часу. <b>5 робітників = 24 дні</b> → <b>1 робітник = 5 × 24 = 120 днів-роботи</b>.</div>
+          <div class="example">Формула: <b>a · b = c · x</b> → <b>x = (a · b) / c</b>.</div>
+          <div class="example">Приклад: <b>5 робітників → 24 дні</b>, <b>6 робітників → ?</b> → <b>x = (5 · 24) / 6 = 20 днів</b>.</div>
+          <div class="rule-note">💡 Перевірка: більше робітників → дні МЕНШЕ. Якщо результат БІЛЬШИЙ — щось не так.</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">3️⃣ Як відрізнити: пряма чи обернена?</div>
+          <div class="example">Запитай себе: «Якщо одна величина збільшиться, інша збільшиться чи зменшиться?»</div>
+          <div class="example">📈 <b>Обидві ростуть</b> (ціна+кількість, час+відстань при сталій швидкості) → ПРЯМА.</div>
+          <div class="example">📉 <b>Одна росте — інша падає</b> (робітники+час, швидкість+час) → ОБЕРНЕНА.</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">4️⃣ Відношення a:b — частка від цілого</div>
+          <div class="example">Хлопці:дівчата = <b>3:5</b>, усього 40 → частин = <b>3+5 = 8</b> → множник = <b>40/8 = 5</b> → хлопців = <b>3·5 = 15</b>.</div>
+          <div class="example">Для відношення трьох частин a:b:c — формула така ж: множник = N / (a+b+c).</div>
+        </div>
+
+        <div class="theory-section">
+          <div class="theory-title">5️⃣ Масштаб карт</div>
+          <div class="example">Масштаб <b>1:50000</b> означає: 1 см на карті = 50000 см реально = <b>500 м = 0.5 км</b>.</div>
+          <div class="example">На карті <b>4 см</b> → реально <b>4 × 0.5 = 2 км</b>.</div>
+          <div class="rule-note">💡 1:25000 → 1 см = 250 м; 1:100000 → 1 см = 1 км; 1:1000000 → 1 см = 10 км.</div>
+        </div>
+
+      </div>
+    </details>
+
+    <button class="btn btn-block" onclick="startQuiz()">🚀 Почати</button>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div class="topline">
+      <span class="section-badge" id="section-badge">Блок A</span>
+      <span class="timer-badge" id="timer">⏱️ 00:00</span>
+    </div>
+    <div class="progress-info" id="progress">Запитання 1 з 30</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="question">Розв'яжи задачу:</div>
+    <div class="equation" id="equation"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback"></div>
+    <div class="next-area" id="next-area"></div>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <div class="result-screen">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <h1>Готово!</h1>
+      <div class="topic-tag">📚 L3 · Пропорції та правило трьох · 7 клас</div>
+      <div class="grade-badge" id="result-grade">12</div>
+      <div class="result-meta">
+        <div>Правильно з 1-ї спроби: <b id="result-correct">0</b> з 30</div>
+        <div>Результат: <b id="result-percent">0</b>%</div>
+        <div>Час: <b id="result-time">00:00</b></div>
+      </div>
+      <div class="motivation" id="motivation"></div>
+      <button class="btn btn-block" onclick="restart()">🔄 Пройти ще раз (нові числа)</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var TASKS = [{"block": "A", "variations": [{"eq": "3 яблука коштують 12 грн. Скільки коштує 5 яблук?", "ans": "20", "dist": ["22", "15", "19"]}, {"eq": "4 яблука коштують 20 грн. Скільки коштує 7 яблук?", "ans": "35", "dist": ["17.5", "37", "40"]}, {"eq": "6 яблук коштують 18 грн. Скільки коштує 10 яблук?", "ans": "30", "dist": ["28", "35", "29"]}], "hint": "Чим більше — тим більше (пряма пропорція). Скільки на одиницю → помножити на нову кількість.", "explain": "Знайди вартість/обсяг на ОДНУ одиницю, потім помнож на нову кількість. Або: новий = старий × (нова кількість / стара)."}, {"block": "A", "variations": [{"eq": "Друкар за 4 год друкує 60 сторінок. Скільки за 6 годин?", "ans": "90", "dist": ["180", "89", "95"]}, {"eq": "Друкар за 5 год друкує 80 сторінок. Скільки за 8 годин?", "ans": "128", "dist": ["256", "64", "123"]}, {"eq": "Друкар за 3 год друкує 45 сторінок. Скільки за 7 годин?", "ans": "105", "dist": ["104", "107", "52.5"]}], "hint": "Чим більше працівник — тим більше зробить (за ТУ Ж кількість часу).", "explain": "Знайди продуктивність за 1 год, помнож на нову кількість годин."}, {"block": "A", "variations": [{"eq": "На 5 учнів — 25 зошитів. На 8 учнів — скільки?", "ans": "40", "dist": ["80", "45", "38"]}, {"eq": "На 4 учнів — 32 зошити. На 7 учнів — скільки?", "ans": "56", "dist": ["57", "28", "58"]}, {"eq": "На 6 учнів — 18 зошитів. На 9 учнів — скільки?", "ans": "27", "dist": ["22", "29", "25"]}], "hint": "На скількох людей вистачить ресурсів — пряма пропорція.", "explain": "Поділи зошити на учнів → отримаєш скільки на 1 → помнож на нову кількість учнів."}, {"block": "A", "variations": [{"eq": "Машина їде 60 км/год. Скільки км за 90 хвилин?", "ans": "90", "dist": ["95", "89", "45"]}, {"eq": "Машина їде 80 км/год. Скільки км за 75 хвилин?", "ans": "100", "dist": ["99", "105", "50"]}, {"eq": "Машина їде 50 км/год. Скільки км за 2.5 години?", "ans": "125", "dist": ["123", "126", "130"]}], "hint": "Швидкість постійна — відстань пропорційна часу.", "explain": "Знайди скільки км за 1 хв (1 год), помнож на нову кількість часу."}, {"block": "A", "variations": [{"eq": "1 дюйм = 2.54 см. Скільки см у 10 дюймах?", "ans": "25.4", "dist": ["20.4", "30.4", "27.4"]}, {"eq": "1 дюйм = 2.54 см. Скільки см у 5 дюймах?", "ans": "12.7", "dist": ["14.7", "11.7", "13.7"]}, {"eq": "1 дюйм = 2.54 см. Скільки см у 20 дюймах?", "ans": "50.8", "dist": ["52.8", "101.6", "48.8"]}], "hint": "Конвертація одиниць — пряма пропорція.", "explain": "1 дюйм = 2.54 см. Помножити кількість дюймів на 2.54."}, {"block": "A", "variations": [{"eq": "З 3 кг борошна — 60 пиріжків. З 7 кг — скільки?", "ans": "140", "dist": ["145", "142", "280"]}, {"eq": "З 4 кг борошна — 48 пиріжків. З 9 кг — скільки?", "ans": "108", "dist": ["106", "107", "109"]}, {"eq": "З 5 кг борошна — 75 пиріжків. З 8 кг — скільки?", "ans": "120", "dist": ["240", "118", "119"]}], "hint": "Більше борошна — більше виробу.", "explain": "Знайди скільки виробу з 1 кг борошна, помнож на нову кількість."}, {"block": "A", "variations": [{"eq": "100 г каші = 350 ккал. Скільки ккал у 150 г?", "ans": "525", "dist": ["524", "262.5", "520"]}, {"eq": "100 г каші = 280 ккал. Скільки ккал у 250 г?", "ans": "700", "dist": ["699", "705", "698"]}, {"eq": "200 г каші = 600 ккал. Скільки ккал у 150 г?", "ans": "450", "dist": ["452", "448", "225"]}], "hint": "Калорії пропорційні масі продукту.", "explain": "Поділи ккал на грами → знайди ккал на 1 г → помнож на нову масу."}, {"block": "A", "variations": [{"eq": "5 робітників фарбують 30 м² за день. 8 робітників — скільки?", "ans": "48", "dist": ["50", "47", "49"]}, {"eq": "4 робітники фарбують 24 м² за день. 9 робітників — скільки?", "ans": "54", "dist": ["49", "52", "27"]}, {"eq": "6 робітників фарбують 36 м² за день. 10 робітників — скільки?", "ans": "60", "dist": ["59", "30", "62"]}], "hint": "Більше робітників → більше виконано (за той самий час).", "explain": "Поділи стіл на робітників → стільки робить 1 → помнож на нову кількість."}, {"block": "A", "variations": [{"eq": "8 квитків — 240 грн. 12 квитків — скільки?", "ans": "360", "dist": ["358", "355", "359"]}, {"eq": "5 квитків — 175 грн. 9 квитків — скільки?", "ans": "315", "dist": ["310", "320", "157.5"]}, {"eq": "6 квитків — 270 грн. 10 квитків — скільки?", "ans": "450", "dist": ["900", "451", "455"]}], "hint": "Ціна за одиницю → загальна вартість пропорційна кількості.", "explain": "8 квитків / 240 грн = 1 квиток за 30 грн. Помнож на нову кількість."}, {"block": "A", "variations": [{"eq": "На 200 кг вантажу — 18 л бензину. На 350 кг — скільки?", "ans": "31.5", "dist": ["29.5", "26.5", "30.5"]}, {"eq": "На 100 кг вантажу — 12 л бензину. На 250 кг — скільки?", "ans": "30", "dist": ["29", "35", "28"]}, {"eq": "На 300 кг вантажу — 24 л бензину. На 400 кг — скільки?", "ans": "32", "dist": ["27", "34", "31"]}], "hint": "Чим більше товарів — тим більше витрачено палива (пряма).", "explain": "Бензин на 1 кг → помнож на нову кількість кг."}, {"block": "B", "variations": [{"eq": "5 робітників → 24 дні. 6 робітників → скільки днів?", "ans": "20", "dist": ["21", "40", "18"]}, {"eq": "4 робітники → 30 днів. 6 робітників → скільки днів?", "ans": "20", "dist": ["21", "15", "25"]}, {"eq": "8 робітників → 15 днів. 10 робітників → скільки днів?", "ans": "12", "dist": ["7", "10", "11"]}], "hint": "Чим більше робітників — тим МЕНШЕ часу (обернена пропорція).", "explain": "Робітники × Дні = ПОСТІЙНА. Старі робітники × старі дні = нові робітники × нові дні."}, {"block": "B", "variations": [{"eq": "Швидкість 80 км/год → 3 години. Швидкість 60 км/год → скільки годин?", "ans": "4", "dist": ["9", "8", "2"]}, {"eq": "Швидкість 100 км/год → 6 годин. Швидкість 75 км/год → скільки годин?", "ans": "8", "dist": ["13", "3", "7"]}, {"eq": "Швидкість 50 км/год → 4 години. Швидкість 40 км/год → скільки годин?", "ans": "5", "dist": ["2.5", "3", "4"]}], "hint": "Чим більша швидкість — тим МЕНШЕ часу (обернена).", "explain": "Швидкість × Час = відстань (постійна). v₁·t₁ = v₂·t₂."}, {"block": "B", "variations": [{"eq": "4 насоси → 6 годин. 8 насосів → скільки годин?", "ans": "3", "dist": ["6", "5", "1"]}, {"eq": "3 насоси → 8 годин. 6 насосів → скільки годин?", "ans": "4", "dist": ["8", "5", "2"]}, {"eq": "5 насосів → 12 годин. 10 насосів → скільки годин?", "ans": "6", "dist": ["7", "1", "8"]}], "hint": "Більше насосів — швидше наповнюють (обернена).", "explain": "Насоси × Час = постійна (об'єм). Старі × старі = нові × нові."}, {"block": "B", "variations": [{"eq": "6 учнів з'їдять торт за 30 хв. 10 учнів — за скільки хв?", "ans": "18", "dist": ["9", "20", "16"]}, {"eq": "4 учнів з'їдять торт за 24 хв. 8 учнів — за скільки хв?", "ans": "12", "dist": ["6", "10", "17"]}, {"eq": "5 учнів з'їдять торт за 20 хв. 4 учні — за скільки хв?", "ans": "25", "dist": ["30", "20", "23"]}], "hint": "Більше людей їдять — швидше з'їдять (обернена).", "explain": "Люди × Час = постійна (об'єм їжі)."}, {"block": "B", "variations": [{"eq": "3 трактори → 12 днів. 4 трактори → скільки днів?", "ans": "9", "dist": ["10", "14", "18"]}, {"eq": "6 тракторів → 10 днів. 5 тракторів → скільки днів?", "ans": "12", "dist": ["24", "11", "13"]}, {"eq": "4 трактори → 15 днів. 5 тракторів → скільки днів?", "ans": "12", "dist": ["13", "11", "7"]}], "hint": "Більше тракторів — менше днів (обернена).", "explain": "Трактори × Дні = постійна."}, {"block": "B", "variations": [{"eq": "50 коробок по 24 шт. Якщо переупакувати по 30 шт — скільки коробок?", "ans": "40", "dist": ["20", "35", "38"]}, {"eq": "40 коробок по 18 шт. Якщо переупакувати по 24 шт — скільки коробок?", "ans": "30", "dist": ["31", "35", "29"]}, {"eq": "60 коробок по 20 шт. Якщо переупакувати по 25 шт — скільки коробок?", "ans": "48", "dist": ["50", "47", "96"]}], "hint": "Більше товарів у коробці — менше коробок (обернена).", "explain": "Кількість у коробці × Кількість коробок = усього (постійна)."}, {"block": "B", "variations": [{"eq": "8 принтерів → 90 хв. 12 принтерів → скільки хв?", "ans": "60", "dist": ["55", "58", "62"]}, {"eq": "6 принтерів → 120 хв. 8 принтерів → скільки хв?", "ans": "90", "dist": ["95", "180", "88"]}, {"eq": "4 принтери → 60 хв. 5 принтерів → скільки хв?", "ans": "48", "dist": ["49", "47", "53"]}], "hint": "Більше принтерів — менше часу (обернена).", "explain": "Принтери × Час = постійна."}, {"block": "B", "variations": [{"eq": "5 ліхтарів світять 12 год. 6 ліхтарів — скільки годин?", "ans": "10", "dist": ["9", "11", "5"]}, {"eq": "4 ліхтарі світять 15 год. 6 ліхтарів — скільки годин?", "ans": "10", "dist": ["12", "8", "11"]}, {"eq": "8 ліхтарів світять 9 год. 6 ліхтарів — скільки годин?", "ans": "12", "dist": ["17", "6", "7"]}], "hint": "Розподіл ресурсу — обернена пропорція.", "explain": "Ліхтарі × Години = постійна (загальний час світла)."}, {"block": "B", "variations": [{"eq": "Прямокутник: ширина 4 см, довжина 6 см. При ширині 8 см — яка довжина (та сама площа)?", "ans": "3", "dist": ["8", "5", "4"]}, {"eq": "Прямокутник: ширина 5 см, довжина 8 см. При ширині 10 см — яка довжина?", "ans": "4", "dist": ["6", "2", "9"]}, {"eq": "Прямокутник: ширина 6 см, довжина 4 см. При ширині 3 см — яка довжина?", "ans": "8", "dist": ["3", "6", "4"]}], "hint": "Учнів більше — столів більше (пряма) АБО менше місця за столом (обернена). Тут обернена за об'ємом.", "explain": "Якщо ширина × довжина = площа постійна — обернена."}, {"block": "B", "variations": [{"eq": "12 робітників → 8 годин роботи. 6 робітників → скільки годин?", "ans": "16", "dist": ["14", "17", "32"]}, {"eq": "15 робітників → 6 годин. 10 робітників → скільки годин?", "ans": "9", "dist": ["8", "4", "14"]}, {"eq": "20 робітників → 9 годин. 12 робітників → скільки годин?", "ans": "15", "dist": ["20", "16", "30"]}], "hint": "Менше робітників — більше годин (обернена).", "explain": "Робітники × Години = постійна (обсяг роботи)."}, {"block": "C", "variations": [{"eq": "Карта 1:50000. На карті 4 см. Реальна відстань (км)?", "ans": "2", "dist": ["1", "7", "3"]}, {"eq": "Карта 1:25000. На карті 6 см. Реальна відстань (км)?", "ans": "1.5", "dist": ["6.5", "3.0", "3.5"]}, {"eq": "Карта 1:100000. На карті 5 см. Реальна відстань (км)?", "ans": "5", "dist": ["2.5", "10", "6"]}], "hint": "Масштаб карти: 1 см на карті = N см реально. Помнож відстань на масштаб.", "explain": "1 см на карті = 50 000 см = 500 м = 0.5 км реально. 4 см × 0.5 км = 2 км."}, {"block": "C", "variations": [{"eq": "Карта 1:25000. Реальна довжина 5 км. На карті (см)?", "ans": "20", "dist": ["19", "21", "25"]}, {"eq": "Карта 1:50000. Реальна довжина 10 км. На карті (см)?", "ans": "20", "dist": ["15", "10", "19"]}, {"eq": "Карта 1:20000. Реальна довжина 8 км. На карті (см)?", "ans": "40", "dist": ["42", "45", "20"]}], "hint": "Зворотній масштаб: реально → ділимо на масштаб → на карті.", "explain": "Реальна відстань / масштаб = на карті."}, {"block": "C", "variations": [{"eq": "Рецепт: борошно:цукор = 5:2. Якщо взяли 200 г цукру — скільки борошна (г)?", "ans": "500", "dist": ["495", "498", "1000"]}, {"eq": "Рецепт: борошно:цукор = 4:3. Якщо взяли 180 г цукру — скільки борошна (г)?", "ans": "240", "dist": ["241", "239", "238"]}, {"eq": "Рецепт: борошно:цукор = 7:2. Якщо взяли 100 г цукру — скільки борошна (г)?", "ans": "350", "dist": ["351", "355", "352"]}], "hint": "Рецепт як відношення. Цукор:борошно = a:b. Знаходимо невідому частину.", "explain": "Якщо цукру b → борошна a/b × b. Просто: множник = вихідне / вихідне_відношення."}, {"block": "C", "variations": [{"eq": "Хлопці:дівчата = 3:5. Усього 40 учнів. Скільки хлопців?", "ans": "15", "dist": ["30", "16", "10"]}, {"eq": "Хлопці:дівчата = 2:3. Усього 25 учнів. Скільки хлопців?", "ans": "10", "dist": ["9", "11", "20"]}, {"eq": "Хлопці:дівчата = 4:5. Усього 36 учнів. Скільки хлопців?", "ans": "16", "dist": ["18", "15", "11"]}], "hint": "Відношення у класі. Хлопці:дівчата = a:b, усього N. Частина хлопців = a/(a+b).", "explain": "Усього частин = a+b. Множник = N / (a+b). Хлопці = a × множник."}, {"block": "C", "variations": [{"eq": "Три класи у відношенні 7:6:5. У першому 21 учень. Скільки всього?", "ans": "54", "dist": ["53", "59", "52"]}, {"eq": "Три класи у відношенні 5:4:3. У першому 20 учнів. Скільки всього?", "ans": "48", "dist": ["96", "46", "43"]}, {"eq": "Три класи у відношенні 4:3:2. У першому 16 учнів. Скільки всього?", "ans": "36", "dist": ["72", "38", "31"]}], "hint": "Відношення трьох частин: a:b:c. Один клас з a частин = K учнів → знайди усього.", "explain": "Один клас = a × множник = K. Множник = K/a. Усього = (a+b+c) × множник."}, {"block": "C", "variations": [{"eq": "12 цукерок поділити у відношенні 1:2:3. Найменша частка?", "ans": "2", "dist": ["7", "1", "3"]}, {"eq": "30 цукерок поділити у відношенні 2:3:5. Найменша частка?", "ans": "6", "dist": ["3", "1", "11"]}, {"eq": "24 цукерки поділити у відношенні 1:3:4. Найменша частка?", "ans": "3", "dist": ["8", "4", "1.5"]}], "hint": "Поділ суми у відношенні a:b:c. Найменша частка = c/(a+b+c) × N.", "explain": "Усього частин = a+b+c. Множник = N/(a+b+c). Найменша = c × множник."}, {"block": "C", "variations": [{"eq": "На карті 5 см = 12 км реально. Масштаб карти 1:?", "ans": "240000", "dist": ["240005", "239999", "240001"]}, {"eq": "На карті 4 см = 10 км реально. Масштаб карти 1:?", "ans": "250000", "dist": ["250005", "249998", "125000"]}, {"eq": "На карті 8 см = 20 км реально. Масштаб карти 1:?", "ans": "250000", "dist": ["249998", "250005", "249999"]}], "hint": "Знайди масштаб. На карті d_к, реально d_р. Масштаб = 1 : (d_р / d_к).", "explain": "12 км = 1 200 000 см. 12 000 000 / 5 = 240 000. Масштаб 1:240 000."}, {"block": "C", "variations": [{"eq": "Фарба:вода = 2:7. На 14 л води — скільки л фарби?", "ans": "4", "dist": ["5", "3", "8"]}, {"eq": "Фарба:вода = 3:5. На 25 л води — скільки л фарби?", "ans": "15", "dist": ["7.5", "30", "20"]}, {"eq": "Фарба:вода = 1:4. На 32 л води — скільки л фарби?", "ans": "8", "dist": ["16", "4", "9"]}], "hint": "Фарба:вода = a:b. На скільки літрів води — стільки літрів фарби.", "explain": "Множник = вода / b. Фарба = a × множник."}, {"block": "C", "variations": [{"eq": "Збільшено у 2.5 рази. Реальний розмір 6 см. Малюнок (см)?", "ans": "15", "dist": ["13", "14", "30"]}, {"eq": "Збільшено у 4 рази. Реальний розмір 8 см. Малюнок (см)?", "ans": "32", "dist": ["16", "30", "37"]}, {"eq": "Зменшено у 8 разів. Реальний розмір 240 см. Малюнок (см)?", "ans": "30", "dist": ["25", "35", "32"]}], "hint": "Збільшення/зменшення масштабу.", "explain": "Збільшено у k разів → малюнок = реальний × k. Зменшено у k разів → малюнок = реальний / k."}, {"block": "C", "variations": [{"eq": "4 кг яблук — 80 грн. Скільки коштує 7 кг яблук?", "ans": "140", "dist": ["138", "141", "280"]}, {"eq": "5 кг яблук — 75 грн. Скільки коштує 8 кг яблук?", "ans": "120", "dist": ["60", "125", "122"]}, {"eq": "6 кг яблук — 90 грн. Скільки коштує 11 кг яблук?", "ans": "165", "dist": ["167", "166", "170"]}], "hint": "Складна пропорція з двома кроками.", "explain": "Спочатку знайди базову одиницю (на 1 яблуко), потім помнож на нову кількість."}];
+var current=0, firstTry=0, attemptedWrong=false, answered=false, wrongIdx={};
+var runtime=[], quizStart=null, timerInt=null, finalSec=null;
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function buildRuntime(){runtime=[];TASKS.forEach(function(t){
+  var v=t.variations[Math.floor(Math.random()*t.variations.length)];
+  var options=[{n:v.ans,correct:true}]; v.dist.forEach(function(d){options.push({n:d,correct:false});});
+  shuffle(options); var ci=0;for(var i=0;i<options.length;i++)if(options[i].correct){ci=i;break;}
+  runtime.push({block:t.block,eq:v.eq,options:options,correctIdx:ci,hint:t.hint,explain:t.explain});});}
+function fmtTime(s){var m=Math.floor(s/60),sec=s%60;return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;}
+function updateTimer(){if(quizStart===null)return;document.getElementById('timer').textContent='⏱️ '+fmtTime(Math.floor((Date.now()-quizStart)/1000));}
+function startQuiz(){buildRuntime();current=0;firstTry=0;
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.remove('hidden');
+  quizStart=Date.now();if(timerInt)clearInterval(timerInt);
+  timerInt=setInterval(updateTimer,250);updateTimer();renderQuestion();}
+function renderQuestion(){attemptedWrong=false;answered=false;wrongIdx={};
+  var rt=runtime[current];
+  document.getElementById('section-badge').textContent='Блок '+rt.block;
+  document.getElementById('progress').textContent='Запитання '+(current+1)+' з '+runtime.length;
+  document.getElementById('progress-fill').style.width=(((current+1)/runtime.length)*100)+'%';
+  document.getElementById('equation').textContent=rt.eq;
+  var oc=document.getElementById('options');oc.innerHTML='';
+  rt.options.forEach(function(o,idx){var btn=document.createElement('button');btn.className='option';btn.textContent=o.n;btn.onclick=function(){selectOption(idx,btn);};oc.appendChild(btn);});
+  document.getElementById('feedback').innerHTML='';document.getElementById('next-area').innerHTML='';}
+function selectOption(idx,btn){if(answered)return;if(wrongIdx[idx])return;
+  var rt=runtime[current];
+  if(idx===rt.correctIdx){answered=true;if(!attemptedWrong)firstTry++;
+    btn.classList.add('correct');
+    document.querySelectorAll('#options .option').forEach(function(b){b.disabled=true;});
+    document.getElementById('feedback').innerHTML='<div class="feedback explanation"><div class="feedback-title">✅ Правильно!</div>'+rt.explain+'</div>';
+    showNextBtn();
+  }else{wrongIdx[idx]=true;attemptedWrong=true;btn.classList.add('wrong');btn.disabled=true;
+    document.getElementById('feedback').innerHTML='<div class="feedback hint"><div class="feedback-title">💡 Підказка</div>'+rt.hint+'</div>';}}
+function showNextBtn(){var na=document.getElementById('next-area');var b=document.createElement('button');b.className='btn btn-next';b.textContent=(current+1<runtime.length)?'Далі →':'🏁 Результат';b.onclick=nextQuestion;na.appendChild(b);}
+function nextQuestion(){current++;if(current<runtime.length)renderQuestion();else showResult();}
+function getGrade(p){if(p>=95)return 12;if(p>=88)return 11;if(p>=80)return 10;if(p>=73)return 9;if(p>=66)return 8;if(p>=59)return 7;if(p>=50)return 6;if(p>=41)return 5;if(p>=33)return 4;if(p>=25)return 3;if(p>=13)return 2;return 1;}
+function showResult(){if(timerInt)clearInterval(timerInt);finalSec=Math.floor((Date.now()-quizStart)/1000);
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+  var pct=Math.round((firstTry/runtime.length)*100);var grade=getGrade(pct);
+  document.getElementById('result-correct').textContent=firstTry;
+  document.getElementById('result-percent').textContent=pct;
+  document.getElementById('result-grade').textContent=grade;
+  document.getElementById('result-time').textContent=fmtTime(finalSec);
+  var emoji='🌱',motiv='';
+  if(grade===12){emoji='🏆';motiv='Бездоганно! Пропорції на автоматі — основа на місці.';}
+  else if(grade>=10){emoji='🌟';motiv='Чудово! Майже все з 1-ї спроби.';}
+  else if(grade>=8){emoji='👍';motiv='Добре. Перечитай блок B (обернена) і повтори.';}
+  else if(grade>=6){emoji='💪';motiv='Непогано. Зверни увагу на різницю «пряма vs обернена».';}
+  else if(grade>=4){emoji='📚';motiv='Перечитай теорію і пройди ще раз — числа щоразу нові.';}
+  else{emoji='🧠';motiv='Без поспіху. Перед задачею питай себе: «обидві ростуть чи одна падає?»';}
+  document.getElementById('result-emoji').textContent=emoji;document.getElementById('motivation').innerHTML=motiv;}
+function restart(){document.getElementById('result-screen').classList.add('hidden');document.getElementById('start-screen').classList.remove('hidden');}
+</script>
+</body>
+</html>
