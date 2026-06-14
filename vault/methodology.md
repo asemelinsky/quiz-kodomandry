@@ -80,11 +80,107 @@ Lesson note: `vault/lessons/L<NN>-<YYYY-MM-DD>-<slug>.md`
 Тоді commit + push, перевір Vercel deploy (curl URL до появи нового контенту).
 
 
-## Default UI language for Матвій (оновлено 2026-06-07)
+## 🌐 МОВНІ ПРАВИЛА (Multilang Policy) — оновлено 2026-06-14
 
-**Контекст:** Матвій навчається у британському коледжі в Іспанії — мова викладання англійська. Це уточнено 2026-06-07 (раніше було помилково записано «українська»).
+### Обовʼязкові мови для квізів Матвія
 
-**Policy:**
-- L1–L2 + усі pre-plan квізи (травень) — UK default, **не переробляємо** (працююча версія, ламати немає сенсу)
-- **L3+ (07.06.2026 і далі) — EN default** для квізів Матвія. UK/ES залишаються як перемикач у lang-bar
-- Дистрактори, підказки, пояснення — у L3+ пишемо в EN spec першими; перекладу EN→UK/ES — стандартний multilang loop
+**ВСІ квізи для Матвія (L1 і далі, включно з pre-plan, exam-revision, drill-fiesta) — ОБОВʼЯЗКОВО трилінгві UK/EN/ES.**
+
+Не існує «UK-only» або «EN-only» Matviy-квізу. Якщо створив одномовний — це баг, треба негайно доперекласти і задеплоїти заново.
+
+Винятки:
+- Frants (Німеччина) — UK/RU/EN/DE (4 мови, плановий стандарт з `plan-frants.md`)
+- Tymur (M.Sc. Ulm, EN-only program) — EN-only OK (його контекст)
+- Денi (British school, English instruction) — EN+UK мінімум (батьки UA)
+- Злата (5 клас, UA program) — UK default + EN+ES бажано
+
+### Default UI language
+
+**Матвій L3+ (07.06.2026 і далі):** **EN default** — бо британська школа з англомовним викладанням → іспити, домашка, контрольні все EN.
+
+**Матвій L1–L2 + pre-plan (травень):** історично UK default, **не чіпаємо** (працюючі версії, не ламаємо).
+
+**Інші учні:** default = мова основного контексту:
+- Frants — UK (UA-підручник)
+- Дені — EN (British school)
+- Злата — UK (5 клас UA)
+
+### Lang-switcher UI pattern — `<select>` ДРОПДАУН, НЕ кнопки
+
+**ЕТАЛОН:** `quizzes/drobi-arifmetyka-7klas-ispanska-2026-05-31.html` (L1) — це reference implementation.
+
+```html
+<div class="lang-bar">
+  <span class="lang-label" id="lang-label">Language:</span>
+  <select class="lang-select" id="lang-select" onchange="setLang(this.value)">
+    <option value="en">🇬🇧 English</option>
+    <option value="uk">🇺🇦 Українська</option>
+    <option value="es">🇪🇸 Español</option>
+  </select>
+</div>
+```
+
+- `<select>` з трьома `<option>` — НЕ кнопки `<button>` (інакше при 4+ мовах буде брудно).
+- Порядок options = порядок дефолтів: дефолтна мова — перша опція (для Матвія L3+: EN перша).
+- Прапорці у `<option>` — emoji.
+- `setLang(lang)` — встановлює `currentLang`, оновлює `html lang=`, оновлює value селекту, рендерить заново усі i18n елементи + поточне запитання якщо квіз вже стартував.
+- Lang-label («Language:» / «Мова:» / «Idioma:») — теж локалізована.
+
+### Що ОБОВʼЯЗКОВО локалізувати
+
+| Елемент | Приклад |
+|---|---|
+| `eq` (текст задачі) | `{uk, en, es}` для кожної з 3 варіацій кожної задачі |
+| `hint` (підказка) | `{uk, en, es}` для кожної задачі |
+| `explain` (пояснення) | `{uk, en, es}` для кожної задачі |
+| UI strings | title, subtitle, intro, theory, blockLabel, questionLabel, ofLabel, solvePrompt, doneTitle, topicTag, firstTryLabel, scoreLabel, timeLabel, retryBtn, nextBtn, resultBtn, correctTitle, hintTitle |
+| Motivation messages | `{12, 10, 8, 6, 4, 0}` × 3 мови |
+
+`ans` і `dist` (числові відповіді) — НЕ локалізуємо (числа однакові). Але формат десяткового сепаратора (`,` vs `.`) — це окреме питання нижче.
+
+### Локалізація десяткового сепаратора
+
+- `uk`, `es` — **кома** (3,14)
+- `en` — **крапка** (3.14)
+
+Для нових квізів треба робити `displayNumber(n, lang)` функцію яка перетворює `25.4` → `25,4` для uk/es. У L3/L4 (2026-06-14) це ще не зроблено — всі числа з крапкою. **TODO для майбутніх квізів.**
+
+### Робочий порядок написання задач
+
+L3+ для Матвія — пиши **EN spec першим** (бо це мова дефолта і навчання), потім переклади EN→UK + EN→ES.
+
+```python
+('A',
+ {'en': 'More → more.', 'uk': 'Більше → більше.', 'es': 'Más → más.'},
+ {'en': '...', 'uk': '...', 'es': '...'},
+ [
+   ('Ukrainian text', 'English text', 'Spanish text', 'answer'),
+   ...
+ ]),
+```
+
+### Чек-ліст перед deploy трилінгвістого квізу
+
+- [ ] Усі 3 мови присутні у кожному `eq.{uk,en,es}` для кожної варіації
+- [ ] Hint + explain — теж 3 мови
+- [ ] I18N dict має ключі `uk`, `en`, `es` з повним набором UI strings
+- [ ] Lang-switcher — `<select>` із 3 `<option>`
+- [ ] Default lang встановлюється у HTML `<html lang="...">` і селекті при завантаженні
+- [ ] Перемикання працює: переключи мову → перевір що змінився `title`, `block-badge`, `equation`, `feedback` після помилки/правильної відповіді
+- [ ] `topic-tag` на фінальному екрані теж локалізований
+- [ ] Motivation messages 3-мовні
+
+### Reference quizzes (з трилінгвою)
+
+- `drobi-arifmetyka-7klas-ispanska-2026-05-31` (L1) — найперший трилінгв
+- `msd-msm-podilnist-7klas-ispanska-2026-06-03` (L2)
+- `proportsii-pravylo-tryokh-7klas-ispanska-2026-06-14` (L3) — EN default з 2026-06-14
+- `tekstovi-zadachi-chastka-7klas-ispanska-2026-06-14` (L4)
+
+### Чого НЕ робити
+
+- ❌ Тільки UK або тільки EN для Матвія (виняток — лише urgent exam-revision drill, але навіть це bug — треба було теж трилінгв).
+- ❌ Кнопки `<button>` замість dropdown — це не патерн для Матвія, тільки для urgent drills (можна, але не canon).
+- ❌ Захардкодити UI strings у HTML — все через i18n словник + data-i18n атрибути.
+- ❌ Запускати трилінгв-квіз із дефолтом UK для Матвія L3+ (має бути EN).
+- ❌ Перекладати тільки `eq`, а `hint`/`explain` лишити моноязичними.
